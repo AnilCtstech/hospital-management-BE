@@ -31,19 +31,8 @@ public class PatientService {
 		patient.setPassword(patientRequest.getPassword());
 		patient.setEmail(patientRequest.getEmail());
 		patient.setDateOfBirth(patientRequest.getDateOfBirth());
-		patient.setAge(patientRequest.getAge());
+
 		patient.setContactNo(patientRequest.getContactNo());
-		patient.setGender(patientRequest.getGender());
-		patient.setRace(patientRequest.getRace());
-		patient.setEthnicity(patientRequest.getEthnicity());
-		patient.setLanguagesKnown(patientRequest.getLanguagesKnown());
-		patient.setHomeAddress(patientRequest.getHomeAddress());
-		patient.setEmergFirstName(patientRequest.getEmergFirstName());
-		patient.setEmergLastName(patientRequest.getEmergLastName());
-		patient.setEmergRelationship(patientRequest.getEmergRelationship());
-		patient.setEmergContact(patientRequest.getEmergContact());
-		patient.setEmergAddress(patientRequest.getEmergAddress());
-		patient.setIsAccess(patientRequest.getIsAccess());
 		
 		Patient savedPatient=patientRepository.save(patient);
 		
@@ -106,9 +95,11 @@ public class PatientService {
 		
 	}
 
+
+	
 	public LoginStatus patientLogin(Login login) {
 		if (patientRepository.findByEmail(login.getEmail()).isPresent()){
-			System.out.println("----------------------------------");
+		
 			Patient patient=patientRepository.findByEmail(login.getEmail()).get();
 			System.out.println(patient.getEmail());
 			if (patient.getPassword().equals(login.getPassword())) {

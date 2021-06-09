@@ -1,6 +1,7 @@
 package com.citiustech.hms.UserRegisterManagement.controller;
 
-import java.util.Optional;
+
+import java.util.Optional; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +34,7 @@ public class PatientController {
 				patientRequest.getPassword() == null ||
 				patientRequest.getEmail() == null ||
 				patientRequest.getDateOfBirth() ==null ||
-				patientRequest.getAge() == 0 ||
-				patientRequest.getContactNo() == 0 ||
-				patientRequest.getGender()==null ||
-				patientRequest.getRace() == null ||
-				patientRequest.getEthnicity() == null
+				patientRequest.getContactNo() ==  null
 				)
 			return ResponseEntity.unprocessableEntity().body("Attributes cannot be Null ");
 		else
@@ -62,13 +59,12 @@ public class PatientController {
 		return patientService.updatePatient(patientId,patientRequest);
 	}
 	
-	//login Patient
-	@PostMapping("/patient/login")
-	public ResponseEntity<String> patientLogin(@RequestBody Login login) {
-		
-		String response=patientService.patientLogin(login).name();
-		return ResponseEntity.ok(response);
+	@PostMapping("/login")
+	public LoginStatus userLogin(@RequestBody Login login) {
+		return patientService.patientLogin(login);
 	}
+
+
 	
 	
 	

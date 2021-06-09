@@ -43,15 +43,15 @@ public class Patient {
 	private int age;
 	
 	@Column(nullable = false)
-	private int contactNo;
+	private String contactNo;
 	
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	private String gender;
 	
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	private String race;
 	
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	private String ethnicity;
 	private String languagesKnown;
 	private String homeAddress;
@@ -65,12 +65,11 @@ public class Patient {
 	public Patient() {
 		super();
 	}
-	
-	public Patient(@NotNull Long patientId, @NotNull String title, @NotNull String firstName, @NotNull String lastName,
-			@NotNull String password, @NotNull @Email(message = "Email should be valid") String email,
-			@NotNull String dateOfBirth, @NotNull @Min(value = 1, message = "Age should not be zero") int age,
-			@NotNull int contactNo, @NotNull String gender, @NotNull String race, @NotNull String ethnicity,
-			String languagesKnown, String homeAddress, String emergFirstName, String emergLastName,
+
+	public Patient(Long patientId, String title, String firstName, String lastName, String password,
+			@Email(message = "Email should be valid") String email, String dateOfBirth,
+			@Min(value = 1, message = "Age should not be zero") int age, String contactNo, String gender, String race,
+			String ethnicity, String languagesKnown, String homeAddress, String emergFirstName, String emergLastName,
 			String emergRelationship, String emergContact, String emergAddress, String isAccess) {
 		super();
 		this.patientId = patientId;
@@ -94,126 +93,166 @@ public class Patient {
 		this.emergAddress = emergAddress;
 		this.isAccess = isAccess;
 	}
-	
+
 	public Long getPatientId() {
 		return patientId;
 	}
+
 	public void setPatientId(Long patientId) {
 		this.patientId = patientId;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getDateOfBirth() {
 		return dateOfBirth;
 	}
+
 	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+
 	public int getAge() {
 		return age;
 	}
+
 	public void setAge(int age) {
 		this.age = age;
 	}
-	public int getContactNo() {
+
+	public String getContactNo() {
 		return contactNo;
 	}
-	public void setContactNo(int contactNo) {
+
+	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
 	}
+
 	public String getGender() {
 		return gender;
 	}
+
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+
 	public String getRace() {
 		return race;
 	}
+
 	public void setRace(String race) {
 		this.race = race;
 	}
+
 	public String getEthnicity() {
 		return ethnicity;
 	}
+
 	public void setEthnicity(String ethnicity) {
 		this.ethnicity = ethnicity;
 	}
+
 	public String getLanguagesKnown() {
 		return languagesKnown;
 	}
+
 	public void setLanguagesKnown(String languagesKnown) {
 		this.languagesKnown = languagesKnown;
 	}
+
 	public String getHomeAddress() {
 		return homeAddress;
 	}
+
 	public void setHomeAddress(String homeAddress) {
 		this.homeAddress = homeAddress;
 	}
+
 	public String getEmergFirstName() {
 		return emergFirstName;
 	}
+
 	public void setEmergFirstName(String emergFirstName) {
 		this.emergFirstName = emergFirstName;
 	}
+
 	public String getEmergLastName() {
 		return emergLastName;
 	}
+
 	public void setEmergLastName(String emergLastName) {
 		this.emergLastName = emergLastName;
 	}
+
 	public String getEmergRelationship() {
 		return emergRelationship;
 	}
+
 	public void setEmergRelationship(String emergRelationship) {
 		this.emergRelationship = emergRelationship;
 	}
+
 	public String getEmergContact() {
 		return emergContact;
 	}
+
 	public void setEmergContact(String emergContact) {
 		this.emergContact = emergContact;
 	}
+
 	public String getEmergAddress() {
 		return emergAddress;
 	}
+
 	public void setEmergAddress(String emergAddress) {
 		this.emergAddress = emergAddress;
 	}
+
 	public String getIsAccess() {
 		return isAccess;
 	}
+
 	public void setIsAccess(String isAccess) {
 		this.isAccess = isAccess;
 	}
+	
 	
 }
