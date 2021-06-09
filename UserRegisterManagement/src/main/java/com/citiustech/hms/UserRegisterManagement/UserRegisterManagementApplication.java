@@ -36,6 +36,4 @@ public class UserRegisterManagementApplication {
 		};
 	}
 
->>>>>>> 400748b3a74a93b846b12c37a1b685cd8e7d2e4b
-
 }
