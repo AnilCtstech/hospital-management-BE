@@ -64,8 +64,10 @@ public class PatientController {
 	
 	//login Patient
 	@PostMapping("/patient/login")
-	public LoginStatus patientLogin(@RequestBody Login login) {
-		return patientService.patientLogin(login);
+	public ResponseEntity<String> patientLogin(@RequestBody Login login) {
+		
+		String response=patientService.patientLogin(login).name();
+		return ResponseEntity.ok(response);
 	}
 	
 	
