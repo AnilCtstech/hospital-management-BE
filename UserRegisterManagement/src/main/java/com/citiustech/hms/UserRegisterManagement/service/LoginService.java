@@ -1,6 +1,7 @@
 package com.citiustech.hms.UserRegisterManagement.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
@@ -12,19 +13,20 @@ import com.citiustech.hms.UserRegisterManagement.utils.LoginStatus;
 public class LoginService {
 @Autowired
 private PatientRepository patientRepository;
-public LoginStatus userLogin(Login login) {
+public ResponseEntity<String> userLogin(Login login) {
 	if (patientRepository.findByEmail(login.getEmail()).isPresent()){
 	
 		Patient patient=patientRepository.findByEmail(login.getEmail()).get();
 		System.out.println(patient.getEmail());
 		if (patient.getPassword().equals(login.getPassword())) {
-			return LoginStatus.LOGIN_SUCCESS;
+			return ResponseEntity.ok(LoginStatus.LOGIN_SUCCESS.name());
 		}
 			
 		else
-			return LoginStatus.INCORRECT_PASSWORD;
+			return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_PASSWORD.name());
+
 	}
 	else 
-		return LoginStatus.INCORRECT_EMAIL;
+		return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_EMAIL.name());
 	}
 }

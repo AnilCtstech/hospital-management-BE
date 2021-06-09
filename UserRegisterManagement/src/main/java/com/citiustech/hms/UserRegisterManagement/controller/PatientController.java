@@ -59,10 +59,7 @@ public class PatientController {
 		return patientService.updatePatient(patientId,patientRequest);
 	}
 	
-	@PostMapping("/login")
-	public LoginStatus userLogin(@RequestBody Login login) {
-		return patientService.patientLogin(login);
-	}
+
 
 
 	
