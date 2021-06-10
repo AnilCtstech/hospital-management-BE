@@ -28,10 +28,10 @@ public class LoginController {
 	
 	
 	//login Patient
-	@PostMapping("/login")
-	public ResponseEntity<String> userLogin(@RequestBody Login login) {
-		return loginService.userLogin(login);
-	}
+//	@PostMapping("/login")
+//	public ResponseEntity<String> userLogin(@RequestBody Login login) {
+//		return loginService.userLogin(login);
+//	}
 	
 	//login with authentication
 	@PostMapping("/authenticate")
