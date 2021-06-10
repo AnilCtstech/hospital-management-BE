@@ -18,11 +18,12 @@ public class CustomUserCredService implements UserDetailsService{
 	LoginService loginService;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Login login=loginService.loadCredentialsByUsername(username);
+		Login login=loginService.loadCredentialsByUsername(email);
 		return new User(login.getEmail(), login.getPassword(), new ArrayList<>());
 		
 	}
+	
 
 }

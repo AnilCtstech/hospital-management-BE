@@ -19,22 +19,22 @@ private PatientRepository patientRepository;
 @Autowired
 private EmployeeRepository employeeRepository;
 
-public ResponseEntity<String> userLogin(Login login) {
-	if (patientRepository.findByEmail(login.getEmail()).isPresent()){
-	
-		Patient patient=patientRepository.findByEmail(login.getEmail()).get();
-		System.out.println(patient.getEmail());
-		if (patient.getPassword().equals(login.getPassword())) {
-			return ResponseEntity.ok(LoginStatus.LOGIN_SUCCESS.name());
-		}
-			
-		else
-			return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_PASSWORD.name());
-
-	}
-	else 
-		return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_EMAIL.name());
-	}
+//public ResponseEntity<String> userLogin(Login login) {
+//	if (patientRepository.findByEmail(login.getEmail()).isPresent()){
+//	
+//		Patient patient=patientRepository.findByEmail(login.getEmail()).get();
+//		System.out.println(patient.getEmail());
+//		if (patient.getPassword().equals(login.getPassword())) {
+//			return ResponseEntity.ok(LoginStatus.LOGIN_SUCCESS.name());
+//		}
+//			
+//		else
+//			return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_PASSWORD.name());
+//
+//	}
+//	else 
+//		return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_EMAIL.name());
+//	}
 
 
 	public Login loadCredentialsByUsername(String email) {	

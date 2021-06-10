@@ -44,7 +44,8 @@ public class LoginController {
 					new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword())
 					);
 		} catch (Exception e) {			
-			return ResponseEntity.unprocessableEntity().body("Username/email invalid");
+			return ResponseEntity.status(401).body("Username/email invalid");
+					//unprocessableEntity().body("Username/email invalid");
 		}
 		
 		String token=jwtUtil.generateToken(login.getEmail());
