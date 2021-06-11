@@ -19,7 +19,7 @@ public class PatientService {
 	@Autowired
 	private PatientRepository patientRepository;
 
-	public ResponseEntity<Object> createPatient(Patient patientRequest){
+	public ResponseEntity<String> createPatient(Patient patientRequest){
 	Patient patient= new Patient();
 	if (patientRepository.findByEmail(patientRequest.getEmail()).isPresent()) {
 		return ResponseEntity.badRequest().body("the patient is already exist, Failed to create new Patient");

@@ -27,7 +27,7 @@ public class PatientController {
 
 	//creating patient 
 	@PostMapping("/patient")
-	public ResponseEntity<Object> createPatient(@RequestBody Patient patientRequest) {
+	public ResponseEntity<String> createPatient(@RequestBody Patient patientRequest) {
 		if (patientRequest.getTitle()==null ||
 				patientRequest.getFirstName() == null ||
 				patientRequest.getLastName() == null ||
@@ -42,6 +42,7 @@ public class PatientController {
 	}
 
 	//get patient by Id
+	//create patient registration dto
 	@GetMapping("/patient/{patientId}")
 	public Optional<Patient> getPatientById(@PathVariable Long patientId) {
 		return patientService.getPatientById(patientId);
