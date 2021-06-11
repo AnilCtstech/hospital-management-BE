@@ -42,16 +42,18 @@ public class Patient {
 	@Min(value = 1, message = "Age should not be zero")
 	private int age;
 
+	
 	@Column(nullable = false)
 	private String contactNo;
-
-	// @Column(nullable = false)
+	
+	//@Column(nullable = false)
 	private String gender;
-
-	// @Column(nullable = false)
+	
+	//@Column(nullable = false)
 	private String race;
+	
+	//@Column(nullable = false)
 
-	// @Column(nullable = false)
 	private String ethnicity;
 	private String languagesKnown;
 	private String homeAddress;
@@ -65,6 +67,12 @@ public class Patient {
 	public Patient() {
 		super();
 	}
+
+
+	public Patient(Long patientId, String title, String firstName, String lastName, String password,
+			@Email(message = "Email should be valid") String email, String dateOfBirth,
+			@Min(value = 1, message = "Age should not be zero") int age, String contactNo, String gender, String race,
+			String ethnicity, String languagesKnown, String homeAddress, String emergFirstName, String emergLastName,
 
 	/*
 	 * public Patient(@NotNull Long patientId, @NotNull String title, @NotNull
@@ -83,14 +91,7 @@ public class Patient {
 	 * }
 	 */
 
-	public Patient(@NotNull Long patientId, @NotNull String title, @NotNull String firstName, @NotNull String lastName,
 
-			@NotNull String password, @NotNull @Email(message = "Email should be valid") String email,
-
-			@NotNull String dateOfBirth, @NotNull @Min(value = 1, message = "Age should not be zero") int age,
-
-			@NotNull String contactNo, @NotNull String gender, @NotNull String race, @NotNull String ethnicity,
-			String languagesKnown, String homeAddress, String emergFirstName, String emergLastName,
 			String emergRelationship, String emergContact, String emergAddress, String isAccess) {
 		super();
 		this.patientId = patientId;
@@ -183,9 +184,10 @@ public class Patient {
 		return contactNo;
 	}
 
-	public void setContactNo(String l) {
-		this.contactNo = l;
-	}
+
+	public void setContactNo(String contactNo) {
+		this.contactNo = contactNo;
+
 
 	public String getGender() {
 		return gender;

@@ -17,18 +17,31 @@ public class PatientService {
 	@Autowired
 	private PatientRepository patientRepository;
 
-	public ResponseEntity<Object> createPatient(Patient patientRequest) {
-		Patient patient = new Patient();
-		if (patientRepository.findByEmail(patientRequest.getEmail()).isPresent()) {
-			return ResponseEntity.badRequest().body("the patient is already exist, Failed to create new Patient");
-		} else {
-			patient.setTitle(patientRequest.getTitle());
-			patient.setFirstName(patientRequest.getFirstName());
-			patient.setLastName(patientRequest.getLastName());
-			patient.setPassword(patientRequest.getPassword());
-			patient.setEmail(patientRequest.getEmail());
-			patient.setDateOfBirth(patientRequest.getDateOfBirth());
-			patient.setContactNo(patientRequest.getContactNo());
+
+	public ResponseEntity<Object> createPatient(Patient patientRequest){
+	Patient patient= new Patient();
+	if (patientRepository.findByEmail(patientRequest.getEmail()).isPresent()) {
+		return ResponseEntity.badRequest().body("the patient is already exist, Failed to create new Patient");
+	}
+	else {
+		patient.setTitle(patientRequest.getTitle());
+		patient.setFirstName(patientRequest.getFirstName());
+		patient.setLastName(patientRequest.getLastName());
+		patient.setPassword(patientRequest.getPassword());
+		patient.setEmail(patientRequest.getEmail());
+		patient.setDateOfBirth(patientRequest.getDateOfBirth());
+
+		patient.setContactNo(patientRequest.getContactNo());
+		
+		Patient savedPatient=patientRepository.save(patient);
+		
+		if (patientRepository.findById(savedPatient.getPatientId()).isPresent())
+			return ResponseEntity.ok("Patient Created successfully");
+		else
+			return ResponseEntity.unprocessableEntity().body("Failed Creating Patient as specified");
+		
+	}
+
 			/*
 			 * patient.setAge(patientRequest.getAge());
 			 * patient.setContactNo(patientRequest.getContactNo());
@@ -57,6 +70,7 @@ public class PatientService {
 				return ResponseEntity.unprocessableEntity().body("Failed Creating Patient as specified");
 
 		}
+
 	}
 
 	public Optional<Patient> getPatientById(Long patientId) {
@@ -105,6 +119,26 @@ public class PatientService {
 				return ResponseEntity.unprocessableEntity().body("Failed updating patient specified");
 		} else
 			return ResponseEntity.unprocessableEntity().body("cannot find the patient specified");
+
+
+
+	
+	public LoginStatus patientLogin(Login login) {
+		if (patientRepository.findByEmail(login.getEmail()).isPresent()){
+		
+			Patient patient=patientRepository.findByEmail(login.getEmail()).get();
+			System.out.println(patient.getEmail());
+			if (patient.getPassword().equals(login.getPassword())) {
+				return LoginStatus.LOGIN_SUCCESS;
+			}
+				
+			else
+				return LoginStatus.INCORRECT_PASSWORD;
+		}
+		else 
+			return LoginStatus.INCORRECT_EMAIL;
+		}
+		
 
 	}
 
