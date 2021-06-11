@@ -1,7 +1,7 @@
 package com.citiustech.hms.UserRegisterManagement.entity;
 
 import javax.persistence.Column;
-import javax.persistence.Entity; 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,30 +17,31 @@ public class Patient {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(nullable = false)
 	private Long patientId;
-	
+
 	@Column(nullable = false)
 	private String title;
-	
+
 	@Column(nullable = false)
 	private String firstName;
-	
+
 	@Column(nullable = false)
 	private String lastName;
-	
+
 	@Column(nullable = false)
 	private String password;
-	
+
 	@Column(nullable = false)
 	@Email(message = "Email should be valid")
 	private String email;
-	
+
 	@Column(nullable = false)
-	//DateOfBirth should be Of Date Type
+	// DateOfBirth should be Of Date Type
 	private String dateOfBirth;
-	
-	@Column(nullable = false)
+
+	// @Column(nullable = false)
 	@Min(value = 1, message = "Age should not be zero")
 	private int age;
+
 	
 	@Column(nullable = false)
 	private String contactNo;
@@ -52,6 +53,7 @@ public class Patient {
 	private String race;
 	
 	//@Column(nullable = false)
+
 	private String ethnicity;
 	private String languagesKnown;
 	private String homeAddress;
@@ -61,15 +63,35 @@ public class Patient {
 	private String emergContact;
 	private String emergAddress;
 	private String isAccess;
-	
+
 	public Patient() {
 		super();
 	}
+
 
 	public Patient(Long patientId, String title, String firstName, String lastName, String password,
 			@Email(message = "Email should be valid") String email, String dateOfBirth,
 			@Min(value = 1, message = "Age should not be zero") int age, String contactNo, String gender, String race,
 			String ethnicity, String languagesKnown, String homeAddress, String emergFirstName, String emergLastName,
+
+	/*
+	 * public Patient(@NotNull Long patientId, @NotNull String title, @NotNull
+	 * String firstName, @NotNull String lastName,
+	 * 
+	 * @NotNull String password, @NotNull @Email(message = "Email should be valid")
+	 * String email,
+	 * 
+	 * @NotNull String dateOfBirth, @NotNull int contactNo) { super();
+	 * this.patientId = patientId; this.title = title; this.firstName = firstName;
+	 * this.lastName = lastName; this.password = password; this.email = email;
+	 * this.dateOfBirth = dateOfBirth;
+	 * 
+	 * this.contactNo = contactNo;
+	 * 
+	 * }
+	 */
+
+
 			String emergRelationship, String emergContact, String emergAddress, String isAccess) {
 		super();
 		this.patientId = patientId;
@@ -162,9 +184,10 @@ public class Patient {
 		return contactNo;
 	}
 
+
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
-	}
+
 
 	public String getGender() {
 		return gender;
@@ -253,6 +276,5 @@ public class Patient {
 	public void setIsAccess(String isAccess) {
 		this.isAccess = isAccess;
 	}
-	
-	
+
 }
