@@ -16,7 +16,7 @@ import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
 @RestController
 @RequestMapping("/")
 public class LoginController {
-	
+
 	@Autowired
 	private LoginService loginService;
 
@@ -25,32 +25,29 @@ public class LoginController {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-	
-	
-	//login Patient
+
+	// login Patient
 //	@PostMapping("/login")
 //	public ResponseEntity<String> userLogin(@RequestBody Login login) {
 //		return loginService.userLogin(login);
 //	}
-	
-	//login with authentication
+
+	// login with authentication
 	@PostMapping("/authenticate")
-	public  ResponseEntity<String> generateToken(@RequestBody Login login)  {
-		
-		//System.out.println(authRequest);
+	public ResponseEntity<String> generateToken(@RequestBody Login login) {
+
+		// System.out.println(authRequest);
 		try {
-			
-			authManager.authenticate(
-					new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword())
-					);
-		} catch (Exception e) {			
+
+			authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
+		} catch (Exception e) {
 			return ResponseEntity.status(401).body("Username/email invalid");
-					//unprocessableEntity().body("Username/email invalid");
+			// unprocessableEntity().body("Username/email invalid");
 		}
-		
-		String token=jwtUtil.generateToken(login.getEmail());
+
+		String token = jwtUtil.generateToken(login.getEmail());
 		return ResponseEntity.ok(token);
-		
+
 	}
-	
+
 }

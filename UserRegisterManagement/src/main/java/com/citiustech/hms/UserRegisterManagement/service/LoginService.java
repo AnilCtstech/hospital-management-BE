@@ -13,11 +13,11 @@ import com.citiustech.hms.UserRegisterManagement.utils.LoginStatus;
 
 @Service
 public class LoginService {
-@Autowired
-private PatientRepository patientRepository;
+	@Autowired
+	private PatientRepository patientRepository;
 
-@Autowired
-private EmployeeRepository employeeRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
 
 //public ResponseEntity<String> userLogin(Login login) {
 //	if (patientRepository.findByEmail(login.getEmail()).isPresent()){
@@ -36,16 +36,14 @@ private EmployeeRepository employeeRepository;
 //		return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_EMAIL.name());
 //	}
 
-
-	public Login loadCredentialsByUsername(String email) {	
-		if (employeeRepository.findByEmail(email).isPresent()){
-			Employee employee=employeeRepository.findByEmail(email).get();
-			return new Login(employee.getEmail(),employee.getPassword());		
-		}
-		else if(patientRepository.findByEmail(email).isPresent()){
-			Patient patient=patientRepository.findByEmail(email).get();
-			return new Login(patient.getEmail(),patient.getPassword());
-		}else
+	public Login loadCredentialsByUsername(String email) {
+		if (employeeRepository.findByEmail(email).isPresent()) {
+			Employee employee = employeeRepository.findByEmail(email).get();
+			return new Login(employee.getEmail(), employee.getPassword());
+		} else if (patientRepository.findByEmail(email).isPresent()) {
+			Patient patient = patientRepository.findByEmail(email).get();
+			return new Login(patient.getEmail(), patient.getPassword());
+		} else
 			return null;
 	}
 

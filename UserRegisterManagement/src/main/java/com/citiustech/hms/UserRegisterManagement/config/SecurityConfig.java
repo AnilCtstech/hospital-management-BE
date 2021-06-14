@@ -20,42 +20,38 @@ import com.citiustech.hms.UserRegisterManagement.service.CustomUserCredService;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private CustomUserCredService userDetailsService;
-	
+
 	@Autowired
 	private JwtFilter jwtFilter;
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
 		auth.userDetailsService(userDetailsService);
-		
+
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().disable();
-		http.csrf().disable()
-					.authorizeRequests().antMatchers("/authenticate").permitAll()
-					.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-					.anyRequest().authenticated()
-					.and().exceptionHandling()
-					.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll()
+				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated().and()
+				.exceptionHandling().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 	}
-	
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
 	}
-	
+
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
 		return super.authenticationManagerBean();
-		
+
 	}
 }
