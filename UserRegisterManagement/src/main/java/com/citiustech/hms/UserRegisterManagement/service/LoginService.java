@@ -1,15 +1,15 @@
 package com.citiustech.hms.UserRegisterManagement.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.citiustech.hms.UserRegisterManagement.dto.Login;
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
-import com.citiustech.hms.UserRegisterManagement.model.Login;
 import com.citiustech.hms.UserRegisterManagement.repository.EmployeeRepository;
 import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
-import com.citiustech.hms.UserRegisterManagement.utils.LoginStatus;
 
 @Service
 public class LoginService {
@@ -47,6 +47,14 @@ private EmployeeRepository employeeRepository;
 			return new Login(patient.getEmail(),patient.getPassword());
 		}else
 			return null;
+	}
+	
+	@Transactional
+	public String updatePasswordByUsername(String email,String newPassword) {
+
+			employeeRepository.updatePassword(email,newPassword);
+			return "Password updated!";	
+	
 	}
 
 }

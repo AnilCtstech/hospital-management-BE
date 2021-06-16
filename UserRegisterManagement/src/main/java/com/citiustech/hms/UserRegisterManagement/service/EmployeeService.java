@@ -23,6 +23,7 @@ public class EmployeeService {
 			employee.setDateOfBirth(employeeRequest.getDateOfBirth());
 			employee.setRole(employeeRequest.getRole());
 			employee.setPassword(employeeRequest.getFirstName()+"@123");
+			employee.setPassCount(0);
 			Employee savedEmployee = null;
 			try {
 				savedEmployee = employeeRepository.save(employee);

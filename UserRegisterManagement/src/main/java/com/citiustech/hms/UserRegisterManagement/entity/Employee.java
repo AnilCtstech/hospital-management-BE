@@ -3,6 +3,7 @@ package com.citiustech.hms.UserRegisterManagement.entity;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 
 import javax.persistence.FetchType;
@@ -13,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+
+import com.citiustech.hms.UserRegisterManagement.utils.RoleConverter;
 @Entity
 public class Employee {
 	@Id
@@ -33,13 +36,19 @@ public class Employee {
 	@NotNull
 	private Date dateOfBirth;
 	 
-	private String role;
+	//private String role;
+	
+	@Convert(converter = RoleConverter.class)
+	private Role role;
+	
+	private int passCount;
+	
 	public Employee() {
 		super();
 	}
 	public Employee(@NotNull Long employeeId, @NotNull String title, @NotNull String firstName,
 			@NotNull String lastName, @NotNull String password,
-			@NotNull @Email(message = "Email should be valid") String email, @NotNull Date dateOfBirth, String role) {
+			@NotNull @Email(message = "Email should be valid") String email, @NotNull Date dateOfBirth, Role role) {
 		super();
 		this.employeeId = employeeId;
 		this.title = title;
@@ -92,13 +101,25 @@ public class Employee {
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	public String getRole() {
+//	public String getRole() {
+//		return role;
+//	}
+//	public void setRole(String role) {
+//		this.role = role;
+//	}
+//	 
+	public Role getRole() {
 		return role;
 	}
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
-	 
+	public int getPassCount() {
+		return passCount;
+	}
+	public void setPassCount(int passCount) {
+		this.passCount = passCount;
+	}
 	
 	
 	

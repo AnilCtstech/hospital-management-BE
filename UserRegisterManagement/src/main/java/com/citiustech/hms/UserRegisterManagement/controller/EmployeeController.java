@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
+import com.citiustech.hms.UserRegisterManagement.entity.Role;
 import com.citiustech.hms.UserRegisterManagement.service.EmployeeService;
 
 @RestController
@@ -26,6 +27,8 @@ public class EmployeeController {
 				|| employeeRequest.getRole()== null
 				)
 			return ResponseEntity.unprocessableEntity().body("Attributes cannot be Null ");
+		else if(employeeRequest.getRole()== Role.ADMIN)
+			return ResponseEntity.unprocessableEntity().body("Please select valid role");
 		else
 			return employeeService.createEmployee(employeeRequest);
 	}
