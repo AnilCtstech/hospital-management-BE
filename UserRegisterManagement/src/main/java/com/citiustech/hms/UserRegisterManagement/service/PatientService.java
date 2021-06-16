@@ -9,17 +9,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
-import com.citiustech.hms.UserRegisterManagement.model.Login;
 import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
-import com.citiustech.hms.UserRegisterManagement.utils.LoginStatus;
 
 @Service
 public class PatientService {
-	
+
 	@Autowired
 	private PatientRepository patientRepository;
 
+
 	public ResponseEntity<String> createPatient(Patient patientRequest){
+
 	Patient patient= new Patient();
 	if (patientRepository.findByEmail(patientRequest.getEmail()).isPresent()) {
 		return ResponseEntity.badRequest().body("the patient is already exist, Failed to create new Patient");
@@ -41,7 +41,8 @@ public class PatientService {
 		else
 			return ResponseEntity.unprocessableEntity().body("Failed Creating Patient as specified");
 		
-	}
+		}
+
 	}
 
 	public Optional<Patient> getPatientById(Long patientId) {
@@ -53,18 +54,16 @@ public class PatientService {
 			patientRepository.deleteById(patientId);
 			if (patientRepository.findById(patientId).isPresent())
 				return ResponseEntity.unprocessableEntity().body("Failed to delete the specified Patient");
-			else 
+			else
 				return ResponseEntity.ok().body("Successfully deleted specified patient");
-		} 
-		else
-		return ResponseEntity.badRequest().body("Cannot find patient specified");
+		} else
+			return ResponseEntity.badRequest().body("Cannot find patient specified");
 	}
 
-	
 	@Transactional
 	public ResponseEntity<Object> updatePatient(Long patientId, Patient patientRequest) {
 		if (patientRepository.findById(patientId).isPresent()) {
-			Patient newPatient= patientRepository.findById(patientId).get();
+			Patient newPatient = patientRepository.findById(patientId).get();
 			newPatient.setTitle(patientRequest.getTitle());
 			newPatient.setFirstName(patientRequest.getFirstName());
 			newPatient.setLastName(patientRequest.getLastName());
@@ -85,37 +84,15 @@ public class PatientService {
 			newPatient.setEmergAddress(patientRequest.getEmergAddress());
 			newPatient.setIsAccess(patientRequest.getIsAccess());
 
-			Patient savedPatient=patientRepository.save(newPatient);
-			if(patientRepository.findById(savedPatient.getPatientId()).isPresent())
+			Patient savedPatient = patientRepository.save(newPatient);
+			if (patientRepository.findById(savedPatient.getPatientId()).isPresent())
 				return ResponseEntity.accepted().body("Patient updated Successfully");
-			else return ResponseEntity.unprocessableEntity().body("Failed updating patient specified");
-		}
-		else 
+			else
+				return ResponseEntity.unprocessableEntity().body("Failed updating patient specified");
+		} else
 			return ResponseEntity.unprocessableEntity().body("cannot find the patient specified");
 		
+
 	}
 
-
-	
-	public LoginStatus patientLogin(Login login) {
-		if (patientRepository.findByEmail(login.getEmail()).isPresent()){
-		
-			Patient patient=patientRepository.findByEmail(login.getEmail()).get();
-			System.out.println(patient.getEmail());
-			if (patient.getPassword().equals(login.getPassword())) {
-				return LoginStatus.LOGIN_SUCCESS;
-			}
-				
-			else
-				return LoginStatus.INCORRECT_PASSWORD;
-		}
-		else 
-			return LoginStatus.INCORRECT_EMAIL;
-		}
-		
-	}
-	
-	
-	
-
-
+}
