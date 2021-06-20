@@ -1,4 +1,4 @@
-package com.citiustech.hms.UserRegisterManagement.model;
+package com.citiustech.hms.UserRegisterManagement.dto;
 
 public class Login {
 

@@ -1,14 +1,15 @@
 package com.citiustech.hms.UserRegisterManagement.service;
 
 import java.util.Optional;
+
 import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
-import com.citiustech.hms.UserRegisterManagement.model.Login;
 import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
-import com.citiustech.hms.UserRegisterManagement.utils.LoginStatus;
 
 @Service
 public class PatientService {
@@ -16,7 +17,8 @@ public class PatientService {
 	@Autowired
 	private PatientRepository patientRepository;
 
-	public ResponseEntity<Object> createPatient(Patient patientRequest) {
+	public ResponseEntity<String> createPatient(Patient patientRequest) {
+
 		Patient patient = new Patient();
 		if (patientRepository.findByEmail(patientRequest.getEmail()).isPresent()) {
 			return ResponseEntity.badRequest().body("the patient is already exist, Failed to create new Patient");
@@ -38,22 +40,6 @@ public class PatientService {
 				return ResponseEntity.unprocessableEntity().body("Failed Creating Patient as specified");
 
 		}
-
-		/*
-		 * patient.setAge(patientRequest.getAge());
-		 * patient.setContactNo(patientRequest.getContactNo());
-		 * patient.setGender(patientRequest.getGender());
-		 * patient.setRace(patientRequest.getRace());
-		 * patient.setEthnicity(patientRequest.getEthnicity());
-		 * patient.setLanguagesKnown(patientRequest.getLanguagesKnown());
-		 * patient.setHomeAddress(patientRequest.getHomeAddress());
-		 * patient.setEmergFirstName(patientRequest.getEmergFirstName());
-		 * patient.setEmergLastName(patientRequest.getEmergLastName());
-		 * patient.setEmergRelationship(patientRequest.getEmergRelationship());
-		 * patient.setEmergContact(patientRequest.getEmergContact());
-		 * patient.setEmergAddress(patientRequest.getEmergAddress());
-		 * patient.setIsAccess(patientRequest.getIsAccess());
-		 */
 
 	}
 
@@ -103,21 +89,7 @@ public class PatientService {
 				return ResponseEntity.unprocessableEntity().body("Failed updating patient specified");
 		} else
 			return ResponseEntity.unprocessableEntity().body("cannot find the patient specified");
-	}
 
-	public LoginStatus patientLogin(Login login) {
-		if (patientRepository.findByEmail(login.getEmail()).isPresent()) {
-
-			Patient patient = patientRepository.findByEmail(login.getEmail()).get();
-			System.out.println(patient.getEmail());
-			if (patient.getPassword().equals(login.getPassword())) {
-				return LoginStatus.LOGIN_SUCCESS;
-			}
-
-			else
-				return LoginStatus.INCORRECT_PASSWORD;
-		} else
-			return LoginStatus.INCORRECT_EMAIL;
 	}
 
 }

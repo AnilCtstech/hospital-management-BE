@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.citiustech.hms.UserRegisterManagement.model.Login;
+import com.citiustech.hms.UserRegisterManagement.dto.Login;
 
 @Service
 public class CustomUserCredService implements UserDetailsService{
