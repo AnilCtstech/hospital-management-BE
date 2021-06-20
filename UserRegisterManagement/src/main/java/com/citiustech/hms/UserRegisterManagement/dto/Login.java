@@ -1,8 +1,17 @@
-package com.citiustech.hms.UserRegisterManagement.model;
+package com.citiustech.hms.UserRegisterManagement.dto;
 
 public class Login {
 private String email;
 private String password;
+
+public Login() {
+	super();
+}
+public Login(String email, String password) {
+	super();
+	this.email = email;
+	this.password = password;
+}
 public String getEmail() {
 	return email;
 }
