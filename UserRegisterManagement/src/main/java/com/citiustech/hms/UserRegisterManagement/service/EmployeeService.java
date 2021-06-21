@@ -10,6 +10,9 @@ import com.citiustech.hms.UserRegisterManagement.repository.EmployeeRepository;
 public class EmployeeService {
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public ResponseEntity<Object> createEmployee(Employee employeeRequest) {
 		Employee employee= new Employee();
@@ -25,8 +28,14 @@ public class EmployeeService {
 			employee.setPassword(employeeRequest.getFirstName()+"@123");
 			employee.setPassCount(0);
 			Employee savedEmployee = null;
+			
 			try {
 				savedEmployee = employeeRepository.save(employee);
+				
+				boolean isMailSent = emailService.sentEmail(employee.getPassword());
+				if(isMailSent) {
+					//return ResponseEntity.ok("mail send successfully");
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

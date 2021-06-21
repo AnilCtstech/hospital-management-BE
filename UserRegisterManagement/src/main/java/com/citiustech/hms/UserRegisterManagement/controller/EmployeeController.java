@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 import com.citiustech.hms.UserRegisterManagement.entity.Role;
+import com.citiustech.hms.UserRegisterManagement.service.EmailService;
 import com.citiustech.hms.UserRegisterManagement.service.EmployeeService;
 
 @RestController
@@ -25,12 +26,12 @@ public class EmployeeController {
 				|| employeeRequest.getEmail() == null
 				|| employeeRequest.getDateOfBirth() == null
 				|| employeeRequest.getRole()== null
-				)
+				) {
 			return ResponseEntity.unprocessableEntity().body("Attributes cannot be Null ");
-		else if(employeeRequest.getRole()== Role.ADMIN)
+		}else if(employeeRequest.getRole()== Role.ADMIN) {
 			return ResponseEntity.unprocessableEntity().body("Please select valid role");
-		else
+		}else {
 			return employeeService.createEmployee(employeeRequest);
+		}
 	}
-
 }
