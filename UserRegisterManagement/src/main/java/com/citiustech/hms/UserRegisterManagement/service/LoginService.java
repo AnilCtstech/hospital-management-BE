@@ -46,13 +46,25 @@ public class LoginService {
 		} else
 			return null;
 	}
-	
-	@Transactional
-	public String updatePasswordByUsername(String email,String newPassword) {
 
-			employeeRepository.updatePassword(email,newPassword);
-			return "Password updated!";	
-	
+	public String getRoleForEmail(String email) {
+		if (employeeRepository.findByEmail(email).isPresent()) {
+			Employee employee = employeeRepository.findByEmail(email).get();
+			if (employee.getRole() != null) {
+				return employee.getRole().toString();
+			}
+		} else if (patientRepository.findByEmail(email).isPresent()) {
+			return "PATIENT";
+		}
+		return "NA";
+	}
+
+	@Transactional
+	public String updatePasswordByUsername(String email, String newPassword) {
+
+		employeeRepository.updatePassword(email, newPassword);
+		return "Password updated!";
+
 	}
 
 }

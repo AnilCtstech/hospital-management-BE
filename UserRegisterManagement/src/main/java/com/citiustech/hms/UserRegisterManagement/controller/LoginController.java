@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.citiustech.hms.UserRegisterManagement.dto.ChangePasswordDto;
 import com.citiustech.hms.UserRegisterManagement.dto.Login;
+import com.citiustech.hms.UserRegisterManagement.dto.TokenAndRole;
 import com.citiustech.hms.UserRegisterManagement.service.LoginService;
 import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
 
@@ -50,6 +51,27 @@ public class LoginController {
 
 		String token = jwtUtil.generateToken(login.getEmail());
 		return ResponseEntity.ok(token);
+
+	}
+
+	@PostMapping("/authenticate1")
+	public ResponseEntity<TokenAndRole> generateTokenAndRole(@RequestBody Login login) {
+
+		try {
+
+			authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
+		} catch (Exception e) {
+			TokenAndRole response = new TokenAndRole();
+			response.setErrorMsg("Username/email invalid");
+			return ResponseEntity.status(401).body(response);
+
+		}
+
+		TokenAndRole response = new TokenAndRole();
+		String token = jwtUtil.generateToken(login.getEmail());
+		response.setToken(token);
+		response.setRole(loginService.getRoleForEmail(login.getEmail()));
+		return ResponseEntity.ok(response);
 
 	}
 
