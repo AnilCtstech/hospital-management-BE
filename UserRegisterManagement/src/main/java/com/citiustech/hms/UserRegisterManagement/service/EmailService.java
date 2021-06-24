@@ -38,4 +38,24 @@ public class EmailService {
 		javaMailSender.send(message);
 	}
 
+	public void sendEmailtoUser(String email, String password) {
+		if(password != null) {
+			try {
+				sendingMailForgetPassword(password);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	private void sendingMailForgetPassword(String password) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo("Ramakant.Samantray@citiustech.com");
+		message.setSubject("Login Password");
+		message.setText("your password  :"+password);
+		javaMailSender.send(message);
+		
+	}
+
 }
