@@ -57,4 +57,18 @@ private EmployeeRepository employeeRepository;
 	
 	}
 
+	public String getUserPassword(String email) {
+		String password;
+		if(employeeRepository.findByEmail(email).isPresent()) {
+			Employee employee = employeeRepository.findByEmail(email).get();
+			password = employee.getPassword();
+		}else if(patientRepository.findByEmail(email).isPresent()) {
+			Patient patient=patientRepository.findByEmail(email).get();
+			password = patient.getPassword();
+		}else {
+			password = null;
+		}
+		return password;
+	}
+
 }

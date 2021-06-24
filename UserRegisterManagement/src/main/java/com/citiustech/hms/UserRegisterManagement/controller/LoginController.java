@@ -1,9 +1,11 @@
 package com.citiustech.hms.UserRegisterManagement.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citiustech.hms.UserRegisterManagement.dto.ChangePasswordDto;
+import com.citiustech.hms.UserRegisterManagement.dto.ForgetPasswordDto;
 import com.citiustech.hms.UserRegisterManagement.dto.Login;
+import com.citiustech.hms.UserRegisterManagement.service.EmailService;
 import com.citiustech.hms.UserRegisterManagement.service.LoginService;
 import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
 
@@ -29,6 +33,8 @@ public class LoginController {
 	@Autowired
 	private JwtUtil jwtUtil;
 	
+	@Autowired
+	private EmailService emailService;
 	
 	//login Patient
 //	@PostMapping("/login")
@@ -80,5 +86,19 @@ public class LoginController {
 		return ResponseEntity.ok(msg);
 	}
 	
+	@GetMapping("/forget-password")
+	public ResponseEntity<String> getPassword(@RequestBody ForgetPasswordDto dto){
+		String email = null;
+		if(dto != null) {
+		 email = dto.getEmail();
+		String  userPassword = loginService.getUserPassword(email);
+			if(userPassword != null) {
+				emailService.sendEmailtoUser(email,userPassword);
+			}
+		}else {
+			return new ResponseEntity<String>("email is missing", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<String>("password sent to mail", HttpStatus.OK);
+	}
 	
 }
