@@ -40,6 +40,7 @@ private EmployeeRepository employeeRepository;
 	public Login loadCredentialsByUsername(String email) {	
 		if (employeeRepository.findByEmail(email).isPresent()){
 			Employee employee=employeeRepository.findByEmail(email).get();
+			System.out.println(employee);
 			return new Login(employee.getEmail(),employee.getPassword());		
 		}
 		else if(patientRepository.findByEmail(email).isPresent()){

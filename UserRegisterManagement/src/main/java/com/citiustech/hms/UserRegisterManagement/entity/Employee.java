@@ -41,8 +41,6 @@ public class Employee {
 	@Convert(converter = RoleConverter.class)
 	private Role role;
 	
-	private int passCount;
-	
 	public Employee() {
 		super();
 	}
@@ -101,26 +99,14 @@ public class Employee {
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-//	public String getRole() {
-//		return role;
-//	}
-//	public void setRole(String role) {
-//		this.role = role;
-//	}
-//	 
+ 
 	public Role getRole() {
 		return role;
 	}
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	public int getPassCount() {
-		return passCount;
-	}
-	public void setPassCount(int passCount) {
-		this.passCount = passCount;
-	}
-	
+
 	
 	
 	

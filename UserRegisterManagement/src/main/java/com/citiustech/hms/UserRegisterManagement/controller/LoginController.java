@@ -48,7 +48,7 @@ public class LoginController {
 		
 		//System.out.println(authRequest);
 		try {
-			
+			System.out.println(login);
 			authManager.authenticate(
 					new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword())
 					);
