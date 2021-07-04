@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +24,7 @@ import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
 
 @RestController
 @RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
 	
 	@Autowired
@@ -86,11 +89,9 @@ public class LoginController {
 		return ResponseEntity.ok(msg);
 	}
 	
-	@GetMapping("/forget-password")
-	public ResponseEntity<String> getPassword(@RequestBody ForgetPasswordDto dto){
-		String email = null;
-		if(dto != null) {
-		 email = dto.getEmail();
+	@GetMapping("/forget-password/{email}")
+	public ResponseEntity<String> getPassword(@PathVariable String email){
+		if(email != null) {
 		String  userPassword = loginService.getUserPassword(email);
 			if(userPassword != null) {
 				emailService.sendEmailtoUser(email,userPassword);
