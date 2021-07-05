@@ -56,9 +56,7 @@ public class LoginController {
 
 	@PostMapping("/authenticate1")
 	public ResponseEntity<TokenAndRole> generateTokenAndRole(@RequestBody Login login) {
-
 		try {
-
 			authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
 		} catch (Exception e) {
 			TokenAndRole response = new TokenAndRole();
