@@ -17,7 +17,7 @@ public class AppointmentService {
 	private AppointmentRepository appointmentRepository;
 
 	public String createAppointment(BookAppointment bookAppointment) {
-		Appointment appointment= new Appointment();
+		Appointment appointment = new Appointment();
 		appointment.setAppointmentDate(bookAppointment.getAppointmentDate());
 		appointment.setAppointmentTime(bookAppointment.getAppointmentTime());
 		appointment.setDescription(bookAppointment.getDescription());

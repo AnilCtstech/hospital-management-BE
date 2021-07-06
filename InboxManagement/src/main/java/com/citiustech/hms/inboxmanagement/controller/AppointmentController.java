@@ -18,10 +18,8 @@ public class AppointmentController {
 
 	@PostMapping("/book")
 	public String createAppointment(@RequestBody BookAppointment bookAppointment) {
-		if (bookAppointment.getAppointmentDate()==null
-				|| bookAppointment.getAppointmentTime()==null
-				|| bookAppointment.getDescription()==null
-				|| bookAppointment.getPatientId() == 0
+		if (bookAppointment.getAppointmentDate() == null || bookAppointment.getAppointmentTime() == null
+				|| bookAppointment.getDescription() == null || bookAppointment.getPatientId() == 0
 				|| bookAppointment.getEmployeeId() == 0) {
 			return AppointmentStatus.attribute;
 		} else {
