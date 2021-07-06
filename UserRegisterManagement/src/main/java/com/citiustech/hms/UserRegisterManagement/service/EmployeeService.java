@@ -19,6 +19,8 @@ import com.citiustech.hms.UserRegisterManagement.mapper.MapStructMapper;
 import com.citiustech.hms.UserRegisterManagement.repository.EmployeeRepository;
 @Service
 public class EmployeeService {
+	
+	
 	@Autowired
 	private EmployeeRepository employeeRepository;
 	
@@ -63,39 +65,41 @@ public class EmployeeService {
 	}
 
 	public List<Profile> findAllEmployeeByName(String employeeName) {
-		
-		String[] names=employeeName.trim().split("\\s+");
-		String firstName = null,lastName;
-		if(names.length>1) {
-			firstName=names[0];
-			lastName=names[1];
-		}else {
-			firstName=names[0];
-			lastName="";}
-		Pageable pageable = PageRequest.of(0, 10, Sort.by("firstName").ascending().and(Sort.by("lastName").descending()));
-	
-			Page<Employee> page = employeeRepository.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(firstName,lastName, pageable);
-			System.out.println("current slices :"+page);
-			System.out.println("current slices :"+page.getNumber());
-			System.out.println("getTotalElements() :"+page.getTotalElements());
-			System.out.println("getTotalPages :"+page.getTotalPages());
-			System.out.println("content :"+page.getContent());
 
-			List<Employee> employees=page.getContent();
-		
-			List<Profile> profiles = new ArrayList<>();
-			
-			employees.stream().forEach(e->{
-				profiles.add(mapStructMapper.employeeToProfile(e));
-				});
-				
-			
-			//mapStructMapper.employeeToProfile(null)
-			
-			return profiles;
+		String[] names = employeeName.trim().split("\\s+");
+		String firstName = null, lastName;
+		if (names.length > 1) {
+			firstName = names[0];
+			lastName = names[1];
+		} else {
+			firstName = names[0];
+			lastName = names[0];
+		}
+		Pageable pageable = PageRequest.of(0, 7,
+				Sort.by("firstName").ascending().and(Sort.by("lastName").descending()));
+
+		Page<Employee> page = employeeRepository
+				.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(firstName, lastName, pageable);
+
+		List<Employee> employees = page.getContent();
+
+		List<Profile> profiles = new ArrayList<>();
+
+		employees.stream().forEach(e -> {
+			profiles.add(mapStructMapper.employeeToProfile(e));
+		});
+
+		// mapStructMapper.employeeToProfile(null)
+
+		return profiles;
 	}
 	
-	
+	public void findAllEmployeeByName2(){
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("firstName").ascending());
+
+		employeeRepository.findByFirstNameIgnoreCaseContaining("pu",pageable).getContent().stream().forEach(e->System.out.println(e.getFirstName()));
+		
+	}
 	
 
 }

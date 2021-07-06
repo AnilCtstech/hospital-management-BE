@@ -35,6 +35,7 @@ public class JwtFilter extends OncePerRequestFilter {
 		String email=null;
 		if(authorization!=null && authorization.startsWith("Bearer ") ) {
 			token=authorization.substring(7);
+			//exception for invalid token
 			email=jwtUtil.extractUsername(token);
 		}
 		
@@ -48,6 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
 				
 				usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+			
 			}
 		}
 		filterChain.doFilter(request, response);

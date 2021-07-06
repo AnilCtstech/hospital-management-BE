@@ -55,9 +55,10 @@ public class Profile {
 
 	@Override
 	public String toString() {
-		return "EmpNameAndRoleVO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role
-				+ "]";
+		return "Profile [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + "]";
 	}
+
+
 	
 	
 }

@@ -38,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().disable();
 		http.csrf().disable()
-					.authorizeRequests().antMatchers("/authenticate").permitAll()
+					.authorizeRequests()
+					.antMatchers("/authenticate").permitAll()
 					.antMatchers(HttpMethod.POST,"/user/patient").permitAll()
 					.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 					.anyRequest().authenticated()
@@ -48,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();

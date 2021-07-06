@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.citiustech.hms.UserRegisterManagement.dto.Login;
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
+import com.citiustech.hms.UserRegisterManagement.entity.Role;
 import com.citiustech.hms.UserRegisterManagement.repository.EmployeeRepository;
 import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
+import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
 
 @Service
 public class LoginService {
@@ -18,6 +20,9 @@ private PatientRepository patientRepository;
 
 @Autowired
 private EmployeeRepository employeeRepository;
+
+@Autowired
+private JwtUtil jwtUtil;
 
 //public ResponseEntity<String> userLogin(Login login) {
 //	if (patientRepository.findByEmail(login.getEmail()).isPresent()){
@@ -38,16 +43,16 @@ private EmployeeRepository employeeRepository;
 
 
 	public Login loadCredentialsByUsername(String email) {	
+		
 		if (employeeRepository.findByEmail(email).isPresent()){
 			Employee employee=employeeRepository.findByEmail(email).get();
-			System.out.println(employee);
 			return new Login(employee.getEmail(),employee.getPassword());		
 		}
 		else if(patientRepository.findByEmail(email).isPresent()){
 			Patient patient=patientRepository.findByEmail(email).get();
 			return new Login(patient.getEmail(),patient.getPassword());
 		}else
-			return null;
+			return new Login();
 	}
 	
 	@Transactional
@@ -70,6 +75,24 @@ private EmployeeRepository employeeRepository;
 			password = null;
 		}
 		return password;
+	}
+
+	public String generateToken(String email) {
+		String token="";
+		
+		if (employeeRepository.findByEmail(email).isPresent()){
+			Employee employee=employeeRepository.findByEmail(email).get();
+			token=jwtUtil.generateToken(email, employee.getEmployeeId(), employee.getRole().toString());
+			return 	token;	
+		}
+		else if(patientRepository.findByEmail(email).isPresent()){
+			Patient patient=patientRepository.findByEmail(email).get();
+			token=jwtUtil.generateToken(email, patient.getPatientId(), Role.PATIENT.toString());
+			return token;
+		}else
+			return token;
+		
+		
 	}
 
 }

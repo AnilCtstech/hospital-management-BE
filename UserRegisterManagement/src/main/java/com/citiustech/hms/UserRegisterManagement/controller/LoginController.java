@@ -46,18 +46,15 @@ public class LoginController {
 	@PostMapping("/authenticate")
 	public  ResponseEntity<String> generateToken(@RequestBody Login login)  {
 		
-		//System.out.println(authRequest);
 		try {
-			System.out.println(login);
 			authManager.authenticate(
 					new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword())
 					);
 		} catch (Exception e) {			
 			return ResponseEntity.status(401).body("Username/email invalid");
-					//unprocessableEntity().body("Username/email invalid");
 		}
 		
-		String token=jwtUtil.generateToken(login.getEmail());
+		String token=loginService.generateToken(login.getEmail());
 		return ResponseEntity.ok(token);
 		
 	}
