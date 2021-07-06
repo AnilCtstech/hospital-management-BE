@@ -53,7 +53,7 @@ public class EmailService {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo("Ramakant.Samantray@citiustech.com");
 		message.setSubject("Login Password");
-		message.setText("your password  :"+password);
+		message.setText("your login password  :" +password);
 		javaMailSender.send(message);
 		
 	}
