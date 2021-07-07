@@ -22,7 +22,7 @@ public class Appointment implements Serializable {
 	private String description;
 
 	@Column(nullable = false)
-	private Date appointmentDate;
+	private Timestamp appointmentDate;
 
 	@Column(nullable = false)
 	private String appointmentTime;
@@ -123,11 +123,11 @@ public class Appointment implements Serializable {
 		this.updatedBy = updatedBy;
 	}
 
-	public Date getAppointmentDate() {
+	public Timestamp getAppointmentDate() {
 		return appointmentDate;
 	}
 
-	public void setAppointmentDate(Date appointmentDate) {
+	public void setAppointmentDate(Timestamp appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
 
