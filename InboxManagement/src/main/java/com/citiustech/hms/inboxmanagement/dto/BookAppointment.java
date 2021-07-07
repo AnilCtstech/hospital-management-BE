@@ -1,12 +1,13 @@
 package com.citiustech.hms.inboxmanagement.dto;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 public class BookAppointment {
 
 	private long appointmentId;
 	private String description;
-	private String appointmentDate;
+	private Date appointmentDate;
 	private String appointmentTime;
 	private long employeeId;
 	private long patientId;
@@ -31,11 +32,11 @@ public class BookAppointment {
 		this.description = description;
 	}
 
-	public String getAppointmentDate() {
+	public Date getAppointmentDate() {
 		return appointmentDate;
 	}
 
-	public void setAppointmentDate(String appointmentDate) {
+	public void setAppointmentDate(Date appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
 

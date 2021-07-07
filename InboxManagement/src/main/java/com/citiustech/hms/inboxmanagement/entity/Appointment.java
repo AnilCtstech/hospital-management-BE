@@ -1,6 +1,7 @@
 package com.citiustech.hms.inboxmanagement.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ public class Appointment implements Serializable {
 	private String description;
 
 	@Column(nullable = false)
-	private String appointmentDate;
+	private Date appointmentDate;
 
 	@Column(nullable = false)
 	private String appointmentTime;
@@ -64,14 +65,6 @@ public class Appointment implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getAppointmentDate() {
-		return appointmentDate;
-	}
-
-	public void setAppointmentDate(String appointmentDate) {
-		this.appointmentDate = appointmentDate;
 	}
 
 	public String getAppointmentTime() {
@@ -128,6 +121,14 @@ public class Appointment implements Serializable {
 
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
+	}
+
+	public Date getAppointmentDate() {
+		return appointmentDate;
+	}
+
+	public void setAppointmentDate(Date appointmentDate) {
+		this.appointmentDate = appointmentDate;
 	}
 
 }
