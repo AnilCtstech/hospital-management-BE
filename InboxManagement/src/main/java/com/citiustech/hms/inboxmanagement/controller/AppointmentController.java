@@ -32,9 +32,9 @@ public class AppointmentController {
 		}
 	}
 
-	@GetMapping("/appointment")
+	@GetMapping("/weekly")
 	public List<AppointmentEmployeeResponseDTO> getWeekAppointments() {
-
+		appointmentService.getWeekAppointments();
 		return null;
 	}
 }

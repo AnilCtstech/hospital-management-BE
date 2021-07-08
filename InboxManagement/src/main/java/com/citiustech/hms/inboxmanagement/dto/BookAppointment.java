@@ -7,7 +7,7 @@ public class BookAppointment {
 
 	private long appointmentId;
 	private String description;
-	private Timestamp appointmentDate;
+	private Date appointmentDate;
 	private String appointmentTime;
 	private long employeeId;
 	private long patientId;
@@ -32,11 +32,11 @@ public class BookAppointment {
 		this.description = description;
 	}
 
-	public Timestamp getAppointmentDate() {
+	public Date getAppointmentDate() {
 		return appointmentDate;
 	}
 
-	public void setAppointmentDate(Timestamp appointmentDate) {
+	public void setAppointmentDate(Date appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
 

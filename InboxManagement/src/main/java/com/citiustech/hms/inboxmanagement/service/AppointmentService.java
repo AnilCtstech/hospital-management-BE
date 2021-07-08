@@ -1,14 +1,10 @@
 package com.citiustech.hms.inboxmanagement.service;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +38,17 @@ public class AppointmentService {
 		return AppointmentStatus.success;
 	}
 
-	List<AppointmentEmployeeResponseDTO> getWeekAppointments() {
+	public List<AppointmentEmployeeResponseDTO> getWeekAppointments() {
+		LocalDate localDate = LocalDate.now();
+		java.sql.Date currentDate = java.sql.Date.valueOf(localDate);
+		// java.sql.Date date1 = java.sql.Date.valueOf(LocalDate.now());
+		LocalDate finalLocalDate = localDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+		java.sql.Date finalDate = java.sql.Date.valueOf(finalLocalDate);
+
+		List<Appointment> findAllByAppointmentDateBetween = appointmentRepository
+				.findAllByAppointmentDateBetween(currentDate, finalDate);
+//		List<Appointment> tempList = appointmentRepository.findAllByAppointmentDateBetweenAndSortByAppointmentDate(currentDate, finalDate);
+//		System.out.println("LOG");
 		return null;
 	}
 
