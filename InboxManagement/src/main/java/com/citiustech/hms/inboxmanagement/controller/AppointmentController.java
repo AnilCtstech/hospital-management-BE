@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,4 +37,16 @@ public class AppointmentController {
 	public List<AppointmentEmployeeResponseDTO> getWeekAppointments() {
 		return appointmentService.getWeekAppointments();
 	}
+
+	@PutMapping("/book1")
+	public String editAppointment(@RequestBody BookAppointment bookAppointment) {
+		if (bookAppointment.getAppointmentDate() == null || bookAppointment.getAppointmentTime() == null
+				|| bookAppointment.getDescription() == null || bookAppointment.getPatientId() == 0
+				|| bookAppointment.getEmployeeId() == 0) {
+			return AppointmentStatus.attribute;
+		} else {
+			return appointmentService.createAppointment(bookAppointment);
+		}
+	}
+
 }

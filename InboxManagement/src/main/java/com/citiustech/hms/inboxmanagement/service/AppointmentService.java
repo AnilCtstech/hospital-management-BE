@@ -25,6 +25,9 @@ public class AppointmentService {
 	private AppointmentRepository appointmentRepository;
 
 	public String createAppointment(BookAppointment bookAppointment) {
+		if (bookAppointment.getAppointmentDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
+			return AppointmentStatus.failure;
+		}
 		Appointment appointment = new Appointment();
 		appointment.setAppointmentDate(bookAppointment.getAppointmentDate());
 		appointment.setAppointmentTime(bookAppointment.getAppointmentTime());
@@ -37,6 +40,10 @@ public class AppointmentService {
 		appointment.setUpdatedBy("Physician");
 		appointmentRepository.save(appointment);
 		return AppointmentStatus.success;
+	}
+
+	public String editAppointment(BookAppointment bookAppointment) {
+		return null;
 	}
 
 	public List<AppointmentEmployeeResponseDTO> getWeekAppointments() {
@@ -68,45 +75,5 @@ public class AppointmentService {
 		}
 		return responseList;
 	}
-
-	/*
-	 * List<AppointmentEmployeeResponseDTO> getWeekAppointments() throws
-	 * ParseException { List<AppointmentEmployeeResponseDTO> responseList = new
-	 * ArrayList<>();
-	 * 
-	 * SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	 * Date currentDate = new Date();
-	 * System.out.println(formatter.format(currentDate));
-	 * 
-	 * LocalDate nextSaturday =
-	 * LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.SATURDAY)); Date
-	 * finalDate = java.sql.Date.valueOf(nextSaturday);
-	 * 
-	 * List<Appointment> appointmentList = appointmentRepository.findAll(); for
-	 * (Appointment appointment : appointmentList) { Date appointmentDate = new
-	 * SimpleDateFormat("dd/MM/yyyy").parse(appointment.getAppointmentDate()); if
-	 * (isDateInBetweenIncludingEndPoints(currentDate, finalDate, appointmentDate))
-	 * { AppointmentEmployeeResponseDTO response = new
-	 * AppointmentEmployeeResponseDTO();
-	 * response.setDate(appointment.getAppointmentDate());
-	 * response.setDescription(appointment.getDescription());
-	 * response.setTime(appointment.getAppointmentTime());
-	 * responseList.add(response); } }
-	 * 
-	 * Collections.sort(responseList, new
-	 * Comparator<AppointmentEmployeeResponseDTO>() { public int
-	 * compare(AppointmentEmployeeResponseDTO p1, AppointmentEmployeeResponseDTO p2)
-	 * { return p1.getDate().compareTo(p2.getDate()); } });
-	 * 
-	 * Collections.sort(responseList, new
-	 * Comparator<AppointmentEmployeeResponseDTO>() { public int
-	 * compare(AppointmentEmployeeResponseDTO p1, AppointmentEmployeeResponseDTO p2)
-	 * { return p1.getTime().compareTo(p2.getTime()); } });
-	 * 
-	 * return responseList; }
-	 * 
-	 * public static boolean isDateInBetweenIncludingEndPoints(final Date min, final
-	 * Date max, final Date date) { return !(date.before(min) || date.after(max)); }
-	 */
 
 }
