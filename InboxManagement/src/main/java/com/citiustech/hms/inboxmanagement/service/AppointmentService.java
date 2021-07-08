@@ -45,10 +45,12 @@ public class AppointmentService {
 		LocalDate finalLocalDate = localDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
 		java.sql.Date finalDate = java.sql.Date.valueOf(finalLocalDate);
 
-		List<Appointment> findAllByAppointmentDateBetween = appointmentRepository
-				.findAllByAppointmentDateBetween(currentDate, finalDate);
-//		List<Appointment> tempList = appointmentRepository.findAllByAppointmentDateBetweenAndSortByAppointmentDate(currentDate, finalDate);
-//		System.out.println("LOG");
+//		List<Appointment> findAllByAppointmentDateBetween = appointmentRepository
+//				.findAllByAppointmentDateBetween(currentDate, finalDate);
+
+		List<Appointment> tempList = appointmentRepository
+				.findAllByAppointmentDateBetweenOrderByAppointmentDate(currentDate, finalDate);
+		System.out.println("LOG");
 		return null;
 	}
 

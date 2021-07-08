@@ -13,10 +13,8 @@ public class Test {
 	private long id;
 
 	private LocalDateTime eventTime;
-	
+
 	private Timestamp eventTimeStamp;
-	
-	
 
 	public long getId() {
 		return id;

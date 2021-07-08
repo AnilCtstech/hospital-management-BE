@@ -10,8 +10,8 @@ import com.citiustech.hms.inboxmanagement.entity.Appointment;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
-	
+
 	List<Appointment> findAllByAppointmentDateBetween(Date currentTime, Date uptoLastTimeStamp);
 
-	//List<Appointment> findAllByAppointmentDateBetweenSortByAppointmentDate(Date currentTime, Date uptoLastTimeStamp);
+	List<Appointment> findAllByAppointmentDateBetweenOrderByAppointmentDate(Date currentTime, Date uptoLastTimeStamp);
 }
