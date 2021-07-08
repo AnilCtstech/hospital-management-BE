@@ -34,7 +34,6 @@ public class AppointmentController {
 
 	@GetMapping("/weekly")
 	public List<AppointmentEmployeeResponseDTO> getWeekAppointments() {
-		appointmentService.getWeekAppointments();
-		return null;
+		return appointmentService.getWeekAppointments();
 	}
 }

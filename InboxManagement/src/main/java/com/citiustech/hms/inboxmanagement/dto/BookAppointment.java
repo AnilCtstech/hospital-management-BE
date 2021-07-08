@@ -2,12 +2,13 @@ package com.citiustech.hms.inboxmanagement.dto;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class BookAppointment {
 
 	private long appointmentId;
 	private String description;
-	private Date appointmentDate;
+	private LocalDateTime appointmentDate;
 	private String appointmentTime;
 	private long employeeId;
 	private long patientId;
@@ -32,11 +33,11 @@ public class BookAppointment {
 		this.description = description;
 	}
 
-	public Date getAppointmentDate() {
+	public LocalDateTime getAppointmentDate() {
 		return appointmentDate;
 	}
 
-	public void setAppointmentDate(Date appointmentDate) {
+	public void setAppointmentDate(LocalDateTime appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
 

@@ -3,9 +3,10 @@ package com.citiustech.hms.inboxmanagement.service;
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,19 +40,33 @@ public class AppointmentService {
 	}
 
 	public List<AppointmentEmployeeResponseDTO> getWeekAppointments() {
-		LocalDate localDate = LocalDate.now();
-		java.sql.Date currentDate = java.sql.Date.valueOf(localDate);
-		// java.sql.Date date1 = java.sql.Date.valueOf(LocalDate.now());
-		LocalDate finalLocalDate = localDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
-		java.sql.Date finalDate = java.sql.Date.valueOf(finalLocalDate);
+		/*
+		 * LocalDate localDate = LocalDate.now(); java.sql.Date currentDate =
+		 * java.sql.Date.valueOf(localDate); LocalDate finalLocalDate =
+		 * localDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)); java.sql.Date
+		 * finalDate = java.sql.Date.valueOf(finalLocalDate);
+		 */
 
 //		List<Appointment> findAllByAppointmentDateBetween = appointmentRepository
 //				.findAllByAppointmentDateBetween(currentDate, finalDate);
 
+		LocalDateTime currentLocalDateTime = LocalDateTime.now();
+		LocalDateTime maxLocalDateTime = currentLocalDateTime.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+
 		List<Appointment> tempList = appointmentRepository
-				.findAllByAppointmentDateBetweenOrderByAppointmentDate(currentDate, finalDate);
-		System.out.println("LOG");
-		return null;
+				.findAllByAppointmentDateBetweenOrderByAppointmentDate(currentLocalDateTime, maxLocalDateTime);
+
+		List<AppointmentEmployeeResponseDTO> responseList = new LinkedList<>();
+
+		for (Appointment appointment : tempList) {
+			AppointmentEmployeeResponseDTO tempObj = new AppointmentEmployeeResponseDTO();
+			tempObj.setDate(appointment.getAppointmentDate());
+			tempObj.setDescription(appointment.getDescription());
+			tempObj.setTime(appointment.getAppointmentTime());
+			tempObj.setAppointmentId(appointment.getAppointmentId());
+			responseList.add(tempObj);
+		}
+		return responseList;
 	}
 
 	/*
