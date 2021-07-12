@@ -1,4 +1,4 @@
-package com.citiustech.hms.UserRegisterManagement.config;
+package com.citiustech.hms.authserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.citiustech.hms.UserRegisterManagement.filter.JwtFilter;
-import com.citiustech.hms.UserRegisterManagement.service.CustomUserCredService;
+import com.citiustech.hms.authserver.filter.JwtFilter;
+import com.citiustech.hms.authserver.service.CustomUserCredService;
 
 @Configuration
 @EnableWebSecurity
@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().disable();
 		http.csrf().disable()
 					.authorizeRequests()
-					.antMatchers("/authenticate").permitAll()
+					.antMatchers(HttpMethod.POST,"/authenticate").permitAll()
 					.antMatchers(HttpMethod.POST,"/user/patient").permitAll()
 					.antMatchers(HttpMethod.GET,"/forget-password/{email}").permitAll()
 					.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
@@ -62,4 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 		
 	}
+	
+
 }

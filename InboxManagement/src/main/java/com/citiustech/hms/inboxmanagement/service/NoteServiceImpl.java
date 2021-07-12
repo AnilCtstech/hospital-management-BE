@@ -7,13 +7,11 @@ import com.citiustech.hms.inboxmanagement.dto.SendNoteVO;
 import com.citiustech.hms.inboxmanagement.entity.Note;
 import com.citiustech.hms.inboxmanagement.mapper.MapStructMapper;
 import com.citiustech.hms.inboxmanagement.repository.NoteRepository;
-import com.citiustech.hms.inboxmanagement.util.JwtUtil;
 
 @Service
 public class NoteServiceImpl implements  NotesService {
 
-	@Autowired
-	private JwtUtil jwtUtil;
+	
 	@Autowired
 	private NoteRepository noteRepo;
 	

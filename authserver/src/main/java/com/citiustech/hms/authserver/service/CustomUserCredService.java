@@ -1,4 +1,4 @@
-package com.citiustech.hms.UserRegisterManagement.service;
+package com.citiustech.hms.authserver.service;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.citiustech.hms.UserRegisterManagement.dto.Login;
+import com.citiustech.hms.authserver.dto.Login;
+
 
 @Service
 public class CustomUserCredService implements UserDetailsService{

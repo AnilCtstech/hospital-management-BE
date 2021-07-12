@@ -1,4 +1,4 @@
-package com.citiustech.hms.UserRegisterManagement.filter;
+package com.citiustech.hms.authserver.filter;
 
 import java.io.IOException;
 
@@ -15,8 +15,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.citiustech.hms.UserRegisterManagement.service.CustomUserCredService;
-import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
+import com.citiustech.hms.authserver.service.CustomUserCredService;
+import com.citiustech.hms.authserver.service.JwtUtil;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -36,7 +36,13 @@ public class JwtFilter extends OncePerRequestFilter {
 		if(authorization!=null && authorization.startsWith("Bearer ") ) {
 			token=authorization.substring(7);
 			//exception for invalid token
-			email=jwtUtil.extractUsername(token);
+			try {
+				email=jwtUtil.extractUsername(token);
+			}
+			catch(Exception e) {
+				e.getMessage();
+			}
+			
 		}
 		
 		if(email !=null && SecurityContextHolder.getContext().getAuthentication()==null) {

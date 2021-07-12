@@ -1,4 +1,4 @@
-package com.citiustech.hms.inboxmanagement.util;
+package com.citiustech.hms.authserver.service;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +29,7 @@ public class JwtUtil {
 	        final Claims claims = extractAllClaims(token);
 	        return claimsResolver.apply(claims);
 	    }
+	    
 	    private Claims extractAllClaims(String token) {
 	        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
 	    }
