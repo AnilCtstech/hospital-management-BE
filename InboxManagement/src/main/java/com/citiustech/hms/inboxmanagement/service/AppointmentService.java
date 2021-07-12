@@ -72,21 +72,9 @@ public class AppointmentService {
 			tempObj.setDescription(appointment.getDescription());
 			tempObj.setTime(appointment.getAppointmentTime());
 			tempObj.setAppointmentId(appointment.getAppointmentId());
-//			RestTemplate restTemplate = new RestTemplate();
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.set("Authorization", "Bearer " + token);
-//			headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-//			String customerAPIUrl = "http://localhost:8080/user/employee/" + appointment.getEmployeeId();
-//			HttpEntity<String> entity = new HttpEntity<>(headers);
-//			ResponseEntity<String> response = restTemplate.exchange(customerAPIUrl, HttpMethod.GET, entity,
-//					String.class);
 			String response = callGetApi("http://localhost:8080/user/employee/name/" + appointment.getEmployeeId(),
 					token);
-			// tempObj.setPhysician(response.getBody().toString());
 			tempObj.setPhysician(response);
-//			if(appointment.getEditHisotry() ==null) {
-//				tempObj.setEditHistory("NA");
-//			}
 			tempObj.setEditHistory(appointment.getEditHisotry());
 			String patientName = callGetApi("http://localhost:8080/user/patient/name/" + appointment.getEmployeeId(),
 					token);
@@ -101,8 +89,6 @@ public class AppointmentService {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "Bearer " + token);
 		headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		// String customerAPIUrl = "http://localhost:8080/user/employee/" +
-		// appointment.getEmployeeId();
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 		return response.getBody().toString();
