@@ -47,6 +47,11 @@ public class PatientController {
 		return patientService.getPatientById(patientId);
 	}
 
+	@GetMapping("/patient/name/{id}")
+	public ResponseEntity<String> getPatientNameById(@PathVariable("id") String id) {
+		return patientService.getPatientNameById(Long.parseLong(id));
+	}
+
 	// Delete patient by Id
 	@DeleteMapping("/patient/{patientId}")
 	public ResponseEntity<Object> deletePatient(@PathVariable Long patientId) {

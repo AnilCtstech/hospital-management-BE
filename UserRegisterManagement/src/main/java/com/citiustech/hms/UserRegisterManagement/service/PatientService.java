@@ -47,6 +47,15 @@ public class PatientService {
 		return patientRepository.findById(patientId);
 	}
 
+	public ResponseEntity<String> getPatientNameById(long id) {
+		Optional<Patient> patient = patientRepository.findById(id);
+		if (patient.isPresent()) {
+			String name = patient.get().getFirstName() + " " + patient.get().getLastName();
+			return ResponseEntity.ok(name);
+		}
+		return null;
+	}
+
 	public ResponseEntity<Object> deletepatient(Long patientId) {
 		if (patientRepository.findById(patientId).isPresent()) {
 			patientRepository.deleteById(patientId);

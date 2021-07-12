@@ -1,18 +1,17 @@
 package com.citiustech.hms.inboxmanagement.dto;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-public class BookAppointment {
+public class EditAppointment {
 
 	private long appointmentId;
 	private String description;
 	private LocalDateTime appointmentDate;
-	private String reason;
 	private String appointmentTime;
 	private long employeeId;
 	private long patientId;
+	private String reason;
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	private String createdBy;
@@ -66,6 +65,14 @@ public class BookAppointment {
 		this.patientId = patientId;
 	}
 
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
 	public Timestamp getCreatedAt() {
 		return createdAt;
 	}
@@ -96,14 +103,6 @@ public class BookAppointment {
 
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
-	}
-
-	public String getReason() {
-		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
 	}
 
 }

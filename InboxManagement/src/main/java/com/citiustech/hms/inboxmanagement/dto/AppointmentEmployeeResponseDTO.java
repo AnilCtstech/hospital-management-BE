@@ -9,6 +9,7 @@ public class AppointmentEmployeeResponseDTO {
 	private String description;
 	private LocalDateTime date;
 	private String time;
+	private String physician;
 	private EditHisotry EditHistory;
 
 	public long getAppointmentId() {
@@ -57,6 +58,14 @@ public class AppointmentEmployeeResponseDTO {
 
 	public void setEditHistory(EditHisotry editHistory) {
 		EditHistory = editHistory;
+	}
+
+	public String getPhysician() {
+		return physician;
+	}
+
+	public void setPhysician(String physician) {
+		this.physician = physician;
 	}
 
 }

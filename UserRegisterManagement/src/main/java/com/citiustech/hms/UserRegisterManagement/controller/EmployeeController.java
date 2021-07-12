@@ -2,6 +2,8 @@ package com.citiustech.hms.UserRegisterManagement.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +16,7 @@ import com.citiustech.hms.UserRegisterManagement.service.EmployeeService;
 @RestController
 @RequestMapping("/user")
 public class EmployeeController {
+
 	@Autowired
 	private EmployeeService employeeService;
 
@@ -27,6 +30,11 @@ public class EmployeeController {
 			return ResponseEntity.unprocessableEntity().body("Please select valid role");
 		else
 			return employeeService.createEmployee(employeeRequest);
+	}
+
+	@GetMapping("/employee/name/{id}")
+	public ResponseEntity<String> getEmployeeNameById(@PathVariable("id") String id) {
+		return employeeService.getEmployeeById(id);
 	}
 
 }

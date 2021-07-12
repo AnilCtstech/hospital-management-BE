@@ -2,7 +2,6 @@ package com.citiustech.hms.inboxmanagement.service;
 
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
@@ -10,7 +9,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.citiustech.hms.inboxmanagement.dto.AppointmentEmployeeResponseDTO;
 import com.citiustech.hms.inboxmanagement.dto.AppointmentStatus;
@@ -43,22 +48,18 @@ public class AppointmentService {
 	}
 
 	public String editAppointment(BookAppointment bookAppointment) {
+		if (bookAppointment.getAppointmentDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
+			return AppointmentStatus.failure;
+		}
 		return null;
 	}
 
-	public List<AppointmentEmployeeResponseDTO> getWeekAppointments() {
-		/*
-		 * LocalDate localDate = LocalDate.now(); java.sql.Date currentDate =
-		 * java.sql.Date.valueOf(localDate); LocalDate finalLocalDate =
-		 * localDate.with(TemporalAdjusters.next(DayOfWeek.SATURDAY)); java.sql.Date
-		 * finalDate = java.sql.Date.valueOf(finalLocalDate);
-		 */
-
-//		List<Appointment> findAllByAppointmentDateBetween = appointmentRepository
-//				.findAllByAppointmentDateBetween(currentDate, finalDate);
+	public List<AppointmentEmployeeResponseDTO> getWeekAppointments(String token) {
 
 		LocalDateTime currentLocalDateTime = LocalDateTime.now();
 		LocalDateTime maxLocalDateTime = currentLocalDateTime.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+		System.out.println("currentLocalDateTime " + currentLocalDateTime);
+		System.out.println("maxLocalDateTime " + maxLocalDateTime);
 
 		List<Appointment> tempList = appointmentRepository
 				.findAllByAppointmentDateBetweenOrderByAppointmentDate(currentLocalDateTime, maxLocalDateTime);
@@ -71,9 +72,40 @@ public class AppointmentService {
 			tempObj.setDescription(appointment.getDescription());
 			tempObj.setTime(appointment.getAppointmentTime());
 			tempObj.setAppointmentId(appointment.getAppointmentId());
+//			RestTemplate restTemplate = new RestTemplate();
+//			HttpHeaders headers = new HttpHeaders();
+//			headers.set("Authorization", "Bearer " + token);
+//			headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+//			String customerAPIUrl = "http://localhost:8080/user/employee/" + appointment.getEmployeeId();
+//			HttpEntity<String> entity = new HttpEntity<>(headers);
+//			ResponseEntity<String> response = restTemplate.exchange(customerAPIUrl, HttpMethod.GET, entity,
+//					String.class);
+			String response = callGetApi("http://localhost:8080/user/employee/name/" + appointment.getEmployeeId(),
+					token);
+			// tempObj.setPhysician(response.getBody().toString());
+			tempObj.setPhysician(response);
+//			if(appointment.getEditHisotry() ==null) {
+//				tempObj.setEditHistory("NA");
+//			}
+			tempObj.setEditHistory(appointment.getEditHisotry());
+			String patientName = callGetApi("http://localhost:8080/user/patient/name/" + appointment.getEmployeeId(),
+					token);
+			tempObj.setTitle("Appointment with " + patientName);
 			responseList.add(tempObj);
 		}
 		return responseList;
+	}
+
+	public static String callGetApi(String url, String token) {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Bearer " + token);
+		headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		// String customerAPIUrl = "http://localhost:8080/user/employee/" +
+		// appointment.getEmployeeId();
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+		return response.getBody().toString();
 	}
 
 }

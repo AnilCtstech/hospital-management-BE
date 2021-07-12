@@ -1,11 +1,19 @@
 package com.citiustech.hms.inboxmanagement.dto;
 
+import java.util.List;
+
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Embeddable
+
 public class EditHisotry {
 
 	private String editTime;
 	private String userDetails;
 	private String reasonOfModification;
-	private String appointmentDetails;
+	private String previousAppointmentDetails;
 
 	public String getEditTime() {
 		return editTime;
@@ -31,12 +39,12 @@ public class EditHisotry {
 		this.reasonOfModification = reasonOfModification;
 	}
 
-	public String getAppointmentDetails() {
-		return appointmentDetails;
+	public String getPreviousAppointmentDetails() {
+		return previousAppointmentDetails;
 	}
 
-	public void setAppointmentDetails(String appointmentDetails) {
-		this.appointmentDetails = appointmentDetails;
+	public void setPreviousAppointmentDetails(String previousAppointmentDetails) {
+		this.previousAppointmentDetails = previousAppointmentDetails;
 	}
 
 }
