@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.citiustech.hms.UserRegisterManagement.dto.ChangePasswordDto;
 import com.citiustech.hms.UserRegisterManagement.dto.ForgetPasswordDto;
 import com.citiustech.hms.UserRegisterManagement.dto.Login;
+import com.citiustech.hms.UserRegisterManagement.entity.Employee;
+import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 import com.citiustech.hms.UserRegisterManagement.service.EmailService;
 import com.citiustech.hms.UserRegisterManagement.service.LoginService;
 import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
@@ -47,9 +49,9 @@ public class LoginController {
 	
 	//login with authentication
 	@PostMapping("/authenticate")
-	public  ResponseEntity<String> generateToken(@RequestBody Login login)  {
+	public  ResponseEntity<String> generateToken(@RequestBody Login login) throws Exception  {
 		
-		//System.out.println(authRequest);
+		
 		try {
 			
 			authManager.authenticate(
@@ -60,7 +62,29 @@ public class LoginController {
 					//unprocessableEntity().body("Username/email invalid");
 		}
 		
-		String token=jwtUtil.generateToken(login.getEmail());
+		String role = null;
+		boolean isUpadted = false;
+		long Id = 0;
+		Employee employee = loginService.getEmployeeDataByEmail(login.getEmail());
+		if(employee != null) {
+			role = employee.getRole().getShortName();
+			Id = employee.getEmployeeId();
+			int count = employee.getPassCount();
+			if(count == 0) {
+				isUpadted = false;
+			}else {
+				isUpadted = true;
+			}
+		}else {
+			Patient patient = loginService.getPatientDataByEmail(login.getEmail());
+			if(patient != null) {
+				role = "P";
+				Id = patient.getPatientId();
+			}
+		}
+		
+		//String token=jwtUtil.generateToken(login.getEmail());
+		String token = jwtUtil.generateToken(login.getEmail(), role, isUpadted,Id);
 		return ResponseEntity.ok(token);
 		
 	}
@@ -69,25 +93,26 @@ public class LoginController {
 	public ResponseEntity<String> userLogin(@RequestBody ChangePasswordDto changePassdto,
 											@RequestHeader("Authorization") String token) {
 		
-		String tokenStr=token.substring(7);
-		String email=jwtUtil.extractUsername(tokenStr);
-		try {
-			
-			authManager.authenticate(
-					new UsernamePasswordAuthenticationToken(email, changePassdto.getOldPassword())
-					);
-		} catch (Exception e) {			
-			return ResponseEntity.status(401).body("Username/email invalid");
-					//unprocessableEntity().body("Username/email invalid");
+		if(changePassdto.getOldPassword() == null || changePassdto.getOldPassword().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
+		if(changePassdto.getNewPassword() == null || changePassdto.getNewPassword().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		if(changePassdto.getConfirmPassword() == null || changePassdto.getConfirmPassword().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		
-		//System.out.println(changePassdto.getNewPassword()+" : "+ changePassdto.getOldPassword()+" : "+ tokenStr);
-
+		String tokenStr=token.substring(7);
+		String email=jwtUtil.extractUsername(tokenStr);
 		String msg=loginService.updatePasswordByUsername(email, changePassdto.getNewPassword());
-		
-		return ResponseEntity.ok(msg);
+		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
+	
+	
+	
+	
 	
 	@GetMapping("/forget-password/{email}")
 	public ResponseEntity<String> getPassword(@PathVariable String email){

@@ -41,6 +41,21 @@ public class JwtUtil {
 	        Map<String, Object> claims = new HashMap<>();
 	        return createToken(claims, username);
 	    }
+	    
+	    public String generateToken(String username,long id,String role) {
+	        Map<String, Object> claims = new HashMap<>();
+	        claims.put("role", role);
+	        claims.put("id", id);
+	        return createToken(claims, username);
+	    }
+	    
+	    public String generateToken(String username,String role,boolean isPasswordUpdated, long id) {
+	        Map<String, Object> claims = new HashMap<>();
+	        claims.put("id", id);
+	        claims.put("role", role);
+	        claims.put("isUpdate", isPasswordUpdated);
+	        return createToken(claims, username);
+	    }
 
 	    private String createToken(Map<String, Object> claims, String subject) {
 	        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))

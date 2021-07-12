@@ -71,4 +71,20 @@ private EmployeeRepository employeeRepository;
 		return password;
 	}
 
+	public Employee getEmployeeDataByEmail(String email) throws Exception{
+		Employee employee = null;
+		if(employeeRepository.findByEmail(email).isPresent()) {
+			employee = employeeRepository.findByEmail(email).get();
+		}
+		return employee;
+	}
+
+	public Patient getPatientDataByEmail(String email)  throws Exception{
+		Patient patient = null;
+		if(patientRepository.findByEmail(email).isPresent()) {
+			patient = patientRepository.findByEmail(email).get();
+		}
+		return patient;
+	}
+
 }

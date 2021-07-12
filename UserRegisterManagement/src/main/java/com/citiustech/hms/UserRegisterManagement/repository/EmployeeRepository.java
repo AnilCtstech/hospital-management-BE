@@ -13,6 +13,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	Optional<Employee> findByEmail(String email);
 
 	@Modifying
-	@Query("update Employee e set e.password=:newPassword where e.email=:email")
+	@Query("update Employee e set e.password=:newPassword ,e.passCount = 1  where e.email=:email")
 	void updatePassword(@Param(value = "email") String email,@Param(value = "newPassword") String newPassword);
 }

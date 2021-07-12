@@ -1,5 +1,7 @@
 package com.citiustech.hms.UserRegisterManagement.dto;
 
+import com.citiustech.hms.UserRegisterManagement.entity.Patient;
+
 public class Login {
 private String email;
 private String password;
@@ -24,5 +26,6 @@ public String getPassword() {
 public void setPassword(String password) {
 	this.password = password;
 }
+
 
 }
