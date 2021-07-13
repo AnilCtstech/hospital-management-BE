@@ -33,25 +33,25 @@ public class Note {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	private String message;
-	
+
 	private boolean urgency;
-	
+
 	private long fromEmployeeId;
-	
+
 	private long toEmployeeId;
-	
+
 	private Role role;
-	
+
 	@CreationTimestamp
 	private LocalDateTime dateTime;
-	
+
 	private String responseMessage;
-	
+
 	@UpdateTimestamp
 	private LocalDateTime responseDateTime;
-	
+
 	private boolean status;
 
 	public long getId() {
@@ -126,7 +126,6 @@ public class Note {
 		this.status = status;
 	}
 
-	
 	public Role getRole() {
 		return role;
 	}
@@ -141,7 +140,5 @@ public class Note {
 				+ ", toEmployeeId=" + toEmployeeId + ", dateTime=" + dateTime + ", responseMessage=" + responseMessage
 				+ ", responseDateTime=" + responseDateTime + ", status=" + status + "]";
 	}
-	
-	
-	
+
 }

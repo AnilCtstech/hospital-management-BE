@@ -11,8 +11,7 @@ import com.citiustech.hms.authserver.dto.Login;
 import com.citiustech.hms.authserver.entity.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-	
-	Optional<Employee> findByEmail(String email);
 
+	Optional<Employee> findByEmail(String email);
 
 }

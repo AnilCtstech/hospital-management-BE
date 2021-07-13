@@ -16,6 +16,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import com.citiustech.hms.UserRegisterManagement.utils.RoleConverter;
+
 @Entity
 public class Employee {
 	@Id
@@ -35,17 +36,17 @@ public class Employee {
 	private String email;
 	@NotNull
 	private Date dateOfBirth;
-	 
-	//private String role;
-	
+	private int passCount;
+
+	// private String role;
+
 	@Convert(converter = RoleConverter.class)
 	private Role role;
-	
-	private int passCount;
-	
+
 	public Employee() {
 		super();
 	}
+
 	public Employee(@NotNull Long employeeId, @NotNull String title, @NotNull String firstName,
 			@NotNull String lastName, @NotNull String password,
 			@NotNull @Email(message = "Email should be valid") String email, @NotNull Date dateOfBirth, Role role,int passCount) {
@@ -66,58 +67,71 @@ public class Employee {
 	public void setPassCount(int passCount) {
 		this.passCount = passCount;
 	}
+
 	public Long getEmployeeId() {
 		return employeeId;
 	}
+
 	public void setEmployeeId(Long employeeId) {
 		this.employeeId = employeeId;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public Date getDateOfBirth() {
 		return dateOfBirth;
 	}
+
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
- 
+
 	public Role getRole() {
 		return role;
 	}
+
 	public void setRole(Role role) {
 		this.role = role;
 	}
 
-	
-	
 	
 
 }

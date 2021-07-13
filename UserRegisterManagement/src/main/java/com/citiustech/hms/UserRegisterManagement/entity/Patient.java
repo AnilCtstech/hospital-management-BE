@@ -42,17 +42,16 @@ public class Patient {
 	@Min(value = 1, message = "Age should not be zero")
 	private int age;
 
-	
 	@Column(nullable = false)
 	private String contactNo;
-	
-	//@Column(nullable = false)
+
+	// @Column(nullable = false)
 	private String gender;
-	
-	//@Column(nullable = false)
+
+	// @Column(nullable = false)
 	private String race;
-	
-	//@Column(nullable = false)
+
+	// @Column(nullable = false)
 
 	private String ethnicity;
 	private String languagesKnown;
@@ -68,29 +67,27 @@ public class Patient {
 		super();
 	}
 
-
 	public Patient(Long patientId, String title, String firstName, String lastName, String password,
 			@Email(message = "Email should be valid") String email, String dateOfBirth,
 			@Min(value = 1, message = "Age should not be zero") int age, String contactNo, String gender, String race,
 			String ethnicity, String languagesKnown, String homeAddress, String emergFirstName, String emergLastName,
 
-	/*
-	 * public Patient(@NotNull Long patientId, @NotNull String title, @NotNull
-	 * String firstName, @NotNull String lastName,
-	 * 
-	 * @NotNull String password, @NotNull @Email(message = "Email should be valid")
-	 * String email,
-	 * 
-	 * @NotNull String dateOfBirth, @NotNull int contactNo) { super();
-	 * this.patientId = patientId; this.title = title; this.firstName = firstName;
-	 * this.lastName = lastName; this.password = password; this.email = email;
-	 * this.dateOfBirth = dateOfBirth;
-	 * 
-	 * this.contactNo = contactNo;
-	 * 
-	 * }
-	 */
-
+			/*
+			 * public Patient(@NotNull Long patientId, @NotNull String title, @NotNull
+			 * String firstName, @NotNull String lastName,
+			 * 
+			 * @NotNull String password, @NotNull @Email(message = "Email should be valid")
+			 * String email,
+			 * 
+			 * @NotNull String dateOfBirth, @NotNull int contactNo) { super();
+			 * this.patientId = patientId; this.title = title; this.firstName = firstName;
+			 * this.lastName = lastName; this.password = password; this.email = email;
+			 * this.dateOfBirth = dateOfBirth;
+			 * 
+			 * this.contactNo = contactNo;
+			 * 
+			 * }
+			 */
 
 			String emergRelationship, String emergContact, String emergAddress, String isAccess) {
 		super();
@@ -183,7 +180,6 @@ public class Patient {
 	public String getContactNo() {
 		return contactNo;
 	}
-
 
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;

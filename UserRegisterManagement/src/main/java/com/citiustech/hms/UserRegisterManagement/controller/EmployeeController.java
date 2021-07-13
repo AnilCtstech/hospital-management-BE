@@ -23,30 +23,31 @@ import com.citiustech.hms.UserRegisterManagement.service.EmployeeService;
 public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	@PostMapping("/employee")
 	public ResponseEntity<Object> createEmployee(@RequestBody Employee employeeRequest) {
-				if(employeeRequest.getTitle() == null 
-				|| employeeRequest.getFirstName() == null
-				|| employeeRequest.getLastName() == null 
-				|| employeeRequest.getEmail() == null
-				|| employeeRequest.getDateOfBirth() == null
-				|| employeeRequest.getRole()== null
-				) {
+		if (employeeRequest.getTitle() == null || employeeRequest.getFirstName() == null
+				|| employeeRequest.getLastName() == null || employeeRequest.getEmail() == null
+				|| employeeRequest.getDateOfBirth() == null || employeeRequest.getRole() == null) {
 			return ResponseEntity.unprocessableEntity().body("Attributes cannot be Null ");
-		}else if(employeeRequest.getRole()== Role.ADMIN) {
+		} else if (employeeRequest.getRole() == Role.ADMIN) {
 			return ResponseEntity.unprocessableEntity().body("Please select valid role");
-		}else {
+		} else {
 			return employeeService.createEmployee(employeeRequest);
 		}
 	}
-	
+
 	@PostMapping("/employee/name")
-	public ResponseEntity<List<Profile>> getNameAndRole(@RequestBody String employeeName){
-		
+	public ResponseEntity<List<Profile>> getNameAndRole(@RequestBody String employeeName) {
+
 		List<Profile> profiles = employeeService.findAllEmployeeByName(employeeName);
-		System.out.println(profiles.get(0).getFirstName());
+		// System.out.println(profiles.get(0).getFirstName());
 		return ResponseEntity.ok(profiles);
-		
+
+	}
+
+	@GetMapping("/employee/name/{id}")
+	public ResponseEntity<String> getEmployeeNameById(@PathVariable("id") String id) {
+		return employeeService.getEmployeeById(id);
 	}
 }

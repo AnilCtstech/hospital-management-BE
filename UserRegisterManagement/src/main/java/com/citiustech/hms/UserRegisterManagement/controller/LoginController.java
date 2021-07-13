@@ -26,16 +26,16 @@ import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
 @RequestMapping("/")
 @CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
-	
+
 	@Autowired
 	private LoginService loginService;
 
 	@Autowired
 	private JwtUtil jwtUtil;
-	
+
 	@Autowired
 	private EmailService emailService;
-	
+
 
 
 
@@ -67,18 +67,18 @@ public class LoginController {
 	
 	
 	
-	@CrossOrigin(origins = "http://localhost:4200")
+
 	@GetMapping("/forget-password/{email}")
-	public ResponseEntity<String> getPassword(@PathVariable String email){
-		if(email != null) {
-		String  userPassword = loginService.getUserPassword(email);
-			if(userPassword != null) {
-				emailService.sendEmailtoUser(email,userPassword);
+	public ResponseEntity<String> getPassword(@PathVariable String email) {
+		if (email != null) {
+			String userPassword = loginService.getUserPassword(email);
+			if (userPassword != null) {
+				emailService.sendEmailtoUser(email, userPassword);
 			}
-		}else {
+		} else {
 			return new ResponseEntity<String>("email is missing", HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<String>("password sent to mail", HttpStatus.OK);
 	}
-	
+
 }

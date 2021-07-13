@@ -15,48 +15,44 @@ import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
 
 @Service
 public class LoginService {
-@Autowired
-private PatientRepository patientRepository;
+	@Autowired
+	private PatientRepository patientRepository;
 
-@Autowired
-private EmployeeRepository employeeRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
 
-	public Login loadCredentialsByUsername(String email) {	
-		
-		if (employeeRepository.findByEmail(email).isPresent()){
-			Employee employee=employeeRepository.findByEmail(email).get();
-			return new Login(employee.getEmail(),employee.getPassword());		
-		}
-		else if(patientRepository.findByEmail(email).isPresent()){
-			Patient patient=patientRepository.findByEmail(email).get();
-			return new Login(patient.getEmail(),patient.getPassword());
-		}else
+	public Login loadCredentialsByUsername(String email) {
+
+		if (employeeRepository.findByEmail(email).isPresent()) {
+			Employee employee = employeeRepository.findByEmail(email).get();
+			return new Login(employee.getEmail(), employee.getPassword());
+		} else if (patientRepository.findByEmail(email).isPresent()) {
+			Patient patient = patientRepository.findByEmail(email).get();
+			return new Login(patient.getEmail(), patient.getPassword());
+		} else
 			return new Login();
 	}
-	
-	@Transactional
-	public String updatePasswordByUsername(String email,String newPassword) {
 
-			employeeRepository.updatePassword(email,newPassword);
-			return "Password updated!";	
-	
+	@Transactional
+	public String updatePasswordByUsername(String email, String newPassword) {
+
+		employeeRepository.updatePassword(email, newPassword);
+		return "Password updated!";
+
 	}
 
 	public String getUserPassword(String email) {
 		String password;
-		if(employeeRepository.findByEmail(email).isPresent()) {
+		if (employeeRepository.findByEmail(email).isPresent()) {
 			Employee employee = employeeRepository.findByEmail(email).get();
 			password = employee.getPassword();
-		}else if(patientRepository.findByEmail(email).isPresent()) {
-			Patient patient=patientRepository.findByEmail(email).get();
+		} else if (patientRepository.findByEmail(email).isPresent()) {
+			Patient patient = patientRepository.findByEmail(email).get();
 			password = patient.getPassword();
-		}else {
+		} else {
 			password = null;
 		}
 		return password;
 	}
-
-
-	
 
 }

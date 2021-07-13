@@ -11,20 +11,18 @@ import org.springframework.stereotype.Service;
 
 import com.citiustech.hms.authserver.dto.Login;
 
-
 @Service
-public class CustomUserCredService implements UserDetailsService{
+public class CustomUserCredService implements UserDetailsService {
 
 	@Autowired
 	LoginService loginService;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Login login=loginService.loadCredentialsByUsername(email);
+		Login login = loginService.loadCredentialsByUsername(email);
 		return new User(login.getEmail(), login.getPassword(), new ArrayList<>());
-		
+
 	}
-	
 
 }

@@ -8,16 +8,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
 //@CrossOrigin(origins = "http://localhost:4000/", allowedHeaders = "*")
-
 
 @SpringBootApplication
 public class UserRegisterManagementApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserRegisterManagementApplication.class, args);
-		
+
 	}
 
 	@Bean
@@ -25,10 +23,7 @@ public class UserRegisterManagementApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedHeaders("*")
-						.allowedOrigins("*")
-						.allowedMethods("*")
+				registry.addMapping("/**").allowedHeaders("*").allowedOrigins("*").allowedMethods("*")
 						.allowCredentials(true);
 			}
 		};

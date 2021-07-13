@@ -24,7 +24,7 @@ import io.jsonwebtoken.Claims;
 @RequestMapping("/")
 @CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
-	
+
 	@Autowired
 	private LoginService loginService;
 
@@ -33,23 +33,21 @@ public class LoginController {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-		
-	//login Patient
+
+	// login Patient
 //	@PostMapping("/login")
 //	public ResponseEntity<String> userLogin(@RequestBody Login login) {
 //		return loginService.userLogin(login);
 //	}
-	
-	//login with authentication
+
+	// login with authentication
 	@PostMapping("/authenticate")
-	public ResponseEntity<String> generateToken(@RequestBody Login login)  throws Exception {
-		String token="";
+	public ResponseEntity<String> generateToken(@RequestBody Login login) throws Exception {
+		String token = "";
 		try {
-			authManager.authenticate(
-					new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword())
-					);
-		} catch (Exception e) {		
-			return new ResponseEntity<String>("INVALID USERNAME OR PASSWORD!",HttpStatus.BAD_REQUEST);
+			authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
+		} catch (Exception e) {
+			return new ResponseEntity<String>("INVALID USERNAME OR PASSWORD!", HttpStatus.BAD_REQUEST);
 		}
 		
 		String role = null;
@@ -77,10 +75,11 @@ public class LoginController {
 		 token = jwtUtil.generateToken(login.getEmail(), role, isUpadted,Id);
 		return new ResponseEntity<String>(token,HttpStatus.OK);
 		
+
 	}
 
 	@GetMapping("/authenticate")
-	public String authenticateUser(){
+	public String authenticateUser() {
 		return "AUTHENTICATION SUCCESSFUL";
 	}
 

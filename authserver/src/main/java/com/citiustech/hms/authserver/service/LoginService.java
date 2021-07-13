@@ -12,14 +12,14 @@ import com.citiustech.hms.authserver.repository.PatientRepository;
 
 @Service
 public class LoginService {
-@Autowired
-private PatientRepository patientRepository;
+	@Autowired
+	private PatientRepository patientRepository;
 
-@Autowired
-private EmployeeRepository employeeRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
 
-@Autowired
-private JwtUtil jwtUtil;
+	@Autowired
+	private JwtUtil jwtUtil;
 
 //public ResponseEntity<String> userLogin(Login login) {
 //	if (patientRepository.findByEmail(login.getEmail()).isPresent()){
@@ -38,20 +38,17 @@ private JwtUtil jwtUtil;
 //		return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_EMAIL.name());
 //	}
 
+	public Login loadCredentialsByUsername(String email) {
 
-	public Login loadCredentialsByUsername(String email) {	
-		
-		if (employeeRepository.findByEmail(email).isPresent()){
-			Employee employee=employeeRepository.findByEmail(email).get();
-			return new Login(employee.getEmail(),employee.getPassword());		
-		}
-		else if(patientRepository.findByEmail(email).isPresent()){
-			Patient patient=patientRepository.findByEmail(email).get();
-			return new Login(patient.getEmail(),patient.getPassword());
-		}else
+		if (employeeRepository.findByEmail(email).isPresent()) {
+			Employee employee = employeeRepository.findByEmail(email).get();
+			return new Login(employee.getEmail(), employee.getPassword());
+		} else if (patientRepository.findByEmail(email).isPresent()) {
+			Patient patient = patientRepository.findByEmail(email).get();
+			return new Login(patient.getEmail(), patient.getPassword());
+		} else
 			return new Login();
 	}
-
 //	public String generateToken(String email) {
 //		String token="";
 //		
@@ -84,6 +81,7 @@ private JwtUtil jwtUtil;
 			patient = patientRepository.findByEmail(email).get();
 		}
 		return patient;
+
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.citiustech.hms.UserRegisterManagement.controller;
 
-
-import java.util.Optional; 
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,23 +29,18 @@ public class PatientController {
 
 	public ResponseEntity<String> createPatient(@RequestBody Patient patientRequest) {
 
-		if (patientRequest.getTitle()==null ||
-				patientRequest.getFirstName() == null ||
-				patientRequest.getLastName() == null ||
-				patientRequest.getPassword() == null ||
-				patientRequest.getEmail() == null ||
-				patientRequest.getDateOfBirth() ==null ||
-				patientRequest.getContactNo() ==  null
-				)
+		if (patientRequest.getTitle() == null || patientRequest.getFirstName() == null
+				|| patientRequest.getLastName() == null || patientRequest.getPassword() == null
+				|| patientRequest.getEmail() == null || patientRequest.getDateOfBirth() == null
+				|| patientRequest.getContactNo() == null)
 
 			return ResponseEntity.unprocessableEntity().body("Attributes cannot be Null ");
 		else
 			return patientService.createPatient(patientRequest);
 	}
 
-
-	//get patient by Id
-	//create patient registration dto
+	// get patient by Id
+	// create patient registration dto
 
 	@GetMapping("/patient/{patientId}")
 	public Optional<Patient> getPatientById(@PathVariable Long patientId) {
@@ -61,9 +55,13 @@ public class PatientController {
 
 	@PutMapping("/update/patient/{patientId}")
 
-	public ResponseEntity<Object> updateEmployee(@PathVariable Long patientId,@RequestBody Patient patientRequest){
-		return patientService.updatePatient(patientId,patientRequest);
+	public ResponseEntity<Object> updateEmployee(@PathVariable Long patientId, @RequestBody Patient patientRequest) {
+		return patientService.updatePatient(patientId, patientRequest);
 	}
-	
+
+	@GetMapping("/patient/name/{id}")
+	public ResponseEntity<String> getPatientNameById(@PathVariable("id") String id) {
+		return patientService.getPatientNameById(Long.parseLong(id));
+	}
 
 }
