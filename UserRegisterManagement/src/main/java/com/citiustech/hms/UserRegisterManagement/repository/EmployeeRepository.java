@@ -18,8 +18,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	Optional<Employee> findByEmail(String email);
 
 	@Modifying
-	@Query("update Employee e set e.password=:newPassword where e.email=:email")
-	void updatePassword(@Param(value = "email") String email, @Param(value = "newPassword") String newPassword);
+	@Query("update Employee e set e.password=:newPassword ,e.passCount = 1  where e.email=:email")
+	void updatePassword(@Param(value = "email") String email,@Param(value = "newPassword") String newPassword);
+
 
 	Page<Employee> findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(String firstName, String lastName,
 			Pageable pageable);

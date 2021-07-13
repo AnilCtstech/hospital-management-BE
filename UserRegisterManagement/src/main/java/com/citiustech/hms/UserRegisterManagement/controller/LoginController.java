@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.citiustech.hms.UserRegisterManagement.dto.ChangePasswordDto;
 import com.citiustech.hms.UserRegisterManagement.dto.ForgetPasswordDto;
 import com.citiustech.hms.UserRegisterManagement.dto.Login;
+import com.citiustech.hms.UserRegisterManagement.entity.Employee;
+import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 import com.citiustech.hms.UserRegisterManagement.service.EmailService;
 import com.citiustech.hms.UserRegisterManagement.service.LoginService;
 import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
@@ -34,30 +36,37 @@ public class LoginController {
 	@Autowired
 	private EmailService emailService;
 
-	// change password
+
+
+
+
+	//change password
+	@CrossOrigin(origins = "http://localhost:4200")
 	@PutMapping("/change-password")
 	public ResponseEntity<String> userLogin(@RequestBody ChangePasswordDto changePassdto,
-			@RequestHeader("Authorization") String token) {
+											@RequestHeader("Authorization") String token) {
+		
 
-		String tokenStr = token.substring(7);
-		String email = jwtUtil.extractUsername(tokenStr);
-//		try {
-//			
-//			authManager.authenticate(
-//					new UsernamePasswordAuthenticationToken(email, changePassdto.getOldPassword())
-//					);
-//		} catch (Exception e) {			
-//			return ResponseEntity.status(401).body("Username/email invalid");
-//					//unprocessableEntity().body("Username/email invalid");
-//		}
-
-		// System.out.println(changePassdto.getNewPassword()+" : "+
-		// changePassdto.getOldPassword()+" : "+ tokenStr);
-
-		String msg = loginService.updatePasswordByUsername(email, changePassdto.getNewPassword());
-
-		return ResponseEntity.ok(msg);
+		if(changePassdto.getOldPassword() == null || changePassdto.getOldPassword().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		if(changePassdto.getNewPassword() == null || changePassdto.getNewPassword().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		if(changePassdto.getConfirmPassword() == null || changePassdto.getConfirmPassword().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		String tokenStr=token.substring(7);
+		String email=jwtUtil.extractUsername(tokenStr);
+		String msg=loginService.updatePasswordByUsername(email, changePassdto.getNewPassword());
+		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
+	
+	
+	
+	
+	
 
 	@GetMapping("/forget-password/{email}")
 	public ResponseEntity<String> getPassword(@PathVariable String email) {

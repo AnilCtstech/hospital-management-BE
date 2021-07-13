@@ -49,7 +49,7 @@ public class Employee {
 
 	public Employee(@NotNull Long employeeId, @NotNull String title, @NotNull String firstName,
 			@NotNull String lastName, @NotNull String password,
-			@NotNull @Email(message = "Email should be valid") String email, @NotNull Date dateOfBirth, Role role) {
+			@NotNull @Email(message = "Email should be valid") String email, @NotNull Date dateOfBirth, Role role,int passCount) {
 		super();
 		this.employeeId = employeeId;
 		this.title = title;
@@ -59,6 +59,13 @@ public class Employee {
 		this.email = email;
 		this.dateOfBirth = dateOfBirth;
 		this.role = role;
+		this.passCount = passCount;
+	}
+	public int getPassCount() {
+		return passCount;
+	}
+	public void setPassCount(int passCount) {
+		this.passCount = passCount;
 	}
 
 	public Long getEmployeeId() {
@@ -125,12 +132,6 @@ public class Employee {
 		this.role = role;
 	}
 
-	public int getPassCount() {
-		return passCount;
-	}
-
-	public void setPassCount(int passCount) {
-		this.passCount = passCount;
-	}
+	
 
 }

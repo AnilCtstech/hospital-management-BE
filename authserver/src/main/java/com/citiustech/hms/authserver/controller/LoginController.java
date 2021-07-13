@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citiustech.hms.authserver.dto.Login;
+import com.citiustech.hms.authserver.entity.Employee;
+import com.citiustech.hms.authserver.entity.Patient;
 import com.citiustech.hms.authserver.service.JwtUtil;
 import com.citiustech.hms.authserver.service.LoginService;
 
@@ -40,16 +42,39 @@ public class LoginController {
 
 	// login with authentication
 	@PostMapping("/authenticate")
-	public ResponseEntity<String> generateToken(@RequestBody Login login) {
+	public ResponseEntity<String> generateToken(@RequestBody Login login) throws Exception {
 		String token = "";
 		try {
 			authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
 		} catch (Exception e) {
 			return new ResponseEntity<String>("INVALID USERNAME OR PASSWORD!", HttpStatus.BAD_REQUEST);
 		}
-
-		token = loginService.generateToken(login.getEmail());
-		return new ResponseEntity<String>(token, HttpStatus.OK);
+		
+		String role = null;
+		boolean isUpadted = false;
+		long Id = 0;
+		Employee employee = loginService.getEmployeeDataByEmail(login.getEmail());
+		if(employee != null) {
+			role = employee.getRole().getShortName();
+			Id = employee.getEmployeeId();
+			int count = employee.getPassCount();
+			if(count == 0) {
+				isUpadted = false;
+			}else {
+				isUpadted = true;
+			}
+		}else {
+			Patient patient = loginService.getPatientDataByEmail(login.getEmail());
+			if(patient != null) {
+				role = "P";
+				Id = patient.getPatientId();
+			}
+		}
+		
+		//String token=jwtUtil.generateToken(login.getEmail());
+		 token = jwtUtil.generateToken(login.getEmail(), role, isUpadted,Id);
+		return new ResponseEntity<String>(token,HttpStatus.OK);
+		
 
 	}
 

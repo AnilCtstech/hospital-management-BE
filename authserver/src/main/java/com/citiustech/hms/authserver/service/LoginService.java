@@ -49,20 +49,38 @@ public class LoginService {
 		} else
 			return new Login();
 	}
+//	public String generateToken(String email) {
+//		String token="";
+//		
+//		if (employeeRepository.findByEmail(email).isPresent()){
+//			Employee employee=employeeRepository.findByEmail(email).get();
+//			token=jwtUtil.generateToken(email, employee.getEmployeeId(), employee.getRole().toString());
+//			return 	token;	
+//		}
+//		else if(patientRepository.findByEmail(email).isPresent()){
+//			Patient patient=patientRepository.findByEmail(email).get();
+//			token=jwtUtil.generateToken(email, patient.getPatientId(), Role.PATIENT.toString());
+//			return token;
+//		}else
+//			return token;
+//		
+//		
+//	}
+	
+	public Employee getEmployeeDataByEmail(String email) throws Exception{
+		Employee employee = null;
+		if(employeeRepository.findByEmail(email).isPresent()) {
+			employee = employeeRepository.findByEmail(email).get();
+		}
+		return employee;
+	}
 
-	public String generateToken(String email) {
-		String token = "";
-
-		if (employeeRepository.findByEmail(email).isPresent()) {
-			Employee employee = employeeRepository.findByEmail(email).get();
-			token = jwtUtil.generateToken(email, employee.getEmployeeId(), employee.getRole().toString());
-			return token;
-		} else if (patientRepository.findByEmail(email).isPresent()) {
-			Patient patient = patientRepository.findByEmail(email).get();
-			token = jwtUtil.generateToken(email, patient.getPatientId(), Role.PATIENT.toString());
-			return token;
-		} else
-			return token;
+	public Patient getPatientDataByEmail(String email)  throws Exception{
+		Patient patient = null;
+		if(patientRepository.findByEmail(email).isPresent()) {
+			patient = patientRepository.findByEmail(email).get();
+		}
+		return patient;
 
 	}
 
