@@ -94,12 +94,7 @@ public class EmployeeService {
 		return profiles;
 	}
 	
-	public void findAllEmployeeByName2(){
-		Pageable pageable = PageRequest.of(0, 10, Sort.by("firstName").ascending());
 
-		employeeRepository.findByFirstNameIgnoreCaseContaining("pu",pageable).getContent().stream().forEach(e->System.out.println(e.getFirstName()));
-		
-	}
 	
 
 }
