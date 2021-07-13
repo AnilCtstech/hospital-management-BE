@@ -8,6 +8,6 @@ import com.citiustech.hms.inboxmanagement.entity.Note;
 
 public interface NoteRepository extends JpaRepository<Note, Long> {
 
-	Page<Note> findByfromEmployeeId(long fromEmployeeId,Pageable pageable);
+	Page<Note> findByfromEmployeeId(long fromEmployeeId, Pageable pageable);
 
 }

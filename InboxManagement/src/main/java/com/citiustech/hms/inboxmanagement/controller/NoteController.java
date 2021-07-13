@@ -23,10 +23,10 @@ import com.citiustech.hms.inboxmanagement.service.NotesService;
 public class NoteController {
 	@Autowired
 	private NotesService notesService;
-	
+
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
 //	@PostMapping("/sendNote")
 //	public String sendNotes(
 //			@RequestHeader("authorization") String authorization,	@RequestBody SendNoteVO sendNotes) {
@@ -38,23 +38,21 @@ public class NoteController {
 //		
 //	}
 	@PostMapping("/send-note")
-	public String sendNotes(
-			@RequestHeader("authorization") String authorization,@RequestBody SendNoteVO sendNotes) {
+	public String sendNotes(@RequestHeader("authorization") String authorization, @RequestBody SendNoteVO sendNotes) {
 
-		//		ResponseEntity<Profile[]> response = restTemplate.getForEntity(
+		// ResponseEntity<Profile[]> response = restTemplate.getForEntity(
 //				"http://localhost:8080/user/employee/name", Profile[].class);		
 //		
 //		response.getBody();
-		String msg=notesService.sendNotes(authorization,sendNotes);	
+		String msg = notesService.sendNotes(authorization, sendNotes);
 		return msg;
-		
+
 	}
-	
+
 	@GetMapping("/sent-note")
-	public ResponseEntity<List<Note>> getAllNotes(@RequestHeader("authorization") String authorization){
-		List<Note> notes=notesService.getAllNotes(authorization);	
+	public ResponseEntity<List<Note>> getAllNotes(@RequestHeader("authorization") String authorization) {
+		List<Note> notes = notesService.getAllNotes(authorization);
 		return ResponseEntity.ok(notes);
 	}
-	
-	
+
 }

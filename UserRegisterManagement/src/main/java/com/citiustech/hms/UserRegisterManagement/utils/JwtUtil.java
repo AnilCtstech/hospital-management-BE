@@ -9,26 +9,23 @@ import io.jsonwebtoken.Jwts;
 @Service
 public class JwtUtil {
 
-	  private String secret = "citiustech";
+	private String secret = "citiustech";
 
-	    public String extractUsername(String token) {
-	        return extractClaim(token, Claims::getSubject);
-	    }
+	public String extractUsername(String token) {
+		return extractClaim(token, Claims::getSubject);
+	}
 
-	    public Date extractExpiration(String token) {
-	        return extractClaim(token, Claims::getExpiration);
-	    }
+	public Date extractExpiration(String token) {
+		return extractClaim(token, Claims::getExpiration);
+	}
 
-	    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-	        final Claims claims = extractAllClaims(token);
-	        return claimsResolver.apply(claims);
-	    }
-	    
-	    private Claims extractAllClaims(String token) {
-	        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-	    }
+	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+		final Claims claims = extractAllClaims(token);
+		return claimsResolver.apply(claims);
+	}
 
-	 
+	private Claims extractAllClaims(String token) {
+		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+	}
 
-	  
 }

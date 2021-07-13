@@ -17,21 +17,21 @@ import com.citiustech.hms.UserRegisterManagement.dto.Profile;
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 import com.citiustech.hms.UserRegisterManagement.mapper.MapStructMapper;
 import com.citiustech.hms.UserRegisterManagement.repository.EmployeeRepository;
+
 @Service
 public class EmployeeService {
-	
-	
+
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
+
 	@Autowired
 	private EmailService emailService;
-	
+
 	@Autowired
 	private MapStructMapper mapStructMapper;
 
 	public ResponseEntity<Object> createEmployee(Employee employeeRequest) {
-		Employee employee= new Employee();
+		Employee employee = new Employee();
 		if (employeeRepository.findByEmail(employeeRequest.getEmail()).isPresent()) {
 			return ResponseEntity.badRequest().body("the Employee is already exist, Failed to create new Employee");
 		} else {
@@ -41,16 +41,17 @@ public class EmployeeService {
 			employee.setEmail(employeeRequest.getEmail());
 			employee.setDateOfBirth(employeeRequest.getDateOfBirth());
 			employee.setRole(employeeRequest.getRole());
-			employee.setPassword(employeeRequest.getFirstName()+"@123");
-			//employee.setPassCount(0);
+			employee.setPassword(employeeRequest.getFirstName() + "@123");
+
+			employee.setPassCount(0);
 			Employee savedEmployee = null;
-			
+
 			try {
 				savedEmployee = employeeRepository.save(employee);
-				
+
 				boolean isMailSent = emailService.sentEmail(employee.getPassword());
-				if(isMailSent) {
-					//return ResponseEntity.ok("mail send successfully");
+				if (isMailSent) {
+					// return ResponseEntity.ok("mail send successfully");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -93,8 +94,14 @@ public class EmployeeService {
 
 		return profiles;
 	}
-	
 
-	
+	public ResponseEntity<String> getEmployeeById(String id) {
+		Optional<Employee> result = employeeRepository.findById(Long.parseLong(id));
+		if (result.isPresent()) {
+			String name = result.get().getFirstName() + " " + result.get().getLastName();
+			return ResponseEntity.ok(name);
+		}
+		return null;
+	}
 
 }

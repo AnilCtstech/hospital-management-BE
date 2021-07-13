@@ -11,5 +11,4 @@ public interface NotesService {
 
 	List<Note> getAllNotes(String authorization);
 
-	
 }

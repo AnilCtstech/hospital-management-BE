@@ -7,21 +7,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-	
+
 	private JavaMailSender javaMailSender;
 
 	@Autowired
 	public EmailService(JavaMailSender javaMailSender) {
 		this.javaMailSender = javaMailSender;
 	}
-	
-	public boolean sentEmail(String password){
+
+	public boolean sentEmail(String password) {
 		boolean mailSent = false;
-		if(password != null) {
+		if (password != null) {
 			try {
 				sendingMail(password);
 				mailSent = true;
-			}catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				return false;
 			}
@@ -31,31 +31,31 @@ public class EmailService {
 
 	private void sendingMail(String password) {
 		SimpleMailMessage message = new SimpleMailMessage();
-		
+
 		message.setTo("Ramakant.Samantray@citiustech.com");
 		message.setSubject("Login Password");
-		message.setText("your password for login :"+password);
+		message.setText("your password for login :" + password);
 		javaMailSender.send(message);
 	}
 
 	public void sendEmailtoUser(String email, String password) {
-		if(password != null) {
+		if (password != null) {
 			try {
 				sendingMailForgetPassword(password);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 	private void sendingMailForgetPassword(String password) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo("Ramakant.Samantray@citiustech.com");
 		message.setSubject("Login Password");
-		message.setText("your login password  :" +password);
+		message.setText("your login password  :" + password);
 		javaMailSender.send(message);
-		
+
 	}
 
 }

@@ -14,21 +14,19 @@ public class InboxManagementApplication {
 		SpringApplication.run(InboxManagementApplication.class, args);
 	}
 
-	 @Bean
-	   public RestTemplate getRestTemplate() {
-	      return new RestTemplate();
-	   } 
-		@Bean
-		public WebMvcConfigurer corsOriginConfigurer() {
-			return new WebMvcConfigurer() {
-				@Override
-				public void addCorsMappings(CorsRegistry registry) {
-					registry.addMapping("/**")
-							.allowedHeaders("*")
-							.allowedOrigins("*")
-							.allowedMethods("*")
-							.allowCredentials(true);
-				}
-			};
-		}
+	@Bean
+	public RestTemplate getRestTemplate() {
+		return new RestTemplate();
+	}
+
+	@Bean
+	public WebMvcConfigurer corsOriginConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedHeaders("*").allowedOrigins("*").allowedMethods("*")
+						.allowCredentials(true);
+			}
+		};
+	}
 }
