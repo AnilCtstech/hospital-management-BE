@@ -11,17 +11,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 //@CrossOrigin(origins = "http://localhost:4000/", allowedHeaders = "*")
 
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-
 
 @SpringBootApplication
 public class UserRegisterManagementApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserRegisterManagementApplication.class, args);
+		
 	}
 
-	
 	@Bean
 	public WebMvcConfigurer corsOriginConfigurer() {
 		return new WebMvcConfigurer() {

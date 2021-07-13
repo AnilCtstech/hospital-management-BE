@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.citiustech.hms.UserRegisterManagement.dto.Login;
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
+import com.citiustech.hms.UserRegisterManagement.entity.Role;
 import com.citiustech.hms.UserRegisterManagement.repository.EmployeeRepository;
 import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
+import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
 
 @Service
 public class LoginService {
@@ -19,25 +21,8 @@ private PatientRepository patientRepository;
 @Autowired
 private EmployeeRepository employeeRepository;
 
-//public ResponseEntity<String> userLogin(Login login) {
-//	if (patientRepository.findByEmail(login.getEmail()).isPresent()){
-//	
-//		Patient patient=patientRepository.findByEmail(login.getEmail()).get();
-//		System.out.println(patient.getEmail());
-//		if (patient.getPassword().equals(login.getPassword())) {
-//			return ResponseEntity.ok(LoginStatus.LOGIN_SUCCESS.name());
-//		}
-//			
-//		else
-//			return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_PASSWORD.name());
-//
-//	}
-//	else 
-//		return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_EMAIL.name());
-//	}
-
-
 	public Login loadCredentialsByUsername(String email) {	
+		
 		if (employeeRepository.findByEmail(email).isPresent()){
 			Employee employee=employeeRepository.findByEmail(email).get();
 			return new Login(employee.getEmail(),employee.getPassword());		
@@ -46,7 +31,7 @@ private EmployeeRepository employeeRepository;
 			Patient patient=patientRepository.findByEmail(email).get();
 			return new Login(patient.getEmail(),patient.getPassword());
 		}else
-			return null;
+			return new Login();
 	}
 	
 	@Transactional
@@ -71,20 +56,7 @@ private EmployeeRepository employeeRepository;
 		return password;
 	}
 
-	public Employee getEmployeeDataByEmail(String email) throws Exception{
-		Employee employee = null;
-		if(employeeRepository.findByEmail(email).isPresent()) {
-			employee = employeeRepository.findByEmail(email).get();
-		}
-		return employee;
-	}
 
-	public Patient getPatientDataByEmail(String email)  throws Exception{
-		Patient patient = null;
-		if(patientRepository.findByEmail(email).isPresent()) {
-			patient = patientRepository.findByEmail(email).get();
-		}
-		return patient;
-	}
+	
 
 }
