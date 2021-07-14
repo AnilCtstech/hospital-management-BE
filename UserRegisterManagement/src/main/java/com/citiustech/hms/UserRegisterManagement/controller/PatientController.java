@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.citiustech.hms.UserRegisterManagement.dto.PatientDemographics;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 import com.citiustech.hms.UserRegisterManagement.service.PatientService;
 
@@ -53,10 +54,10 @@ public class PatientController {
 		return patientService.deletepatient(patientId);
 	}
 
-	@PutMapping("/update/patient/{patientId}")
+	@PutMapping("/update/patient")
 
-	public ResponseEntity<Object> updateEmployee(@PathVariable Long patientId, @RequestBody Patient patientRequest) {
-		return patientService.updatePatient(patientId, patientRequest);
+	public ResponseEntity<Object> updateEmployee(@RequestBody PatientDemographics patientDemographics) {
+		return patientService.updatePatient(patientDemographics);
 	}
 
 	@GetMapping("/patient/name/{id}")

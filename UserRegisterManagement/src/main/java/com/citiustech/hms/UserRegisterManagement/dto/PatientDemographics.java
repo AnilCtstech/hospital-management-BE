@@ -1,68 +1,38 @@
-package com.citiustech.hms.UserRegisterManagement.entity;
+package com.citiustech.hms.UserRegisterManagement.dto;
 
-import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 
-@Entity
+import com.citiustech.hms.UserRegisterManagement.entity.Allergy;
 
-public class Patient implements Serializable {
+public class PatientDemographics {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(nullable = false, unique = true)
-	private Long patientId;
-
-	@Column(nullable = false)
 	private String title;
-
-	@Column(nullable = false)
 	private String firstName;
-
-	@Column(nullable = false)
 	private String lastName;
-
-	@Column(nullable = false)
-	private String password;
-
-	@Column(nullable = false, unique = true)
+	private String dateOfBirth;
+	private int age;
+	private String gender;
+	private String race;
+	private String ethnicity;
 	@Email(message = "Email should be valid")
 	private String email;
-
-	@Column(nullable = false)
-	// DateOfBirth should be Of Date Type
-	private String dateOfBirth;
-
-	@Column(nullable = false)
-	@Min(value = 1, message = "Age should not be zero")
-	private int age;
-
-	@Column(nullable = false)
-	private String contactNo;
-
-	// @Column(nullable = false)
-	private String gender;
-
-	// @Column(nullable = false)
-	private String race;
-
-	// @Column(nullable = false)
-	private String ethnicity;
-	//
 	private String languagesKnown;
 	private String homeAddress;
+	private String contactNo;
 	private String emergTitle;
 	private String emergFirstName;
+	private String emergLastName;
+	private String emergRelationship;
+	private String emergContact;
+	@Email(message = "Email should be valid")
+	private String emergEmail;
+	private String emergAddress;
+	private boolean hasAllergy;
+	private String isAccess;
+	private Set<Allergy> allergy;
+
 	public String getEmergTitle() {
 		return emergTitle;
 	}
@@ -71,21 +41,9 @@ public class Patient implements Serializable {
 		this.emergTitle = emergTitle;
 	}
 
-	private String emergLastName;
-	private String emergRelationship;
-	private String emergContact;
-	private String emergEmail;
-	public String getEmergEmail() {
-		return emergEmail;
+	public String getTitle() {
+		return title;
 	}
-
-	public void setEmergEmail(String emergEmail) {
-		this.emergEmail = emergEmail;
-	}
-
-	private String emergAddress;
-	private String isAccess;
-	private boolean hasAllergy;
 
 	public boolean isHasAllergy() {
 		return hasAllergy;
@@ -93,35 +51,6 @@ public class Patient implements Serializable {
 
 	public void setHasAllergy(boolean hasAllergy) {
 		this.hasAllergy = hasAllergy;
-	}
-
-	// how2do
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "patient_id")
-	private Set<Allergy> allergy;
-
-	public Patient() {
-		super();
-	}
-
-	public Set<Allergy> getAllergy() {
-		return allergy;
-	}
-
-	public void setAllergy(Set<Allergy> allergy) {
-		this.allergy = allergy;
-	}
-
-	public Long getPatientId() {
-		return patientId;
-	}
-
-	public void setPatientId(Long patientId) {
-		this.patientId = patientId;
-	}
-
-	public String getTitle() {
-		return title;
 	}
 
 	public void setTitle(String title) {
@@ -144,12 +73,8 @@ public class Patient implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public String getDateOfBirth() {
+		return dateOfBirth;
 	}
 
 	public String getEmail() {
@@ -160,20 +85,17 @@ public class Patient implements Serializable {
 		this.email = email;
 	}
 
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-
 	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+
 	}
 
-	public int getAge() {
-		return age;
+	public String getEmergEmail() {
+		return emergEmail;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
+	public void setEmergEmail(String emergEmail) {
+		this.emergEmail = emergEmail;
 	}
 
 	public String getContactNo() {
@@ -182,6 +104,14 @@ public class Patient implements Serializable {
 
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	public String getGender() {
@@ -271,6 +201,15 @@ public class Patient implements Serializable {
 	public void setIsAccess(String isAccess) {
 		this.isAccess = isAccess;
 	}
+
+	public Set<Allergy> getAllergy() {
+		return allergy;
+	}
+
+	public void setAllergy(Set<Allergy> allergy) {
+		this.allergy = allergy;
+	}
+
 
 
 }
