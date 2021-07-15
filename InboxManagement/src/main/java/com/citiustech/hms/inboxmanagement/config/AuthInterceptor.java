@@ -14,14 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-
 @Service
 public class AuthInterceptor implements HandlerInterceptor {
 
-
 	private RestTemplate restTemplate;
-	
-	
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		if (!request.getMethod().equals("OPTIONS")) {
@@ -37,5 +34,5 @@ public class AuthInterceptor implements HandlerInterceptor {
 		return true;
 
 	}
-	
+
 }

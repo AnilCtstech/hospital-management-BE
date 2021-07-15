@@ -29,10 +29,10 @@ import com.citiustech.hms.inboxmanagement.service.NotesService;
 public class NoteController {
 	@Autowired
 	private NotesService notesService;
-	
+
 	@Autowired
 	private RestTemplate restTemplate;
-	
+
 //	@PostMapping("/sendNote")
 //	public String sendNotes(
 //			@RequestHeader("authorization") String authorization,	@RequestBody SendNoteVO sendNotes) {
@@ -47,8 +47,9 @@ public class NoteController {
 	public String sendNotes(@RequestHeader("authorization") String authorization,
 			@RequestBody SendNoteVO sendNotes) {
 		String msg=notesService.sendNotes(authorization,sendNotes);	
+
 		return msg;
-		
+
 	}
 	
 	@PostMapping("/send-note-response/{id}")
@@ -97,4 +98,7 @@ public class NoteController {
 		notesService.deleteReceivedNote(id);
 		return "NOTE DELETED";
 	}
+
+
+	
 }

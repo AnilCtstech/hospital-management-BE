@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citiustech.hms.authserver.dto.Login;
+import com.citiustech.hms.authserver.entity.Employee;
+import com.citiustech.hms.authserver.entity.Patient;
 import com.citiustech.hms.authserver.service.JwtUtil;
 import com.citiustech.hms.authserver.service.LoginService;
 
@@ -22,7 +24,7 @@ import io.jsonwebtoken.Claims;
 @RequestMapping("/")
 @CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
-	
+
 	@Autowired
 	private LoginService loginService;
 
@@ -31,32 +33,53 @@ public class LoginController {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-		
-	//login Patient
+
+	// login Patient
 //	@PostMapping("/login")
 //	public ResponseEntity<String> userLogin(@RequestBody Login login) {
 //		return loginService.userLogin(login);
 //	}
-	
-	//login with authentication
+
+	// login with authentication
 	@PostMapping("/authenticate")
-	public ResponseEntity<String> generateToken(@RequestBody Login login)  {
-		String token="";
+	public ResponseEntity<String> generateToken(@RequestBody Login login) throws Exception {
+		String token = "";
 		try {
-			authManager.authenticate(
-					new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword())
-					);
-		} catch (Exception e) {		
-			return new ResponseEntity<String>("INVALID USERNAME OR PASSWORD!",HttpStatus.BAD_REQUEST);
+			authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
+		} catch (Exception e) {
+			return new ResponseEntity<String>("INVALID USERNAME OR PASSWORD!", HttpStatus.BAD_REQUEST);
 		}
 		
-		token=loginService.generateToken(login.getEmail());
-		return new ResponseEntity<String>(token,HttpStatus.BAD_REQUEST);
+		String role = null;
+		boolean isUpadted = false;
+		long Id = 0;
+		Employee employee = loginService.getEmployeeDataByEmail(login.getEmail());
+		if(employee != null) {
+			role = employee.getRole().getShortName();
+			Id = employee.getEmployeeId();
+			int count = employee.getPassCount();
+			if(count == 0) {
+				isUpadted = false;
+			}else {
+				isUpadted = true;
+			}
+		}else {
+			Patient patient = loginService.getPatientDataByEmail(login.getEmail());
+			if(patient != null) {
+				role = "P";
+				Id = patient.getPatientId();
+			}
+		}
 		
+		//String token=jwtUtil.generateToken(login.getEmail());
+		 token = jwtUtil.generateToken(login.getEmail(), role, isUpadted,Id);
+		return new ResponseEntity<String>(token,HttpStatus.OK);
+		
+
 	}
 
 	@GetMapping("/authenticate")
-	public String authenticateUser(){
+	public String authenticateUser() {
 		return "AUTHENTICATION SUCCESSFUL";
 	}
 

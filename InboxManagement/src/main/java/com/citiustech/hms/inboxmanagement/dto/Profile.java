@@ -1,6 +1,5 @@
 package com.citiustech.hms.inboxmanagement.dto;
 
-
 public class Profile {
 
 	public Profile() {
@@ -13,11 +12,11 @@ public class Profile {
 	}
 
 	private Long id;
-	
+
 	private String firstName;
-	
+
 	private String lastName;
-	
+
 	private Role role;
 
 	public Long getId() {
@@ -57,6 +56,5 @@ public class Profile {
 		return "EmpNameAndRoleVO [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role
 				+ "]";
 	}
-	
-	
+
 }

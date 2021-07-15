@@ -17,19 +17,18 @@ public class SendNoteVO {
 	public SendNoteVO() {
 	}
 
-
 	private long id;
-	
+
 	private String message;
-	
+
 	private boolean urgency;
-	
+
 	private long fromEmployeeId;
-	
+
 	private long toEmployeeId;
-	
+
 	private Role role;
-	
+
 	public long getId() {
 		return id;
 	}
@@ -84,9 +83,4 @@ public class SendNoteVO {
 				+ fromEmployeeId + ", toEmployeeId=" + toEmployeeId + ", role=" + role + "]";
 	}
 
-
-
-
-	
-	
 }

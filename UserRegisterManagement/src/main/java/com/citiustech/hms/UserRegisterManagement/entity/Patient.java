@@ -1,21 +1,26 @@
 package com.citiustech.hms.UserRegisterManagement.entity;
 
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 @Entity
 
-public class Patient {
+public class Patient implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private Long patientId;
 
 	@Column(nullable = false)
@@ -30,7 +35,7 @@ public class Patient {
 	@Column(nullable = false)
 	private String password;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	@Email(message = "Email should be valid")
 	private String email;
 
@@ -38,82 +43,73 @@ public class Patient {
 	// DateOfBirth should be Of Date Type
 	private String dateOfBirth;
 
-	// @Column(nullable = false)
+	@Column(nullable = false)
 	@Min(value = 1, message = "Age should not be zero")
 	private int age;
 
-	
 	@Column(nullable = false)
 	private String contactNo;
-	
-	//@Column(nullable = false)
-	private String gender;
-	
-	//@Column(nullable = false)
-	private String race;
-	
-	//@Column(nullable = false)
 
+	// @Column(nullable = false)
+	private String gender;
+
+	// @Column(nullable = false)
+	private String race;
+
+	// @Column(nullable = false)
 	private String ethnicity;
+	//
 	private String languagesKnown;
 	private String homeAddress;
+	private String emergTitle;
 	private String emergFirstName;
+	public String getEmergTitle() {
+		return emergTitle;
+	}
+
+	public void setEmergTitle(String emergTitle) {
+		this.emergTitle = emergTitle;
+	}
+
 	private String emergLastName;
 	private String emergRelationship;
 	private String emergContact;
+	private String emergEmail;
+	public String getEmergEmail() {
+		return emergEmail;
+	}
+
+	public void setEmergEmail(String emergEmail) {
+		this.emergEmail = emergEmail;
+	}
+
 	private String emergAddress;
 	private String isAccess;
+	private boolean hasAllergy;
+
+	public boolean isHasAllergy() {
+		return hasAllergy;
+	}
+
+	public void setHasAllergy(boolean hasAllergy) {
+		this.hasAllergy = hasAllergy;
+	}
+
+	// how2do
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "patient_id")
+	private Set<Allergy> allergy;
 
 	public Patient() {
 		super();
 	}
 
+	public Set<Allergy> getAllergy() {
+		return allergy;
+	}
 
-	public Patient(Long patientId, String title, String firstName, String lastName, String password,
-			@Email(message = "Email should be valid") String email, String dateOfBirth,
-			@Min(value = 1, message = "Age should not be zero") int age, String contactNo, String gender, String race,
-			String ethnicity, String languagesKnown, String homeAddress, String emergFirstName, String emergLastName,
-
-	/*
-	 * public Patient(@NotNull Long patientId, @NotNull String title, @NotNull
-	 * String firstName, @NotNull String lastName,
-	 * 
-	 * @NotNull String password, @NotNull @Email(message = "Email should be valid")
-	 * String email,
-	 * 
-	 * @NotNull String dateOfBirth, @NotNull int contactNo) { super();
-	 * this.patientId = patientId; this.title = title; this.firstName = firstName;
-	 * this.lastName = lastName; this.password = password; this.email = email;
-	 * this.dateOfBirth = dateOfBirth;
-	 * 
-	 * this.contactNo = contactNo;
-	 * 
-	 * }
-	 */
-
-
-			String emergRelationship, String emergContact, String emergAddress, String isAccess) {
-		super();
-		this.patientId = patientId;
-		this.title = title;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		this.email = email;
-		this.dateOfBirth = dateOfBirth;
-		this.age = age;
-		this.contactNo = contactNo;
-		this.gender = gender;
-		this.race = race;
-		this.ethnicity = ethnicity;
-		this.languagesKnown = languagesKnown;
-		this.homeAddress = homeAddress;
-		this.emergFirstName = emergFirstName;
-		this.emergLastName = emergLastName;
-		this.emergRelationship = emergRelationship;
-		this.emergContact = emergContact;
-		this.emergAddress = emergAddress;
-		this.isAccess = isAccess;
+	public void setAllergy(Set<Allergy> allergy) {
+		this.allergy = allergy;
 	}
 
 	public Long getPatientId() {
@@ -183,7 +179,6 @@ public class Patient {
 	public String getContactNo() {
 		return contactNo;
 	}
-
 
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
@@ -276,5 +271,6 @@ public class Patient {
 	public void setIsAccess(String isAccess) {
 		this.isAccess = isAccess;
 	}
+
 
 }

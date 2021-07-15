@@ -26,13 +26,13 @@ import com.citiustech.hms.inboxmanagement.repository.NoteResponseRepository;
 import com.citiustech.hms.inboxmanagement.util.JwtUtil;
 
 @Service
-public class NoteServiceImpl implements  NotesService {
+public class NoteServiceImpl implements NotesService {
 
 	@Autowired
 	private JwtUtil jwtUtil;
 	@Autowired
 	private NoteRepository noteRepo;
-	
+
 	@Autowired
 	private NoteResponseRepository noteResponseRepo;
 	
@@ -52,10 +52,11 @@ public class NoteServiceImpl implements  NotesService {
 
 		Note note=mapper.sendNoteVOToNote(sendNotes);
 		note.setFromEmployeeId(id);
+
 		noteRepo.save(note);
 		return "Note send succucessfully!";
 	}
-	
+
 	@Override
 	public List<SentNoteVO> getAllSentNotes(String authorization) {
 		// jwtUtil.extractClaim(authorization,claims->claims.get("id",String.class));
@@ -103,6 +104,7 @@ public class NoteServiceImpl implements  NotesService {
 		long id = jwtUtil.extractAllClaims(token).get("id", Long.class);
 
 		Pageable pageable = PageRequest.of(0, 10, Sort.by("dateTime").ascending());
+
 
 		Page<Note> page = noteRepo.findByToEmployeeId(3, pageable);
 
@@ -164,7 +166,6 @@ public class NoteServiceImpl implements  NotesService {
 		}	
 		return "Error while sending Note";
 
-		
 	}
 
 	@Override

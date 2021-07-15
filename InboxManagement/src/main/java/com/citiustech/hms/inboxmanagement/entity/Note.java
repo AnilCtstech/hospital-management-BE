@@ -40,15 +40,15 @@ public class Note {
 	
 	@Column(length = 1024)
 	private String message;
-	
+
 	private boolean urgency;
-	
+
 	private long fromEmployeeId;
-	
+
 	private long toEmployeeId;
-	
+
 	private Role role;
-	
+
 	@CreationTimestamp
 	private LocalDateTime dateTime;
 	
@@ -63,6 +63,7 @@ public class Note {
 	public void setNoteResponse(List<NoteResponse> noteResponse) {
 		this.noteResponse = noteResponse;
 	}
+
 
 	public long getId() {
 		return id;
@@ -127,6 +128,4 @@ public class Note {
 	}
 
 
-	
-	
 }

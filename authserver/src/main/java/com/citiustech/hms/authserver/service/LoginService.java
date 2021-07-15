@@ -12,14 +12,14 @@ import com.citiustech.hms.authserver.repository.PatientRepository;
 
 @Service
 public class LoginService {
-@Autowired
-private PatientRepository patientRepository;
+	@Autowired
+	private PatientRepository patientRepository;
 
-@Autowired
-private EmployeeRepository employeeRepository;
+	@Autowired
+	private EmployeeRepository employeeRepository;
 
-@Autowired
-private JwtUtil jwtUtil;
+	@Autowired
+	private JwtUtil jwtUtil;
 
 //public ResponseEntity<String> userLogin(Login login) {
 //	if (patientRepository.findByEmail(login.getEmail()).isPresent()){
@@ -38,36 +38,50 @@ private JwtUtil jwtUtil;
 //		return ResponseEntity.unprocessableEntity().body(LoginStatus.INCORRECT_EMAIL.name());
 //	}
 
+	public Login loadCredentialsByUsername(String email) {
 
-	public Login loadCredentialsByUsername(String email) {	
-		
-		if (employeeRepository.findByEmail(email).isPresent()){
-			Employee employee=employeeRepository.findByEmail(email).get();
-			return new Login(employee.getEmail(),employee.getPassword());		
-		}
-		else if(patientRepository.findByEmail(email).isPresent()){
-			Patient patient=patientRepository.findByEmail(email).get();
-			return new Login(patient.getEmail(),patient.getPassword());
-		}else
+		if (employeeRepository.findByEmail(email).isPresent()) {
+			Employee employee = employeeRepository.findByEmail(email).get();
+			return new Login(employee.getEmail(), employee.getPassword());
+		} else if (patientRepository.findByEmail(email).isPresent()) {
+			Patient patient = patientRepository.findByEmail(email).get();
+			return new Login(patient.getEmail(), patient.getPassword());
+		} else
 			return new Login();
 	}
-
-	public String generateToken(String email) {
-		String token="";
-		
-		if (employeeRepository.findByEmail(email).isPresent()){
-			Employee employee=employeeRepository.findByEmail(email).get();
-			token=jwtUtil.generateToken(email, employee.getEmployeeId(), employee.getRole().toString());
-			return 	token;	
+//	public String generateToken(String email) {
+//		String token="";
+//		
+//		if (employeeRepository.findByEmail(email).isPresent()){
+//			Employee employee=employeeRepository.findByEmail(email).get();
+//			token=jwtUtil.generateToken(email, employee.getEmployeeId(), employee.getRole().toString());
+//			return 	token;	
+//		}
+//		else if(patientRepository.findByEmail(email).isPresent()){
+//			Patient patient=patientRepository.findByEmail(email).get();
+//			token=jwtUtil.generateToken(email, patient.getPatientId(), Role.PATIENT.toString());
+//			return token;
+//		}else
+//			return token;
+//		
+//		
+//	}
+	
+	public Employee getEmployeeDataByEmail(String email) throws Exception{
+		Employee employee = null;
+		if(employeeRepository.findByEmail(email).isPresent()) {
+			employee = employeeRepository.findByEmail(email).get();
 		}
-		else if(patientRepository.findByEmail(email).isPresent()){
-			Patient patient=patientRepository.findByEmail(email).get();
-			token=jwtUtil.generateToken(email, patient.getPatientId(), Role.PATIENT.toString());
-			return token;
-		}else
-			return token;
-		
-		
+		return employee;
+	}
+
+	public Patient getPatientDataByEmail(String email)  throws Exception{
+		Patient patient = null;
+		if(patientRepository.findByEmail(email).isPresent()) {
+			patient = patientRepository.findByEmail(email).get();
+		}
+		return patient;
+
 	}
 
 }

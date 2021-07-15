@@ -1,7 +1,7 @@
 package com.citiustech.hms.UserRegisterManagement.dto;
 
 public class ForgetPasswordDto {
-	 private String email;
+	private String email;
 
 	public ForgetPasswordDto() {
 		// TODO Auto-generated constructor stub
@@ -19,9 +19,5 @@ public class ForgetPasswordDto {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
-	 
-	 
 
 }

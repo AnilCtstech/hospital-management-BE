@@ -10,7 +10,7 @@ import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 @Mapper(componentModel = "spring")
 public interface MapStructMapper {
 
-	@Mappings({@Mapping(target="id",source = "employee.employeeId")})
+	@Mappings({ @Mapping(target = "id", source = "employee.employeeId") })
 	public Profile employeeToProfile(Employee employee);
-	
+
 }
