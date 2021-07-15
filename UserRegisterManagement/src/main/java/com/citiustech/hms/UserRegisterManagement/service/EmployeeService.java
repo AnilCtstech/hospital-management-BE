@@ -116,5 +116,23 @@ public class EmployeeService {
 		}
 		return null;
 	}
+	
+	public List<Profile> findEmployeeByName(String employeeName) {
+		String[] names=employeeName.trim().split("\\s+");
+		String firstName = null,lastName;
+		if(names.length>1) {
+			firstName=names[0];
+			lastName=names[1];
+		}else {
+			firstName=names[0];
+			lastName="";}
+		
+		List<Employee> employees = employeeRepository.findByFirstName(firstName);
+		List<Profile> profiles = new ArrayList<>();
+		employees.stream().forEach(e->{
+			profiles.add(mapStructMapper.employeeToProfile(e));
+			});
+		return profiles;
+	}
 
 }

@@ -1,5 +1,6 @@
 package com.citiustech.hms.UserRegisterManagement.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citiustech.hms.UserRegisterManagement.dto.PatientDemographics;
+import com.citiustech.hms.UserRegisterManagement.dto.PatientProfile;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 import com.citiustech.hms.UserRegisterManagement.service.PatientService;
 
@@ -63,6 +65,21 @@ public class PatientController {
 	@GetMapping("/patient/name/{id}")
 	public ResponseEntity<String> getPatientNameById(@PathVariable("id") String id) {
 		return patientService.getPatientNameById(Long.parseLong(id));
+	}
+	
+	@GetMapping("/patient/all")
+	public ResponseEntity<List<PatientProfile>> getPatients(){
+		
+		List<PatientProfile> patients = patientService.getAllPatient();
+		System.out.println("Email :: "+patients.get(0).getEmail());
+		return ResponseEntity.ok(patients);
+		
+	}
+	
+	@PostMapping("/patient/email")
+	public ResponseEntity<List<PatientProfile>> getPatientByEmail(@RequestBody String email) {
+		List<PatientProfile> profile = patientService.getPatientByEmail(email);
+		return ResponseEntity.ok(profile);
 	}
 
 }
