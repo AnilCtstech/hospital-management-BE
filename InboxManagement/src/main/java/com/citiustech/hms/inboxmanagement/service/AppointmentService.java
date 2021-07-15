@@ -76,7 +76,7 @@ public class AppointmentService {
 					token);
 			tempObj.setPhysician(response);
 			tempObj.setEditHistory(appointment.getEditHisotry());
-			String patientName = callGetApi("http://localhost:8080/user/patient/name/" + appointment.getEmployeeId(),
+			String patientName = callGetApi("http://localhost:8080/user/patient/name/" + appointment.getPatientId(),
 					token);
 			tempObj.setTitle("Appointment with " + patientName);
 			responseList.add(tempObj);
