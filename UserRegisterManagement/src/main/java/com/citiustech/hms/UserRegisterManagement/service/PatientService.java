@@ -1,5 +1,7 @@
 package com.citiustech.hms.UserRegisterManagement.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -9,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.citiustech.hms.UserRegisterManagement.dto.PatientDemographics;
+import com.citiustech.hms.UserRegisterManagement.dto.PatientProfile;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
+import com.citiustech.hms.UserRegisterManagement.mapper.MapStructMapper;
 import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
 
 @Service
@@ -17,6 +21,9 @@ public class PatientService {
 
 	@Autowired
 	private PatientRepository patientRepository;
+	
+	@Autowired
+	private MapStructMapper mapStructMapper;
 
 	public ResponseEntity<String> createPatient(Patient patientRequest) {
 
@@ -115,6 +122,33 @@ public class PatientService {
 			return ResponseEntity.unprocessableEntity().body("cannot find the patient specified");
 		
 
+	}
+	
+	public List<PatientProfile> getAllPatient() {
+
+		List<Patient> patients=patientRepository.findAll();
+		System.out.println("Count :: "+patientRepository.count());
+	
+		List<PatientProfile> profiles = new ArrayList<>();
+		
+		patients.stream().forEach(e->{
+			profiles.add(mapStructMapper.patientToProfile(e));
+			});
+			
+		
+		return profiles;
+		
+	}
+	
+	public List<PatientProfile> getPatientByEmail(String email) {
+		List<Patient> patient = patientRepository.findPatientByEmail(email);
+		List<PatientProfile> profile = new ArrayList<>();
+		
+		patient.stream().forEach(e->{
+			profile.add(mapStructMapper.patientToProfile(e));
+			});
+		
+		return profile;
 	}
 
 
