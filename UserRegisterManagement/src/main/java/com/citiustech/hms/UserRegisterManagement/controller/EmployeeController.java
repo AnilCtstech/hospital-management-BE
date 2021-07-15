@@ -45,8 +45,14 @@ public class EmployeeController {
 	public ResponseEntity<List<Profile>> getNameAndRole(@RequestBody String employeeName){
 		
 		List<Profile> profiles = employeeService.findAllEmployeeByName(employeeName);
-		//System.out.println(profiles.get(0).getFirstName());
+		
 		return ResponseEntity.ok(profiles);
 		
+	}
+	
+	@GetMapping("/employee/{id}")
+	public ResponseEntity<String> getNameOnly(@PathVariable Long id){
+		String name=employeeService.getNameById(id);
+		return ResponseEntity.ok(name);
 	}
 }

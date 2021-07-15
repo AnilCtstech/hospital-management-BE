@@ -1,6 +1,5 @@
 package com.citiustech.hms.UserRegisterManagement.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -10,7 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.citiustech.hms.UserRegisterManagement.dto.Profile;
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -26,5 +24,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 	Page<Employee> findByFirstNameIgnoreCaseContaining(String firstName,Pageable pageable);
 
+	Optional<Employee> findByEmployeeId(Long id);
 	
 }

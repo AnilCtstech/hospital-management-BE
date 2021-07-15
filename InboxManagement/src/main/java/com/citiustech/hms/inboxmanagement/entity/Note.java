@@ -1,39 +1,44 @@
 package com.citiustech.hms.inboxmanagement.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.citiustech.hms.inboxmanagement.dto.Role;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Note {
 
-	public Note() {
-	}
-
-	public Note(String message, boolean urgency, long fromEmployeeId, long toEmployeeId, LocalDateTime dateTime,
-			String responseMessage, LocalDateTime responseDateTime, boolean status) {
+	public Note(long id, String message, boolean urgency, long fromEmployeeId, long toEmployeeId, Role role,
+			LocalDateTime dateTime) {
+		this.id = id;
 		this.message = message;
 		this.urgency = urgency;
 		this.fromEmployeeId = fromEmployeeId;
 		this.toEmployeeId = toEmployeeId;
+		this.role = role;
 		this.dateTime = dateTime;
-		this.responseMessage = responseMessage;
-		this.responseDateTime = responseDateTime;
-		this.status = status;
 	}
+
+	public Note() {
+	}
+
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@Column(length = 1024)
 	private String message;
 	
 	private boolean urgency;
@@ -47,12 +52,17 @@ public class Note {
 	@CreationTimestamp
 	private LocalDateTime dateTime;
 	
-	private String responseMessage;
+	@OneToMany(mappedBy = "note")
+	@JsonManagedReference
+	private List<NoteResponse> noteResponse;
 	
-	@UpdateTimestamp
-	private LocalDateTime responseDateTime;
-	
-	private boolean status;
+	public List<NoteResponse> getNoteResponse() {
+		return noteResponse;
+	}
+
+	public void setNoteResponse(List<NoteResponse> noteResponse) {
+		this.noteResponse = noteResponse;
+	}
 
 	public long getId() {
 		return id;
@@ -102,31 +112,6 @@ public class Note {
 		this.dateTime = dateTime;
 	}
 
-	public String getResponseMessage() {
-		return responseMessage;
-	}
-
-	public void setResponseMessage(String responseMessage) {
-		this.responseMessage = responseMessage;
-	}
-
-	public LocalDateTime getResponseDateTime() {
-		return responseDateTime;
-	}
-
-	public void setResponseDateTime(LocalDateTime responseDateTime) {
-		this.responseDateTime = responseDateTime;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
-	
 	public Role getRole() {
 		return role;
 	}
@@ -138,10 +123,10 @@ public class Note {
 	@Override
 	public String toString() {
 		return "Note [id=" + id + ", message=" + message + ", urgency=" + urgency + ", fromEmployeeId=" + fromEmployeeId
-				+ ", toEmployeeId=" + toEmployeeId + ", dateTime=" + dateTime + ", responseMessage=" + responseMessage
-				+ ", responseDateTime=" + responseDateTime + ", status=" + status + "]";
+				+ ", toEmployeeId=" + toEmployeeId + ", role=" + role + ", dateTime=" + dateTime + "]";
 	}
-	
+
+
 	
 	
 }

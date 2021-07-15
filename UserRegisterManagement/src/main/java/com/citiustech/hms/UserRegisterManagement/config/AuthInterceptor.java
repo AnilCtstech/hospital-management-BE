@@ -1,5 +1,7 @@
 package com.citiustech.hms.UserRegisterManagement.config;
 
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,12 +26,14 @@ public class AuthInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request,HttpServletResponse response,
             Object handler)
      {
+		if(!request.getMethod().equals("OPTIONS")) {
 		restTemplate=new RestTemplate();
 		String url="http://localhost:8088/authenticate";
 		HttpHeaders headers=new HttpHeaders();
 		headers.add("Authorization", request.getHeader("Authorization"));
 		HttpEntity<String> entity=new HttpEntity<String>(headers);
 		ResponseEntity<String> res = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+		return true;}
 		return true;
 		
 	}

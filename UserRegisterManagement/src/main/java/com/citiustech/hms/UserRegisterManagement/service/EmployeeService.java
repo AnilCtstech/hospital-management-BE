@@ -75,7 +75,7 @@ public class EmployeeService {
 			firstName = names[0];
 			lastName = names[0];
 		}
-		Pageable pageable = PageRequest.of(0, 7,
+		Pageable pageable = PageRequest.of(0, 10,
 				Sort.by("firstName").ascending().and(Sort.by("lastName").descending()));
 
 		Page<Employee> page = employeeRepository
@@ -92,6 +92,16 @@ public class EmployeeService {
 		// mapStructMapper.employeeToProfile(null)
 
 		return profiles;
+	}
+
+	public String getNameById(long id) {
+		Optional<Employee> optional=employeeRepository.findById(id);
+		String name="";
+		if(optional.isPresent()) {
+			Employee employee=optional.get();
+			name=employee.getFirstName()+" "+employee.getLastName();
+		}
+		return name;
 	}
 	
 
