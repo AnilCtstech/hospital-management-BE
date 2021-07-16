@@ -1,5 +1,6 @@
 package com.citiustech.hms.UserRegisterManagement.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -29,4 +30,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	Optional<Employee> findByEmployeeId(Long id);
 	
 
+	Employee findByFirstNameAndLastName(String firstName,String lastName);
+	
+	List<Employee> findByFirstName(String firstName);
 }

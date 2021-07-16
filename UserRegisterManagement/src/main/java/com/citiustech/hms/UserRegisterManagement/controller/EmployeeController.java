@@ -55,4 +55,10 @@ public class EmployeeController {
 		String name=employeeService.getNameById(id);
 		return ResponseEntity.ok(name);
 	}
+	
+	@PostMapping("/employee/ename")
+	public ResponseEntity<List<Profile>> getEmployeeByName(@RequestBody String employeeName){
+		List<Profile> profile = employeeService.findEmployeeByName(employeeName);
+		return ResponseEntity.ok(profile);
+	}
 }
