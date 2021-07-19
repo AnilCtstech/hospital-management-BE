@@ -58,7 +58,7 @@ public class NoteServiceImpl implements NotesService {
 	}
 
 	@Override
-	public List<SentNoteVO> getAllSentNotes(String authorization) {
+	public List<SentNoteVO> getAllSentNotes(String authorization,String pageNo) {
 		// jwtUtil.extractClaim(authorization,claims->claims.get("id",String.class));
 
 		String token = authorization.substring(7);
@@ -67,10 +67,11 @@ public class NoteServiceImpl implements NotesService {
 
 		long id = jwtUtil.extractAllClaims(token).get("id", Long.class);
 
-		Pageable pageable = PageRequest.of(0, 10, Sort.by("dateTime").descending());
+		Pageable pageable = PageRequest.of(Integer.parseInt(pageNo), 10, Sort.by("dateTime").descending());
 
 		Page<Note> page = noteRepo.findByfromEmployeeId(id, pageable);
-
+		long size=page.getTotalElements();
+		System.out.println("size"+size);
 		List<SentNoteVO> noteVO = new ArrayList<>();
 		List<Note> notes = null;
 		if (page.hasContent()) {
@@ -86,7 +87,7 @@ public class NoteServiceImpl implements NotesService {
 					headers.add("Authorization",authorization);
 					HttpEntity<String> entity=new HttpEntity<String>(headers);
 					ResponseEntity<String> res = restTemplate.exchange(url, HttpMethod.GET, entity, String.class,n.getToEmployeeId());
-					
+					n.setCollectionSize(size);
 					n.setToEmployee(res.getBody());
 			}
 					);
@@ -107,7 +108,8 @@ public class NoteServiceImpl implements NotesService {
 
 
 		Page<Note> page = noteRepo.findByToEmployeeId(3, pageable);
-
+		long size=page.getTotalElements();
+		System.out.println("size"+size);
 		List<SentNoteVO> noteVO = new ArrayList<>();
 		List<Note> notes = null;
 		if (page.hasContent()) {
@@ -123,7 +125,7 @@ public class NoteServiceImpl implements NotesService {
 					headers.add("Authorization",authorization);
 					HttpEntity<String> entity=new HttpEntity<String>(headers);
 					ResponseEntity<String> res = restTemplate.exchange(url, HttpMethod.GET, entity, String.class,n.getFromEmployeeId());
-					
+					n.setCollectionSize(size);
 					n.setFromEmployee(res.getBody());
 			}
 					);
@@ -179,7 +181,8 @@ public class NoteServiceImpl implements NotesService {
 		Pageable pageable = PageRequest.of(Integer.parseInt(pageNo), 10, Sort.by("dateTime").ascending());
 
 		Page<Note> page = noteRepo.findByToEmployeeId(id, pageable);
-
+		long size=page.getTotalElements();
+		System.out.println("size"+size);
 		List<SentNoteVO> noteVO = new ArrayList<>();
 		List<Note> notes = null;
 		if (page.hasContent()) {
@@ -195,7 +198,7 @@ public class NoteServiceImpl implements NotesService {
 					headers.add("Authorization",authorization);
 					HttpEntity<String> entity=new HttpEntity<String>(headers);
 					ResponseEntity<String> res = restTemplate.exchange(url, HttpMethod.GET, entity, String.class,n.getFromEmployeeId());
-					
+					n.setCollectionSize(size);
 					n.setFromEmployee(res.getBody());
 			}
 					);

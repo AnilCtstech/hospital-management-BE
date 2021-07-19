@@ -11,7 +11,7 @@ public interface NotesService {
 
 	public String sendNotes(String authorization, SendNoteVO sendNotes);
 
-	List<SentNoteVO> getAllSentNotes(String authorization);
+	List<SentNoteVO> getAllSentNotes(String authorization, String page);
 
 	List<SentNoteVO> getAllRecievedNotes(String authorization);
 
@@ -24,5 +24,7 @@ public interface NotesService {
 	public List<NoteResponse> getSendNotesResponse(long id, String page);
 
 	public void deleteReceivedNote(long id);
+
+	//public List<SentNoteVO> getAllSentNotes(String authorization, String page);
 
 }

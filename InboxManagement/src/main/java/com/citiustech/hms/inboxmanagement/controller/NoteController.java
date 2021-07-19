@@ -61,8 +61,8 @@ public class NoteController {
 	}
 	
 	@GetMapping("/sent-note")
-	public ResponseEntity<List<SentNoteVO>> getAllSentNotes(@RequestHeader("authorization") String authorization){
-		List<SentNoteVO> notes=notesService.getAllSentNotes(authorization);	
+	public ResponseEntity<List<SentNoteVO>> getAllSentNotes(@RequestParam String page,@RequestHeader("authorization") String authorization){
+		List<SentNoteVO> notes=notesService.getAllSentNotes(authorization,page);	
 		return ResponseEntity.ok(notes);
 	}
 	
