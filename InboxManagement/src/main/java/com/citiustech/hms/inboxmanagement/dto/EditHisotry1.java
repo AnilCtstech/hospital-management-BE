@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 @Embeddable
 
-public class EditHisotry {
+public class EditHisotry1 {
 
 	private String editTime;
 	private String userDetails;

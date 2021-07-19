@@ -18,6 +18,25 @@ public class BookAppointment {
 	private String createdBy;
 	private String updatedBy;
 
+	public long getSlotId() {
+		return slotId;
+	}
+
+	public void setSlotId(long slotId) {
+		this.slotId = slotId;
+	}
+
+	public String getMeetingTitle() {
+		return meetingTitle;
+	}
+
+	public void setMeetingTitle(String meetingTitle) {
+		this.meetingTitle = meetingTitle;
+	}
+
+	private long slotId;
+	private String meetingTitle;
+
 	public long getAppointmentId() {
 		return appointmentId;
 	}

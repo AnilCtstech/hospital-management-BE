@@ -1,6 +1,9 @@
 package com.citiustech.hms.inboxmanagement.dto;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+
+import com.citiustech.hms.inboxmanagement.entity.EditHistory;
 
 public class AppointmentEmployeeResponseDTO {
 
@@ -10,7 +13,17 @@ public class AppointmentEmployeeResponseDTO {
 	private LocalDateTime date;
 	private String time;
 	private String physician;
-	private EditHisotry EditHistory;
+	private String slot;
+	private String meetingTitle;
+	private Set<EditHistory> editHistory;
+
+	public Set<EditHistory> getEditHistory() {
+		return editHistory;
+	}
+
+	public void setEditHistory(Set<EditHistory> editHistory) {
+		this.editHistory = editHistory;
+	}
 
 	public long getAppointmentId() {
 		return appointmentId;
@@ -52,20 +65,28 @@ public class AppointmentEmployeeResponseDTO {
 		this.time = time;
 	}
 
-	public EditHisotry getEditHistory() {
-		return EditHistory;
-	}
-
-	public void setEditHistory(EditHisotry editHistory) {
-		EditHistory = editHistory;
-	}
-
 	public String getPhysician() {
 		return physician;
 	}
 
 	public void setPhysician(String physician) {
 		this.physician = physician;
+	}
+
+	public String getSlot() {
+		return slot;
+	}
+
+	public void setSlot(String slot) {
+		this.slot = slot;
+	}
+
+	public String getMeetingTitle() {
+		return meetingTitle;
+	}
+
+	public void setMeetingTitle(String meetingTitle) {
+		this.meetingTitle = meetingTitle;
 	}
 
 }

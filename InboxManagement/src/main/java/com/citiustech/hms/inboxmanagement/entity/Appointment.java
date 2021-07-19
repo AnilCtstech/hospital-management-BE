@@ -4,15 +4,17 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import com.citiustech.hms.inboxmanagement.dto.EditHisotry;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Appointment implements Serializable {
@@ -51,8 +53,13 @@ public class Appointment implements Serializable {
 //	@Column(nullable = false)
 	private String updatedBy;
 
-	@Embedded
-	private EditHisotry editHisotry;
+	@OneToMany(mappedBy = "appointment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<EditHistory> editHistory;
+
+	@Column(nullable = false)
+	private long slotId;
+
+	private String meetingTitle;
 
 	public Appointment() {
 		super();
@@ -138,12 +145,37 @@ public class Appointment implements Serializable {
 		this.appointmentDate = appointmentDate;
 	}
 
-	public EditHisotry getEditHisotry() {
-		return editHisotry;
+	public Set<EditHistory> getEditHistory() {
+		return editHistory;
 	}
 
-	public void setEditHisotry(EditHisotry editHisotry) {
-		this.editHisotry = editHisotry;
+	public void setEditHistory(Set<EditHistory> editHistory) {
+		this.editHistory = editHistory;
+	}
+
+	public long getSlotId() {
+		return slotId;
+	}
+
+	public void setSlotId(long slotId) {
+		this.slotId = slotId;
+	}
+
+	public String getMeetingTitle() {
+		return meetingTitle;
+	}
+
+	public void setMeetingTitle(String meetingTitle) {
+		this.meetingTitle = meetingTitle;
+	}
+
+	@Override
+	public String toString() {
+		return "Appointment [appointmentId=" + appointmentId + ", description=" + description + ", appointmentDate="
+				+ appointmentDate + ", appointmentTime=" + appointmentTime + ", employeeId=" + employeeId
+				+ ", patientId=" + patientId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", createdBy="
+				+ createdBy + ", updatedBy=" + updatedBy + ", slotId=" + slotId + ", meetingTitle=" + meetingTitle
+				+ "]";
 	}
 
 }
