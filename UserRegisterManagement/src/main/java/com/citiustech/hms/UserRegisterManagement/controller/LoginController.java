@@ -36,37 +36,27 @@ public class LoginController {
 	@Autowired
 	private EmailService emailService;
 
-
-
-
-
-	//change password
+	// change password
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PutMapping("/change-password")
 	public ResponseEntity<String> userLogin(@RequestBody ChangePasswordDto changePassdto,
-											@RequestHeader("Authorization") String token) {
-		
+			@RequestHeader("Authorization") String token) {
 
-		if(changePassdto.getOldPassword() == null || changePassdto.getOldPassword().isEmpty()) {
+		if (changePassdto.getOldPassword() == null || changePassdto.getOldPassword().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		if(changePassdto.getNewPassword() == null || changePassdto.getNewPassword().isEmpty()) {
+		if (changePassdto.getNewPassword() == null || changePassdto.getNewPassword().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		if(changePassdto.getConfirmPassword() == null || changePassdto.getConfirmPassword().isEmpty()) {
+		if (changePassdto.getConfirmPassword() == null || changePassdto.getConfirmPassword().isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
-		String tokenStr=token.substring(7);
-		String email=jwtUtil.extractUsername(tokenStr);
-		String msg=loginService.updatePasswordByUsername(email, changePassdto.getNewPassword());
+
+		String tokenStr = token.substring(7);
+		String email = jwtUtil.extractUsername(tokenStr);
+		String msg = loginService.updatePasswordByUsername(email, changePassdto.getNewPassword());
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
 
 	@GetMapping("/forget-password/{email}")
 	public ResponseEntity<String> getPassword(@PathVariable String email) {
