@@ -84,12 +84,14 @@ public class LoginController {
 	}
 
 	@PostMapping("/extract_claims")
-	public Long getClaimFromToken(@RequestBody ExtractRequest extaractRequest) throws Exception {
-		// return jwtUtil.extractAllClaims(extaractRequest.getToken().split(" ")[1]);
+	public String getClaimFromToken(@RequestBody ExtractRequest extaractRequest) throws Exception {
 		Claims claims = jwtUtil.extractAllClaims(extaractRequest.getToken());
+		String role = (String) claims.get("role");
+		String Id = String.valueOf(claims.get("id"));
+		String email = (String) claims.get("sub");
 		Employee employee = loginService.getEmployeeDataByEmail(claims.getSubject());
-		// System.out.println("ID " + employee.getEmployeeId());
-		return employee.getEmployeeId();
+		// return employee.getEmployeeId();
+		return Id + "," + role;
 	}
 
 }

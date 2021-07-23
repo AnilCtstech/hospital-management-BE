@@ -61,6 +61,8 @@ public class Appointment implements Serializable {
 
 	private String meetingTitle;
 
+	private boolean isAccepted = true;
+
 	public Appointment() {
 		super();
 	}
@@ -169,13 +171,20 @@ public class Appointment implements Serializable {
 		this.meetingTitle = meetingTitle;
 	}
 
+	public boolean isAccepted() {
+		return isAccepted;
+	}
+
+	public void setAccepted(boolean isAccepted) {
+		this.isAccepted = isAccepted;
+	}
+
 	@Override
 	public String toString() {
-		return "Appointment [appointmentId=" + appointmentId + ", description=" + description + ", appointmentDate="
-				+ appointmentDate + ", appointmentTime=" + appointmentTime + ", employeeId=" + employeeId
-				+ ", patientId=" + patientId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", createdBy="
-				+ createdBy + ", updatedBy=" + updatedBy + ", slotId=" + slotId + ", meetingTitle=" + meetingTitle
-				+ "]";
+		return "Appointment [" + " description=" + description + ", appointmentDate=" + appointmentDate
+				+ ", appointmentTime=" + appointmentTime + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + ", slotId=" + slotId + ", meetingTitle="
+				+ meetingTitle + ", isAccepted=" + isAccepted + "]";
 	}
 
 }

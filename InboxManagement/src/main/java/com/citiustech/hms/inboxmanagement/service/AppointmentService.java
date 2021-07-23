@@ -27,6 +27,7 @@ import com.citiustech.hms.inboxmanagement.dto.ExtractRequest;
 import com.citiustech.hms.inboxmanagement.entity.Appointment;
 import com.citiustech.hms.inboxmanagement.entity.EditHistory;
 import com.citiustech.hms.inboxmanagement.repository.AppointmentRepository;
+import com.citiustech.hms.inboxmanagement.repository.SlotRepository;
 
 import io.jsonwebtoken.Claims;
 
@@ -35,6 +36,9 @@ public class AppointmentService {
 
 	@Autowired
 	private AppointmentRepository appointmentRepository;
+
+	@Autowired
+	private SlotRepository slotRepository;
 
 	public String createAppointment(BookAppointment bookAppointment) {
 		if (bookAppointment.getAppointmentDate().getDayOfWeek() == DayOfWeek.SUNDAY) {
@@ -109,8 +113,9 @@ public class AppointmentService {
 
 	public List<AppointmentEmployeeResponseDTO> getWeekAppointments(String token) {
 		String url_claims = "http://localhost:8088/extract_claims";
-		long claimForToken = getClaimForToken(token, url_claims);
-
+		String claims = getClaimForToken(token, url_claims);
+		long userId = Long.parseLong(claims.split(",")[0]);
+		String role = claims.split(",")[1];
 		LocalDateTime currentLocalDateTime = LocalDateTime.now();
 		LocalDateTime maxLocalDateTime = currentLocalDateTime.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
 		System.out.println("currentLocalDateTime " + currentLocalDateTime);
@@ -120,9 +125,15 @@ public class AppointmentService {
 //				.findAllByAppointmentDateBetweenOrderByAppointmentDate(currentLocalDateTime, maxLocalDateTime);
 
 		// start
-		List<Appointment> tempList = appointmentRepository
-				.findAllByEmployeeIdAndAppointmentDateBetweenOrderByAppointmentDate(claimForToken, currentLocalDateTime,
-						maxLocalDateTime);
+		List<Appointment> tempList = null;
+		if (role.equals("D") || role.equals("N")) {
+			tempList = appointmentRepository.findAllByEmployeeIdAndAppointmentDateBetweenOrderByAppointmentDate(userId,
+					currentLocalDateTime, maxLocalDateTime);
+		} else {
+			tempList = appointmentRepository.findAllByPatientIdAndAppointmentDateBetweenOrderByAppointmentDate(userId,
+					currentLocalDateTime, maxLocalDateTime);
+		}
+
 //		for (Appointment appointment : tempList2) {
 //			System.out.println(appointment);
 //		}
@@ -135,7 +146,7 @@ public class AppointmentService {
 			tempObj.setDate(appointment.getAppointmentDate());
 			tempObj.setDescription(appointment.getDescription());
 			tempObj.setTime(appointment.getAppointmentTime());
-			// tempObj.setTime(time);
+			tempObj.setTime(slotRepository.findById(appointment.getSlotId()).get().getSlots());
 			tempObj.setAppointmentId(appointment.getAppointmentId());
 			String response = callGetApi("http://localhost:8080/user/employee/name/" + appointment.getEmployeeId(),
 					token);
@@ -166,7 +177,7 @@ public class AppointmentService {
 		return "Deleted successfully";
 	}
 
-	public static long getClaimForToken(String token, String url) {
+	public static String getClaimForToken(String token, String url) {
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authorization", "Bearer " + token);
@@ -174,8 +185,7 @@ public class AppointmentService {
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		ExtractRequest request = new ExtractRequest();
 		request.setToken(token);
-		ResponseEntity<Long> response = restTemplate.postForEntity(url, request, Long.class);
-		// (url, HttpMethod.POST, entity, Claims.class);
+		ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
 		return response.getBody();
 	}
 
