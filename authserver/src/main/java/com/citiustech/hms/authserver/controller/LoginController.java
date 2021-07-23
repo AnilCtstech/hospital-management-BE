@@ -54,10 +54,12 @@ public class LoginController {
 		String role = null;
 		boolean isUpadted = false;
 		long Id = 0;
+		String name = null;
 		Employee employee = loginService.getEmployeeDataByEmail(login.getEmail());
 		if (employee != null) {
 			role = employee.getRole().getShortName();
 			Id = employee.getEmployeeId();
+			name = employee.getFirstName();
 			int count = employee.getPassCount();
 			if (count == 0) {
 				isUpadted = false;
@@ -69,11 +71,11 @@ public class LoginController {
 			if (patient != null) {
 				role = "P";
 				Id = patient.getPatientId();
+				name = patient.getFirstName();
 			}
 		}
 
-		// String token=jwtUtil.generateToken(login.getEmail());
-		token = jwtUtil.generateToken(login.getEmail(), role, isUpadted, Id);
+		token = jwtUtil.generateToken(login.getEmail(), role, isUpadted, Id,name);
 		return new ResponseEntity<String>(token, HttpStatus.OK);
 
 	}
