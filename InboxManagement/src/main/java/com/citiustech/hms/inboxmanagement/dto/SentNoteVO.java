@@ -56,6 +56,8 @@ public class SentNoteVO {
 	
 	private String fromEmployee;
 
+	private long collectionSize;
+	
 	public long getId() {
 		return id;
 	}
@@ -150,6 +152,14 @@ public class SentNoteVO {
 
 	public void setFromEmployee(String fromEmployee) {
 		this.fromEmployee = fromEmployee;
+	}
+
+	public long getCollectionSize() {
+		return collectionSize;
+	}
+
+	public void setCollectionSize(long collectionSize) {
+		this.collectionSize = collectionSize;
 	}
 
 	@Override

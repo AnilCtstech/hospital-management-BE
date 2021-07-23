@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.citiustech.hms.inboxmanagement.dto.AppointmentEmployeeResponseDTO;
 import com.citiustech.hms.inboxmanagement.dto.AppointmentStatus;
 import com.citiustech.hms.inboxmanagement.dto.BookAppointment;
+import com.citiustech.hms.inboxmanagement.dto.EditAppointment;
 import com.citiustech.hms.inboxmanagement.service.AppointmentService;
 
 @RestController
@@ -45,14 +48,20 @@ public class AppointmentController {
 	}
 
 	@PutMapping("/book")
-	public String editAppointment(@RequestBody BookAppointment bookAppointment) {
-		if (bookAppointment.getAppointmentDate() == null || bookAppointment.getAppointmentTime() == null
-				|| bookAppointment.getDescription() == null || bookAppointment.getPatientId() == 0
-				|| bookAppointment.getEmployeeId() == 0 || bookAppointment.getReason() == null) {
+	public String editAppointment(@RequestBody EditAppointment editAppointment) {
+		if (editAppointment.getAppointmentDate() == null || editAppointment.getAppointmentTime() == null
+				|| editAppointment.getDescription() == null || editAppointment.getPatientId() == 0
+				|| editAppointment.getEmployeeId() == 0 || editAppointment.getTimeOfEdit() == null
+				|| editAppointment.getEmployeeDetail() == null || editAppointment.getReason() == null) {
 			return AppointmentStatus.attribute;
 		} else {
-			return appointmentService.editAppointment(bookAppointment);
+			return appointmentService.editAppointment(editAppointment);
 		}
+	}
+
+	@DeleteMapping("/book/{id}")
+	public String deleteAppointment(@PathVariable Long id) {
+		return appointmentService.deleteAppointment(id);
 	}
 
 }

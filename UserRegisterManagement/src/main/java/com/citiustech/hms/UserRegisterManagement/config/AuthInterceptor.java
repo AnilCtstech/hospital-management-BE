@@ -28,6 +28,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 		if (!request.getMethod().equals("OPTIONS")) {
 			if(reqUrl.equals("http://localhost:8080/forget-password/")) {
 				return true;
+			}else if(reqUrl.equals("http://localhost:8080/user/patient")) {
+				return true;
 			}else {
 			restTemplate = new RestTemplate();
 			String url = "http://localhost:8088/authenticate";

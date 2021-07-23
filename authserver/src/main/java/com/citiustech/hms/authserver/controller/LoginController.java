@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.citiustech.hms.authserver.dto.ExtractRequest;
 import com.citiustech.hms.authserver.dto.Login;
 import com.citiustech.hms.authserver.entity.Employee;
 import com.citiustech.hms.authserver.entity.Patient;
@@ -49,38 +50,48 @@ public class LoginController {
 		} catch (Exception e) {
 			return new ResponseEntity<String>("INVALID USERNAME OR PASSWORD!", HttpStatus.BAD_REQUEST);
 		}
-		
+
 		String role = null;
 		boolean isUpadted = false;
 		long Id = 0;
+		String name = null;
 		Employee employee = loginService.getEmployeeDataByEmail(login.getEmail());
-		if(employee != null) {
+		if (employee != null) {
 			role = employee.getRole().getShortName();
 			Id = employee.getEmployeeId();
+			name = employee.getFirstName();
 			int count = employee.getPassCount();
-			if(count == 0) {
+			if (count == 0) {
 				isUpadted = false;
-			}else {
+			} else {
 				isUpadted = true;
 			}
-		}else {
+		} else {
 			Patient patient = loginService.getPatientDataByEmail(login.getEmail());
-			if(patient != null) {
+			if (patient != null) {
 				role = "P";
 				Id = patient.getPatientId();
+				name = patient.getFirstName();
 			}
 		}
-		
-		//String token=jwtUtil.generateToken(login.getEmail());
-		 token = jwtUtil.generateToken(login.getEmail(), role, isUpadted,Id);
-		return new ResponseEntity<String>(token,HttpStatus.OK);
-		
+
+		token = jwtUtil.generateToken(login.getEmail(), role, isUpadted, Id,name);
+		return new ResponseEntity<String>(token, HttpStatus.OK);
 
 	}
 
 	@GetMapping("/authenticate")
 	public String authenticateUser() {
 		return "AUTHENTICATION SUCCESSFUL";
+	}
+
+	@PostMapping("/extract_claims")
+	public Long getClaimFromToken(@RequestBody ExtractRequest extaractRequest) throws Exception {
+		// return jwtUtil.extractAllClaims(extaractRequest.getToken().split(" ")[1]);
+		Claims claims = jwtUtil.extractAllClaims(extaractRequest.getToken());
+		Employee employee = loginService.getEmployeeDataByEmail(claims.getSubject());
+		// System.out.println("ID " + employee.getEmployeeId());
+		return employee.getEmployeeId();
 	}
 
 }
