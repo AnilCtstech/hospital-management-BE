@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,12 +12,14 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.citiustech.hms.inboxmanagement.dto.AppointmentEmployeeResponseDTO;
@@ -126,9 +129,12 @@ public class AppointmentService {
 
 		// start
 		List<Appointment> tempList = null;
-		if (role.equals("D") || role.equals("N")) {
+		if (role.equals("D")) {
 			tempList = appointmentRepository.findAllByEmployeeIdAndAppointmentDateBetweenOrderByAppointmentDate(userId,
 					currentLocalDateTime, maxLocalDateTime);
+		} else if (role.equals("N")) {
+			tempList = appointmentRepository.findAllByAppointmentDateBetweenOrderByAppointmentDate(currentLocalDateTime,
+					maxLocalDateTime);
 		} else {
 			tempList = appointmentRepository.findAllByPatientIdAndAppointmentDateBetweenOrderByAppointmentDate(userId,
 					currentLocalDateTime, maxLocalDateTime);
@@ -156,6 +162,7 @@ public class AppointmentService {
 			String patientName = callGetApi("http://localhost:8080/user/patient/name/" + appointment.getPatientId(),
 					token);
 			tempObj.setTitle("Appointment with " + patientName);
+			tempObj.setAccepted(appointment.isAccepted());
 			tempObj.setTitle(appointment.getMeetingTitle());
 			responseList.add(tempObj);
 		}
@@ -170,6 +177,26 @@ public class AppointmentService {
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 		return response.getBody().toString();
+	}
+
+	public static List<Long> callGetListApi(String url, String token) {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization", "Bearer " + token);
+		headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		HttpEntity<String> entity = new HttpEntity<>(headers);
+		List<Long> idList = new ArrayList<Long>();
+		try {
+			ResponseEntity<List<Long>> response = restTemplate.exchange(url, HttpMethod.GET, entity,
+					new ParameterizedTypeReference<List<Long>>() {
+					});
+			return response.getBody();
+		} catch (final HttpClientErrorException e) {
+			System.out.println(e.getStatusCode());
+			System.out.println(e.getResponseBodyAsString());
+		}
+		return null;
+
 	}
 
 	public String deleteAppointment(Long id) {
@@ -187,6 +214,45 @@ public class AppointmentService {
 		request.setToken(token);
 		ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
 		return response.getBody();
+	}
+
+	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByPatient(String name, String authToken) {
+		String url = "http://localhost:8080/user/search/" + name;
+		List<Long> idList = callGetListApi(url, authToken);
+		String url_claims = "http://localhost:8088/extract_claims";
+		String claims = getClaimForToken(authToken, url_claims);
+		LocalDateTime currentLocalDateTime = LocalDateTime.now();
+		LocalDateTime maxLocalDateTime = currentLocalDateTime.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+		List<Appointment> tempList = null;
+		List<AppointmentEmployeeResponseDTO> responseList = new LinkedList<>();
+		for (long id : idList) {
+//			tempList = appointmentRepository.findAllByPatientIdAndAppointmentDateBetweenOrderByAppointmentDate(id,
+//					currentLocalDateTime, maxLocalDateTime);
+			tempList = appointmentRepository.findAllByPatientId(id);
+			for (Appointment appointment : tempList) {
+				AppointmentEmployeeResponseDTO tempObj = new AppointmentEmployeeResponseDTO();
+				tempObj.setDate(appointment.getAppointmentDate());
+				tempObj.setDescription(appointment.getDescription());
+				tempObj.setTime(appointment.getAppointmentTime());
+				tempObj.setTime(slotRepository.findById(appointment.getSlotId()).get().getSlots());
+				tempObj.setAppointmentId(appointment.getAppointmentId());
+				String response = callGetApi("http://localhost:8080/user/employee/name/" + appointment.getEmployeeId(),
+						authToken);
+				tempObj.setPhysician(response);
+				Set<EditHistory> editHistorySet = appointment.getEditHistory();
+				tempObj.setEditHistory(appointment.getEditHistory());
+				String patientName = callGetApi("http://localhost:8080/user/patient/name/" + appointment.getPatientId(),
+						authToken);
+				tempObj.setTitle("Appointment with " + patientName);
+				tempObj.setAccepted(appointment.isAccepted());
+				tempObj.setTitle(appointment.getMeetingTitle());
+				responseList.add(tempObj);
+
+			}
+			tempList.clear();
+		}
+
+		return responseList;
 	}
 
 }

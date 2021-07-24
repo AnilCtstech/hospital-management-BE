@@ -10,10 +10,11 @@ import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
-	
+
 	Optional<Patient> findByEmail(String email);
 
 	List<Patient> findPatientByEmail(String email);
-	
-	
+
+	List<Patient> findByFirstNameContains(String name);
+
 }

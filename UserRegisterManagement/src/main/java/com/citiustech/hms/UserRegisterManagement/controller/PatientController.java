@@ -18,14 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientDemographics;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientProfile;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
+import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
 import com.citiustech.hms.UserRegisterManagement.service.PatientService;
 
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(origins = "http://localhost:4200")
 public class PatientController {
+
 	@Autowired
 	private PatientService patientService;
+
+	@Autowired
+	private PatientRepository patientRepository;
 
 	// creating patient
 	@PostMapping("/patient")
@@ -66,16 +71,22 @@ public class PatientController {
 	public ResponseEntity<String> getPatientNameById(@PathVariable("id") String id) {
 		return patientService.getPatientNameById(Long.parseLong(id));
 	}
-	
-	@GetMapping("/patient/all")
-	public ResponseEntity<List<PatientProfile>> getPatients(){
-		
-		List<PatientProfile> patients = patientService.getAllPatient();
-		System.out.println("Email :: "+patients.get(0).getEmail());
-		return ResponseEntity.ok(patients);
-		
+
+	// here working
+	@GetMapping("/search/{name}")
+	public List<Long> getPatientIdByName(@PathVariable("name") String name) {
+		return patientService.getPatientIdByName(name);
 	}
-	
+
+	@GetMapping("/patient/all")
+	public ResponseEntity<List<PatientProfile>> getPatients() {
+
+		List<PatientProfile> patients = patientService.getAllPatient();
+		System.out.println("Email :: " + patients.get(0).getEmail());
+		return ResponseEntity.ok(patients);
+
+	}
+
 	@PostMapping("/patient/email")
 	public ResponseEntity<List<PatientProfile>> getPatientByEmail(@RequestBody String email) {
 		List<PatientProfile> profile = patientService.getPatientByEmail(email);
