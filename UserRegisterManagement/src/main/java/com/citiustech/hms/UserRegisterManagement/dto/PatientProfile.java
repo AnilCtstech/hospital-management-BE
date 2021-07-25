@@ -6,6 +6,7 @@ public class PatientProfile {
 
 	private Long patientId;
 	
+	private int age;
 	private String title;
 	
 	private String firstName;
@@ -26,13 +27,17 @@ public class PatientProfile {
 	
 	private String homeAddress;
 
-	public PatientProfile(String title, String first_name, String last_name, String email_id, String dateOfBirth,
-			String contactNo, String gender, String race, String ethnicity, String homeAddress) {
+	
+
+	public PatientProfile(Long patientId, int age, String title, String firstName, String lastName, String email,
+			String dateOfBirth, String contactNo, String gender, String race, String ethnicity, String homeAddress) {
 		super();
+		this.patientId = patientId;
+		this.age = age;
 		this.title = title;
-		this.firstName = first_name;
-		this.lastName = last_name;
-		this.email = email_id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
 		this.dateOfBirth = dateOfBirth;
 		this.contactNo = contactNo;
 		this.gender = gender;
@@ -135,7 +140,16 @@ public class PatientProfile {
 		this.homeAddress = homeAddress;
 	}
 
+	
 
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 
 	@Override
 	public String toString() {

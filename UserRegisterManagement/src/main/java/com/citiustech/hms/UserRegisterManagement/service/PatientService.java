@@ -1,5 +1,8 @@
 package com.citiustech.hms.UserRegisterManagement.service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +24,7 @@ public class PatientService {
 
 	@Autowired
 	private PatientRepository patientRepository;
-	
+
 	@Autowired
 	private MapStructMapper mapStructMapper;
 
@@ -37,9 +40,9 @@ public class PatientService {
 			patient.setPassword(patientRequest.getPassword());
 			patient.setEmail(patientRequest.getEmail());
 			patient.setDateOfBirth(patientRequest.getDateOfBirth());
-
 			patient.setContactNo(patientRequest.getContactNo());
 
+			patient.setAge( Period.between(LocalDate.parse(patientRequest.getDateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalDate.now()).getYears());
 			Patient savedPatient = patientRepository.save(patient);
 
 			if (patientRepository.findById(savedPatient.getPatientId()).isPresent())
@@ -77,12 +80,12 @@ public class PatientService {
 
 	@Transactional
 	public ResponseEntity<Object> updatePatient(PatientDemographics patientDemographics) {
-	//	if (patientRepository.findById(patientId).isPresent()) 
-			if (patientRepository.findByEmail(patientDemographics.getEmail()).isPresent())
-				
+		// if (patientRepository.findById(patientId).isPresent())
+		if (patientRepository.findByEmail(patientDemographics.getEmail()).isPresent())
+
 		{
-			//Patient newPatient = patientRepository.findById(patientId).get();
-			Patient newPatient= patientRepository.findByEmail(patientDemographics.getEmail()).get();
+			// Patient newPatient = patientRepository.findById(patientId).get();
+			Patient newPatient = patientRepository.findByEmail(patientDemographics.getEmail()).get();
 			newPatient.setTitle(patientDemographics.getTitle());
 			newPatient.setFirstName(patientDemographics.getFirstName());
 			newPatient.setLastName(patientDemographics.getLastName());
@@ -102,54 +105,49 @@ public class PatientService {
 			newPatient.setEmergAddress(patientDemographics.getEmergAddress());
 			newPatient.setIsAccess(patientDemographics.getIsAccess());
 
-			Boolean t=patientDemographics.isHasAllergy();
+			Boolean t = patientDemographics.isHasAllergy();
 			if (t.equals(true)) {
-			newPatient.setHasAllergy(patientDemographics.isHasAllergy());
-			newPatient.setAllergy(patientDemographics.getAllergy());
+				newPatient.setHasAllergy(patientDemographics.isHasAllergy());
+				newPatient.setAllergy(patientDemographics.getAllergy());
 			}
-			System.out.println("+++");
-			System.out.println(newPatient.getAllergy().toString());
+			
+			/* System.out.println(newPatient.getAllergy().toString()); */
 			Patient savedPatient = patientRepository.save(newPatient);
-			
-			
-			
+
 			if (patientRepository.findById(savedPatient.getPatientId()).isPresent())
-				
+
 				return ResponseEntity.accepted().body("Patient Demographics updated Successfully");
 			else
 				return ResponseEntity.unprocessableEntity().body("Failed updating patient specified");
 		} else
 			return ResponseEntity.unprocessableEntity().body("cannot find the patient specified");
-		
 
 	}
-	
+
 	public List<PatientProfile> getAllPatient() {
 
-		List<Patient> patients=patientRepository.findAll();
-		System.out.println("Count :: "+patientRepository.count());
-	
+		List<Patient> patients = patientRepository.findAll();
+		System.out.println("Count :: " + patientRepository.count());
+
 		List<PatientProfile> profiles = new ArrayList<>();
-		
-		patients.stream().forEach(e->{
+
+		patients.stream().forEach(e -> {
 			profiles.add(mapStructMapper.patientToProfile(e));
-			});
-			
-		
+		});
+
 		return profiles;
-		
+
 	}
-	
+
 	public List<PatientProfile> getPatientByEmail(String email) {
 		List<Patient> patient = patientRepository.findPatientByEmail(email);
 		List<PatientProfile> profile = new ArrayList<>();
-		
-		patient.stream().forEach(e->{
+
+		patient.stream().forEach(e -> {
 			profile.add(mapStructMapper.patientToProfile(e));
-			});
-		
+		});
+
 		return profile;
 	}
-
 
 }
