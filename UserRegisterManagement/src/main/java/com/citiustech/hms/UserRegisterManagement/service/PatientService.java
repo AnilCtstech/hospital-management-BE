@@ -110,8 +110,7 @@ public class PatientService {
 				newPatient.setHasAllergy(patientDemographics.isHasAllergy());
 				newPatient.setAllergy(patientDemographics.getAllergy());
 			}
-			
-			/* System.out.println(newPatient.getAllergy().toString()); */
+
 			Patient savedPatient = patientRepository.save(newPatient);
 
 			if (patientRepository.findById(savedPatient.getPatientId()).isPresent())
@@ -148,6 +147,16 @@ public class PatientService {
 		});
 
 		return profile;
+	}
+
+
+	public List<Long> getPatientIdByName(String name) {
+		List<Patient> patientList = patientRepository.findByFirstNameContains(name);
+		List<Long> patientIdList = new ArrayList<>();
+		for (Patient patient : patientList) {
+			patientIdList.add(patient.getPatientId());
+		}
+		return patientIdList;
 	}
 
 }

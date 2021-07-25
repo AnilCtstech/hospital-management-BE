@@ -64,4 +64,11 @@ public class AppointmentController {
 		return appointmentService.deleteAppointment(id);
 	}
 
+	@GetMapping("/search/{name}")
+	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByPatient(@PathVariable String name,
+			@RequestHeader(value = "Authorization") String authToken) {
+		return appointmentService.searchAppointmentsByPatient(name, authToken.split(" ")[1]);
+
+	}
+
 }

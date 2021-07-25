@@ -41,11 +41,12 @@ public class JwtUtil {
 
 	   
 	    
-	    public String generateToken(String username,String role,boolean isPasswordUpdated, long id) {
+	    public String generateToken(String username,String role,boolean isPasswordUpdated, long id, String name) {
 	        Map<String, Object> claims = new HashMap<>();
 	        claims.put("id", id);
 	        claims.put("role", role);
 	        claims.put("isUpdate", isPasswordUpdated);
+	        claims.put("name", name);
 	        return createToken(claims, username);
 	    }
 
