@@ -75,7 +75,7 @@ public class LoginController {
 			}
 		}
 
-		token = jwtUtil.generateToken(login.getEmail(), role, isUpadted, Id,name);
+		token = jwtUtil.generateToken(login.getEmail(), role, isUpadted, Id, name);
 		return new ResponseEntity<String>(token, HttpStatus.OK);
 
 	}
@@ -90,8 +90,8 @@ public class LoginController {
 		Claims claims = jwtUtil.extractAllClaims(extaractRequest.getToken());
 		String role = (String) claims.get("role");
 		String Id = String.valueOf(claims.get("id"));
-		String email = (String) claims.get("sub");
-		Employee employee = loginService.getEmployeeDataByEmail(claims.getSubject());
+		// String email = (String) claims.get("sub");
+		// Employee employee = loginService.getEmployeeDataByEmail(claims.getSubject());
 		// return employee.getEmployeeId();
 		return Id + "," + role;
 	}

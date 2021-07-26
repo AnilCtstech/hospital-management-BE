@@ -73,7 +73,7 @@ public class PatientController {
 	}
 
 	// here working
-	@GetMapping("/search/{name}")
+	@GetMapping("/patientsearch/{name}")
 	public List<Long> getPatientIdByName(@PathVariable("name") String name) {
 		return patientService.getPatientIdByName(name);
 	}

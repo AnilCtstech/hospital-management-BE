@@ -217,7 +217,46 @@ public class AppointmentService {
 	}
 
 	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByPatient(String name, String authToken) {
-		String url = "http://localhost:8080/user/search/" + name;
+		String url = "http://localhost:8080/user/patientsearch/" + name;
+		List<Long> idList = callGetListApi(url, authToken);
+		String url_claims = "http://localhost:8088/extract_claims";
+		String claims = getClaimForToken(authToken, url_claims);
+		LocalDateTime currentLocalDateTime = LocalDateTime.now();
+		LocalDateTime maxLocalDateTime = currentLocalDateTime.with(TemporalAdjusters.next(DayOfWeek.SATURDAY));
+		List<Appointment> tempList = null;
+		List<AppointmentEmployeeResponseDTO> responseList = new LinkedList<>();
+		for (long id : idList) {
+//			tempList = appointmentRepository.findAllByPatientIdAndAppointmentDateBetweenOrderByAppointmentDate(id,
+//					currentLocalDateTime, maxLocalDateTime);
+			tempList = appointmentRepository.findAllByPatientId(id);
+			for (Appointment appointment : tempList) {
+				AppointmentEmployeeResponseDTO tempObj = new AppointmentEmployeeResponseDTO();
+				tempObj.setDate(appointment.getAppointmentDate());
+				tempObj.setDescription(appointment.getDescription());
+				tempObj.setTime(appointment.getAppointmentTime());
+				tempObj.setTime(slotRepository.findById(appointment.getSlotId()).get().getSlots());
+				tempObj.setAppointmentId(appointment.getAppointmentId());
+				String response = callGetApi("http://localhost:8080/user/employee/name/" + appointment.getEmployeeId(),
+						authToken);
+				tempObj.setPhysician(response);
+				Set<EditHistory> editHistorySet = appointment.getEditHistory();
+				tempObj.setEditHistory(appointment.getEditHistory());
+				String patientName = callGetApi("http://localhost:8080/user/patient/name/" + appointment.getPatientId(),
+						authToken);
+				tempObj.setTitle("Appointment with " + patientName);
+				tempObj.setAccepted(appointment.isAccepted());
+				tempObj.setTitle(appointment.getMeetingTitle());
+				responseList.add(tempObj);
+
+			}
+			tempList.clear();
+		}
+
+		return responseList;
+	}
+
+	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByPhysician(String name, String authToken) {
+		String url = "http://localhost:8080/user/physiciansearch/" + name;
 		List<Long> idList = callGetListApi(url, authToken);
 		String url_claims = "http://localhost:8088/extract_claims";
 		String claims = getClaimForToken(authToken, url_claims);
