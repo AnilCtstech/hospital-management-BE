@@ -1,6 +1,6 @@
 package com.citiustech.hms.inboxmanagement.entity;
 
-import java.io.Serializable;
+import java.io.Serializable; 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

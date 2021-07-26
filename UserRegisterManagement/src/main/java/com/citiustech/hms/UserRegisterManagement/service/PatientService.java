@@ -1,5 +1,8 @@
 package com.citiustech.hms.UserRegisterManagement.service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +40,9 @@ public class PatientService {
 			patient.setPassword(patientRequest.getPassword());
 			patient.setEmail(patientRequest.getEmail());
 			patient.setDateOfBirth(patientRequest.getDateOfBirth());
-
 			patient.setContactNo(patientRequest.getContactNo());
 
+			patient.setAge( Period.between(LocalDate.parse(patientRequest.getDateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalDate.now()).getYears());
 			Patient savedPatient = patientRepository.save(patient);
 
 			if (patientRepository.findById(savedPatient.getPatientId()).isPresent())
@@ -107,8 +110,7 @@ public class PatientService {
 				newPatient.setHasAllergy(patientDemographics.isHasAllergy());
 				newPatient.setAllergy(patientDemographics.getAllergy());
 			}
-			System.out.println("+++");
-			System.out.println(newPatient.getAllergy().toString());
+
 			Patient savedPatient = patientRepository.save(newPatient);
 
 			if (patientRepository.findById(savedPatient.getPatientId()).isPresent())
@@ -146,6 +148,7 @@ public class PatientService {
 
 		return profile;
 	}
+
 
 	public List<Long> getPatientIdByName(String name) {
 		List<Patient> patientList = patientRepository.findByFirstNameContains(name);
