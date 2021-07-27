@@ -45,16 +45,19 @@ public class LoginController {
 	@PostMapping("/authenticate")
 	public ResponseEntity<String> generateToken(@RequestBody Login login) throws Exception {
 		String token = "";
+		String message = "";
 		try {
 			authManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
 		} catch (Exception e) {
-			return new ResponseEntity<String>("INVALID USERNAME OR PASSWORD!", HttpStatus.BAD_REQUEST);
+			message = "INVALID USERNAME OR PASSWORD!";
+			return new ResponseEntity<String>(message, HttpStatus.BAD_REQUEST);
 		}
 
 		String role = null;
 		boolean isUpadted = false;
 		long Id = 0;
 		String name = null;
+		
 		Employee employee = loginService.getEmployeeDataByEmail(login.getEmail());
 		if (employee != null) {
 			role = employee.getRole().getShortName();
@@ -68,11 +71,18 @@ public class LoginController {
 			}
 		} else {
 			Patient patient = loginService.getPatientDataByEmail(login.getEmail());
+			boolean is_blocked = patient.getIsBlocked();
+			String msg = "";
+			if(is_blocked == true) {
+				msg = "Blocked";
+				return new ResponseEntity<String>(msg, HttpStatus.BAD_REQUEST);	
+			}else {
 			if (patient != null) {
 				role = "P";
 				Id = patient.getPatientId();
 				name = patient.getFirstName();
 			}
+		 }
 		}
 
 		token = jwtUtil.generateToken(login.getEmail(), role, isUpadted, Id,name);

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.citiustech.hms.UserRegisterManagement.dto.PatientDemographics;
+import com.citiustech.hms.UserRegisterManagement.dto.PatientDetails;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientProfile;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 import com.citiustech.hms.UserRegisterManagement.mapper.MapStructMapper;
@@ -37,6 +38,8 @@ public class PatientService {
 			patient.setPassword(patientRequest.getPassword());
 			patient.setEmail(patientRequest.getEmail());
 			patient.setDateOfBirth(patientRequest.getDateOfBirth());
+			patient.setIsActive(true);
+			patient.setIsBlocked(false);
 
 			patient.setContactNo(patientRequest.getContactNo());
 
@@ -149,6 +152,46 @@ public class PatientService {
 			});
 		
 		return profile;
+	}
+
+	public List<PatientDetails> getPatientDetails() {
+		List<Patient> patients=patientRepository.findByOrderByFirstNameAsc();
+		
+		List<PatientDetails> details = new ArrayList<>();
+		for (Patient patient : patients) {
+			PatientDetails patientDetails = new PatientDetails();
+			patientDetails.setPatientId(patient.getPatientId());
+			patientDetails.setFirstName(patient.getFirstName());
+			patientDetails.setEmail(patient.getEmail());
+			
+					if(patient.getIsActive() == true) {
+						patientDetails.setStatus("Active");
+					}else if(patient.getIsBlocked() == true) {
+						patientDetails.setStatus("Blocked");
+					}else {
+					patientDetails.setStatus("Unknown");
+					}
+			
+			details.add(patientDetails);
+		}
+		
+		return details;
+	}
+
+	
+	@Transactional
+	public String updatePatientStatus(String email, PatientDetails patientDetails) {
+		boolean isActive;
+		boolean isBlocked;
+			if(patientDetails.getStatus().equalsIgnoreCase("Active")) {
+				isActive = true;
+				isBlocked = false;
+			}else {
+				isActive = false;
+				isBlocked = true;
+			}
+			patientRepository.updatePatientStatus(email,isActive,isBlocked);
+			return "Status Updated";
 	}
 
 
