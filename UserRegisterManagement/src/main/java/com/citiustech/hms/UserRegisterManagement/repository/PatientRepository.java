@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 
 @Repository
@@ -16,5 +17,11 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	List<Patient> findPatientByEmail(String email);
 
 	List<Patient> findByFirstNameContains(String name);
+
+	List<Patient> findByFirstNameIgnoreCaseContaining(String firstName);
+
+	// List<Patient>
+	// findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingIn(String
+	// firstName);
 
 }

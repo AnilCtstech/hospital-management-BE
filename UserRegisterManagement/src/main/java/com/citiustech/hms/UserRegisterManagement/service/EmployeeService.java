@@ -135,7 +135,10 @@ public class EmployeeService {
 	}
 
 	public List<Long> getEmployeeIdByName(String name) {
-		List<Employee> employeeList = employeeRepository.findByFirstNameContains(name);
+		//List<Employee> employeeList = employeeRepository.findByFirstNameContains(name);
+		List<Employee> employeeList = employeeRepository.findByFirstNameIgnoreCaseContaining(name);
+//		List<Employee> employeeList = employeeRepository
+//				.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingIn(name);
 		List<Long> employeeIdList = new ArrayList<>();
 		for (Employee patient : employeeList) {
 			employeeIdList.add(patient.getEmployeeId());

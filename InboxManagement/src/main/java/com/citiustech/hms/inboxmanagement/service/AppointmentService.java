@@ -267,7 +267,7 @@ public class AppointmentService {
 		for (long id : idList) {
 //			tempList = appointmentRepository.findAllByPatientIdAndAppointmentDateBetweenOrderByAppointmentDate(id,
 //					currentLocalDateTime, maxLocalDateTime);
-			tempList = appointmentRepository.findAllByPatientId(id);
+			tempList = appointmentRepository.findAllByEmployeeId(id);
 			for (Appointment appointment : tempList) {
 				AppointmentEmployeeResponseDTO tempObj = new AppointmentEmployeeResponseDTO();
 				tempObj.setDate(appointment.getAppointmentDate());

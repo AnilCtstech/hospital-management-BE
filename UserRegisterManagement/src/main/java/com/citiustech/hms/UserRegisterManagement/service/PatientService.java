@@ -42,7 +42,9 @@ public class PatientService {
 			patient.setDateOfBirth(patientRequest.getDateOfBirth());
 			patient.setContactNo(patientRequest.getContactNo());
 
-			patient.setAge( Period.between(LocalDate.parse(patientRequest.getDateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalDate.now()).getYears());
+			patient.setAge(Period.between(
+					LocalDate.parse(patientRequest.getDateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+					LocalDate.now()).getYears());
 			Patient savedPatient = patientRepository.save(patient);
 
 			if (patientRepository.findById(savedPatient.getPatientId()).isPresent())
@@ -149,9 +151,11 @@ public class PatientService {
 		return profile;
 	}
 
-
 	public List<Long> getPatientIdByName(String name) {
-		List<Patient> patientList = patientRepository.findByFirstNameContains(name);
+		// List<Patient> patientList = patientRepository.findByFirstNameContains(name);
+		List<Patient> patientList = patientRepository.findByFirstNameIgnoreCaseContaining(name);
+//		List<Patient> patientList = patientRepository
+//				.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingIn(name);
 		List<Long> patientIdList = new ArrayList<>();
 		for (Patient patient : patientList) {
 			patientIdList.add(patient.getPatientId());
