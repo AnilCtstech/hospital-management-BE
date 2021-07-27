@@ -64,7 +64,8 @@ public class PatientService {
 	}
 
 	public ResponseEntity<String> getPatientNameById(long id) {
-		Optional<Patient> patient = patientRepository.findById(id);
+		// Optional<Patient> patient = patientRepository.findById(id);
+		Optional<Patient> patient = patientRepository.findByPatientId(id);
 		if (patient.isPresent()) {
 			String name = patient.get().getFirstName() + " " + patient.get().getLastName();
 			return ResponseEntity.ok(name);
@@ -154,47 +155,44 @@ public class PatientService {
 		return profile;
 	}
 
-
 	public List<PatientDetails> getPatientDetails() {
-		List<Patient> patients=patientRepository.findByOrderByFirstNameAsc();
-		
+		List<Patient> patients = patientRepository.findByOrderByFirstNameAsc();
+
 		List<PatientDetails> details = new ArrayList<>();
 		for (Patient patient : patients) {
 			PatientDetails patientDetails = new PatientDetails();
 			patientDetails.setPatientId(patient.getPatientId());
 			patientDetails.setFirstName(patient.getFirstName());
 			patientDetails.setEmail(patient.getEmail());
-			
-					if(patient.getIsActive() == true) {
-						patientDetails.setStatus("Active");
-					}else if(patient.getIsBlocked() == true) {
-						patientDetails.setStatus("Blocked");
-					}else {
-					patientDetails.setStatus("Unknown");
-					}
-			
+
+			if (patient.getIsActive() == true) {
+				patientDetails.setStatus("Active");
+			} else if (patient.getIsBlocked() == true) {
+				patientDetails.setStatus("Blocked");
+			} else {
+				patientDetails.setStatus("Unknown");
+			}
+
 			details.add(patientDetails);
 		}
-		
+
 		return details;
 	}
 
-	
 	@Transactional
 	public String updatePatientStatus(String email, PatientDetails patientDetails) {
 		boolean isActive;
 		boolean isBlocked;
-			if(patientDetails.getStatus().equalsIgnoreCase("Active")) {
-				isActive = true;
-				isBlocked = false;
-			}else {
-				isActive = false;
-				isBlocked = true;
-			}
-			patientRepository.updatePatientStatus(email,isActive,isBlocked);
-			return "Status Updated";
+		if (patientDetails.getStatus().equalsIgnoreCase("Active")) {
+			isActive = true;
+			isBlocked = false;
+		} else {
+			isActive = false;
+			isBlocked = true;
+		}
+		patientRepository.updatePatientStatus(email, isActive, isBlocked);
+		return "Status Updated";
 	}
-
 
 	public List<Long> getPatientIdByName(String name) {
 		// List<Patient> patientList = patientRepository.findByFirstNameContains(name);
@@ -207,6 +205,5 @@ public class PatientService {
 		}
 		return patientIdList;
 	}
-
 
 }

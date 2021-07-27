@@ -15,16 +15,17 @@ import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
+	Optional<Patient> findByPatientId(Long id);
+
 	Optional<Patient> findByEmail(String email);
 
 	List<Patient> findPatientByEmail(String email);
 
-	
 	List<Patient> findByOrderByFirstNameAsc();
 
 	@Modifying
 	@Query("update Patient p set p.isActive =:is_active , p.isBlocked =:is_blocked where p.email =:email")
-	void updatePatientStatus(@Param(value = "email") String email, @Param(value = "is_active") boolean isActive, 
+	void updatePatientStatus(@Param(value = "email") String email, @Param(value = "is_active") boolean isActive,
 			@Param(value = "is_blocked") boolean isBlocked);
 
 	List<Patient> findByFirstNameContains(String name);
@@ -34,6 +35,5 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	// List<Patient>
 	// findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingIn(String
 	// firstName);
-
 
 }

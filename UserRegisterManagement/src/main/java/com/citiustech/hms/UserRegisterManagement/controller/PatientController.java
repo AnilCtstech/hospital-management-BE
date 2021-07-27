@@ -32,7 +32,7 @@ public class PatientController {
 
 	@Autowired
 	private PatientService patientService;
-	
+
 	@Autowired
 	private JwtUtil jwtUtil;
 
@@ -101,20 +101,20 @@ public class PatientController {
 		List<PatientProfile> profile = patientService.getPatientByEmail(email);
 		return ResponseEntity.ok(profile);
 	}
-	
+
 	@GetMapping("/patient/getall")
-	public List<PatientDetails> getPatient(){
+	public List<PatientDetails> getPatient() {
 		List<PatientDetails> patientDetails = patientService.getPatientDetails();
 		return patientDetails;
-		
+
 	}
-	
+
 	@PutMapping("/patient/update")
-	public ResponseEntity<String> updateStatus(@RequestBody PatientDetails patientDetails){
+	public ResponseEntity<String> updateStatus(@RequestBody PatientDetails patientDetails) {
 		String email = patientDetails.getEmail();
-		String msg = patientService.updatePatientStatus(email,patientDetails);
+		String msg = patientService.updatePatientStatus(email, patientDetails);
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
-		
+
 	}
 
 }

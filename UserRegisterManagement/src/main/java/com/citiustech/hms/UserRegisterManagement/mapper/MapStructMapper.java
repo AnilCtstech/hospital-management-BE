@@ -18,5 +18,4 @@ public interface MapStructMapper {
 
 	public PatientProfile patientToProfile(Patient patient);
 
-	
 }
