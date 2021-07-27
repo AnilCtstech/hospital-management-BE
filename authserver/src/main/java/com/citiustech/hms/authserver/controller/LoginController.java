@@ -85,7 +85,7 @@ public class LoginController {
 		 }
 		}
 
-		token = jwtUtil.generateToken(login.getEmail(), role, isUpadted, Id,name);
+		token = jwtUtil.generateToken(login.getEmail(), role, isUpadted, Id, name);
 		return new ResponseEntity<String>(token, HttpStatus.OK);
 
 	}
@@ -96,12 +96,14 @@ public class LoginController {
 	}
 
 	@PostMapping("/extract_claims")
-	public Long getClaimFromToken(@RequestBody ExtractRequest extaractRequest) throws Exception {
-		// return jwtUtil.extractAllClaims(extaractRequest.getToken().split(" ")[1]);
+	public String getClaimFromToken(@RequestBody ExtractRequest extaractRequest) throws Exception {
 		Claims claims = jwtUtil.extractAllClaims(extaractRequest.getToken());
-		Employee employee = loginService.getEmployeeDataByEmail(claims.getSubject());
-		// System.out.println("ID " + employee.getEmployeeId());
-		return employee.getEmployeeId();
+		String role = (String) claims.get("role");
+		String Id = String.valueOf(claims.get("id"));
+		// String email = (String) claims.get("sub");
+		// Employee employee = loginService.getEmployeeDataByEmail(claims.getSubject());
+		// return employee.getEmployeeId();
+		return Id + "," + role;
 	}
 
 }

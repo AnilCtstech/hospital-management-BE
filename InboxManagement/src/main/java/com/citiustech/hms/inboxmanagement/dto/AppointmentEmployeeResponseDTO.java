@@ -16,6 +16,7 @@ public class AppointmentEmployeeResponseDTO {
 	private String slot;
 	private String meetingTitle;
 	private Set<EditHistory> editHistory;
+	private boolean isAccepted;
 
 	public Set<EditHistory> getEditHistory() {
 		return editHistory;
@@ -87,6 +88,14 @@ public class AppointmentEmployeeResponseDTO {
 
 	public void setMeetingTitle(String meetingTitle) {
 		this.meetingTitle = meetingTitle;
+	}
+
+	public boolean isAccepted() {
+		return isAccepted;
+	}
+
+	public void setAccepted(boolean isAccepted) {
+		this.isAccepted = isAccepted;
 	}
 
 }
