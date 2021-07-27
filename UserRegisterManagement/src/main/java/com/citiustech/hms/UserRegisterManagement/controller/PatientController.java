@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,14 +13,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.citiustech.hms.UserRegisterManagement.dto.PatientDemographics;
+import com.citiustech.hms.UserRegisterManagement.dto.PatientDetails;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientProfile;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
 import com.citiustech.hms.UserRegisterManagement.service.PatientService;
+import com.citiustech.hms.UserRegisterManagement.utils.JwtUtil;
 
 @RestController
 @RequestMapping("/user")
@@ -28,6 +32,9 @@ public class PatientController {
 
 	@Autowired
 	private PatientService patientService;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	@Autowired
 	private PatientRepository patientRepository;
@@ -91,6 +98,21 @@ public class PatientController {
 	public ResponseEntity<List<PatientProfile>> getPatientByEmail(@RequestBody String email) {
 		List<PatientProfile> profile = patientService.getPatientByEmail(email);
 		return ResponseEntity.ok(profile);
+	}
+	
+	@GetMapping("/patient/getall")
+	public List<PatientDetails> getPatient(){
+		List<PatientDetails> patientDetails = patientService.getPatientDetails();
+		return patientDetails;
+		
+	}
+	
+	@PutMapping("/patient/update")
+	public ResponseEntity<String> updateStatus(@RequestBody PatientDetails patientDetails){
+		String email = patientDetails.getEmail();
+		String msg = patientService.updatePatientStatus(email,patientDetails);
+		return new ResponseEntity<String>(msg, HttpStatus.OK);
+		
 	}
 
 }
