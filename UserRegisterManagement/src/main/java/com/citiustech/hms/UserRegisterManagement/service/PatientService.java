@@ -60,7 +60,8 @@ public class PatientService {
 	}
 
 	public Optional<Patient> getPatientById(Long patientId) {
-		return patientRepository.findById(patientId);
+		// return patientRepository.findById(patientId);
+		return patientRepository.findByPatientId(patientId);
 	}
 
 	public ResponseEntity<String> getPatientNameById(long id) {
