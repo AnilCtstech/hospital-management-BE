@@ -26,9 +26,11 @@ import com.citiustech.hms.inboxmanagement.dto.AppointmentEmployeeResponseDTO;
 import com.citiustech.hms.inboxmanagement.dto.AppointmentStatus;
 import com.citiustech.hms.inboxmanagement.dto.BookAppointment;
 import com.citiustech.hms.inboxmanagement.dto.EditAppointment;
+import com.citiustech.hms.inboxmanagement.dto.EmailDTO;
 import com.citiustech.hms.inboxmanagement.dto.ExtractRequest;
 import com.citiustech.hms.inboxmanagement.entity.Appointment;
 import com.citiustech.hms.inboxmanagement.entity.EditHistory;
+import com.citiustech.hms.inboxmanagement.entity.Slot;
 import com.citiustech.hms.inboxmanagement.repository.AppointmentRepository;
 import com.citiustech.hms.inboxmanagement.repository.SlotRepository;
 
@@ -148,6 +150,9 @@ public class AppointmentService {
 		List<AppointmentEmployeeResponseDTO> responseList = new LinkedList<>();
 
 		for (Appointment appointment : tempList) {
+			if (!appointment.isAccepted()) {
+				continue;
+			}
 			AppointmentEmployeeResponseDTO tempObj = new AppointmentEmployeeResponseDTO();
 			tempObj.setDate(appointment.getAppointmentDate());
 			tempObj.setDescription(appointment.getDescription());
@@ -292,6 +297,48 @@ public class AppointmentService {
 		}
 
 		return responseList;
+	}
+
+	public String declineAppointment(long appointmentId, String token) {
+		// decline appointment and send email notification
+		Optional<Appointment> appointment = appointmentRepository.findById(appointmentId);
+		if (appointment.isPresent()) {
+			Appointment appointmentObj = appointment.get();
+			appointmentObj.setAccepted(false);
+			appointmentRepository.save(appointmentObj);
+//			String url_claims = "http://localhost:8088/extract_claims";
+//			String claims = getClaimForToken(token, url_claims);
+//			String email = claims.split(",")[2].trim();
+			String email = callGetApi("http://localhost:8080/user/patient/email/" + appointment.get().getPatientId(),
+					token);
+			sendAppointmentDeclinedEmail(email, appointmentObj, token);
+			return "appointment declined";
+		}
+		return "Error deleting appoitnemnt";
+	}
+
+	public void sendAppointmentDeclinedEmail(String to, Appointment appointment, String token) {
+		Optional<Slot> slot = slotRepository.findById(appointment.getSlotId());
+		if (slot.isPresent()) {
+			EmailDTO emailObj = new EmailDTO();
+			emailObj.setTo(to);
+			emailObj.setSubject("Appointment declined");
+			String physicianName = callGetApi("http://localhost:8080/user/employee/name/" + appointment.getEmployeeId(),
+					token);
+			emailObj.setBody("Your appointment declined for the date " + appointment.getAppointmentDate() + " "
+					+ slot.get().getSlots() + " and doctor was " + physicianName);
+
+			RestTemplate restTemplate = new RestTemplate();
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Authorization", "Bearer " + token);
+			headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+			HttpEntity<String> entity = new HttpEntity<>(headers);
+			// ExtractRequest request = new ExtractRequest();
+			// request.setToken(token);
+			String url = "http://localhost:8080/notification/email";
+			ResponseEntity<String> response = restTemplate.postForEntity(url, emailObj, String.class);
+			System.out.println(response.getBody());
+		}
 	}
 
 }

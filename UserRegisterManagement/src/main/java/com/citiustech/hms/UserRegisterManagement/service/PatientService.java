@@ -41,7 +41,7 @@ public class PatientService {
 			patient.setEmail(patientRequest.getEmail());
 			patient.setDateOfBirth(patientRequest.getDateOfBirth());
 			patient.setContactNo(patientRequest.getContactNo());
-
+			patient.setGender(patientRequest.getGender());
 			patient.setAge(Period.between(
 					LocalDate.parse(patientRequest.getDateOfBirth(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
 					LocalDate.now()).getYears());

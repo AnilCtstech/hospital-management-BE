@@ -78,4 +78,10 @@ public class AppointmentController {
 
 	}
 
+	@GetMapping("/decline/{id}")
+	public String declineAppointment(@PathVariable String id,
+			@RequestHeader(value = "Authorization") String authToken) {
+		return appointmentService.declineAppointment(Long.parseLong(id),authToken.split(" ")[1]);
+	}
+
 }

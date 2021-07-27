@@ -55,6 +55,11 @@ public class PatientController {
 		return patientService.getPatientById(patientId);
 	}
 
+	@GetMapping("/patient/email/{patientId}")
+	public String getPatientEmailById(@PathVariable Long patientId) {
+		return patientService.getPatientById(patientId).get().getEmail();
+	}
+
 	// Delete patient by Id
 	@DeleteMapping("/patient/{patientId}")
 	public ResponseEntity<Object> deletePatient(@PathVariable Long patientId) {
@@ -62,7 +67,6 @@ public class PatientController {
 	}
 
 	@PutMapping("/update/patient")
-
 	public ResponseEntity<Object> updateEmployee(@RequestBody PatientDemographics patientDemographics) {
 		return patientService.updatePatient(patientDemographics);
 	}
@@ -80,11 +84,9 @@ public class PatientController {
 
 	@GetMapping("/patient/all")
 	public ResponseEntity<List<PatientProfile>> getPatients() {
-
 		List<PatientProfile> patients = patientService.getAllPatient();
 		System.out.println("Email :: " + patients.get(0).getEmail());
 		return ResponseEntity.ok(patients);
-
 	}
 
 	@PostMapping("/patient/email")
