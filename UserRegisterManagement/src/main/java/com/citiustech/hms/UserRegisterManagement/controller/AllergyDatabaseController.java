@@ -20,7 +20,6 @@ public class AllergyDatabaseController {
 
 	@GetMapping("details/{allergyId}")
 	public List<AllergyDatabaseDetails> getAllergyDetailsById(@PathVariable String allergyId) {
-		String modifiedAllergyId = allergyId.replace("%20", " ");
 		return allergyDatabaseService.getAllergyDetailsById(allergyId);
 	}
 
