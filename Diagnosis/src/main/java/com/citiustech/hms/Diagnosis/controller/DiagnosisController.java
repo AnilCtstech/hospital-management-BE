@@ -13,13 +13,14 @@ import com.citiustech.hms.Diagnosis.service.DiagnosisService;
 @RestController
 @RequestMapping("/savediagnosis")
 public class DiagnosisController {
+
 	@Autowired
 	private DiagnosisService diagnosisService;
-	
+
 	@PostMapping("/create")
-	public ResponseEntity<String> saveDiagnosis(@RequestBody DiagnosisDto diagnosisDto){
+	public ResponseEntity<String> saveDiagnosis(@RequestBody DiagnosisDto diagnosisDto) {
 		return diagnosisService.saveDiagnosis(diagnosisDto);
-		
+
 	}
 
 }

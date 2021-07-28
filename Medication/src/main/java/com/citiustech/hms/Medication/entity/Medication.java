@@ -31,6 +31,14 @@ public class Medication {
 	@Column(nullable = false)
 	private long patientId;
 	@Column(nullable = false)
+	private long employeeId;
+	public long getEmployeeId() {
+		return employeeId;
+	}
+	public void setEmployeeId(long employeeId) {
+		this.employeeId = employeeId;
+	}
+	@Column(nullable = false)
 	private Timestamp createdAt;
 	@Column(nullable = false)
 	private Timestamp updatedAt;

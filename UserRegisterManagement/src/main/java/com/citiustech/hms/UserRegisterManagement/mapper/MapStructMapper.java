@@ -4,6 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
+import com.citiustech.hms.UserRegisterManagement.dto.PatientDetails;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientProfile;
 import com.citiustech.hms.UserRegisterManagement.dto.Profile;
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
@@ -16,4 +17,5 @@ public interface MapStructMapper {
 	public Profile employeeToProfile(Employee employee);
 
 	public PatientProfile patientToProfile(Patient patient);
+
 }

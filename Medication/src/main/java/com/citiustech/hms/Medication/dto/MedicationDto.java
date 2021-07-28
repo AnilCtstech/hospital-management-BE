@@ -16,9 +16,16 @@ public class MedicationDto {
 	
 	private long patientId;
 	private String drugForm;
+	private long employeeId;
 
-	private Timestamp createdAt;
-	private Timestamp updatedAt;
+	public long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(long employeeId) {
+		this.employeeId = employeeId;
+	}
+
 	private String createdBy;
 	private String updatedBy;
 
@@ -32,21 +39,7 @@ public class MedicationDto {
 		this.patientId = patientId;
 	}
 
-	public Timestamp getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Timestamp getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+	
 
 	public String getCreatedBy() {
 		return createdBy;

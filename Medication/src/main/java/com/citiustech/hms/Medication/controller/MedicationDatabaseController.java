@@ -33,6 +33,12 @@ public class MedicationDatabaseController {
 		return medicationDatabaseService.getDrugDetailsByName(drugName);
 	}
 	
+	@GetMapping("/drugName/{key}")
+	public List<String> getAllDrugNameByKey(@PathVariable String key) {
+		
+		return medicationDatabaseService.getAllDrugNameByKey(key);
+	}
+	
 	
 
 

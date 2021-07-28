@@ -18,6 +18,23 @@ public class Procedures {
 	private String procedureDescription;
 	private boolean procedureIsdeprecated;
 	private long patientId;
+	private long employeeId;
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(long employeeId) {
+		this.employeeId = employeeId;
+	}
+
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	private String createdBy;

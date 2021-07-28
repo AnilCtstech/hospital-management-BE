@@ -49,16 +49,22 @@ public class EmployeeController {
 	public ResponseEntity<String> getEmployeeNameById(@PathVariable("id") String id) {
 		return employeeService.getEmployeeById(id);
 	}
-	
+
 	@GetMapping("/employee/{id}")
-	public ResponseEntity<String> getNameOnly(@PathVariable Long id){
-		String name=employeeService.getNameById(id);
+	public ResponseEntity<String> getNameOnly(@PathVariable Long id) {
+		String name = employeeService.getNameById(id);
 		return ResponseEntity.ok(name);
 	}
-	
+
 	@PostMapping("/employee/ename")
-	public ResponseEntity<List<Profile>> getEmployeeByName(@RequestBody String employeeName){
+	public ResponseEntity<List<Profile>> getEmployeeByName(@RequestBody String employeeName) {
 		List<Profile> profile = employeeService.findEmployeeByName(employeeName);
 		return ResponseEntity.ok(profile);
+	}
+
+	// here working
+	@GetMapping("/physiciansearch/{name}")
+	public List<Long> getPatientIdByName(@PathVariable("name") String name) {
+		return employeeService.getEmployeeIdByName(name);
 	}
 }

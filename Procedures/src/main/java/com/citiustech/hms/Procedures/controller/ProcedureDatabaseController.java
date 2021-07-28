@@ -21,11 +21,30 @@ public class ProcedureDatabaseController {
 	public List<String> getAllProcedureCode() {
 		return procedureDatabaseService.getAllProcedureCode();
 	}
+	
+	
+	
+	@GetMapping("/getAllProcedureCode/{key}")
+	public List<String> getAllProcedureCodeByKey(@PathVariable String key) {
+		return procedureDatabaseService.getAllProcedureCodeKey(key);
+	}
+	
+	
 
+	@GetMapping("/getAllProcedureDescription/{key}")
+	public List<String> getAllProcedureDescriptionByKey(@PathVariable String key) {
+		return procedureDatabaseService.getAllProcedureDescriptionByKey(key);
+	}
+	
+	
+	
 	@GetMapping("/{procedureCode}")
 	public String getProcedureDescription(@PathVariable String procedureCode) {
 		return procedureDatabaseService.getProcedureDescription(procedureCode);
 	}
+	
+	
+
 	
 	@GetMapping("/getAllProcedureDescription")
 	public List<String> getAllProcedureDescription() {

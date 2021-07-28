@@ -28,4 +28,16 @@ public class ProcedureDatabaseService {
 			return procedureDatabaseRepository.findAllByProcedureDescription();
 	}
 
+	public List<String> getAllProcedureDescriptionByKey(String key) {
+		
+       return procedureDatabaseRepository.findAllByProcedureDescriptionContaining(key);
+       
+	}
+
+	public List<String> getAllProcedureCodeKey(String key) {
+		
+		 return procedureDatabaseRepository.findAllByProcedureCodeContaining(key);
+	}
+
+	
 }

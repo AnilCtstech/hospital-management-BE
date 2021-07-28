@@ -64,11 +64,24 @@ public class AppointmentController {
 		return appointmentService.deleteAppointment(id);
 	}
 
-	@GetMapping("/search/{name}")
+	@GetMapping("/patientsearch/{name}")
 	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByPatient(@PathVariable String name,
 			@RequestHeader(value = "Authorization") String authToken) {
 		return appointmentService.searchAppointmentsByPatient(name, authToken.split(" ")[1]);
 
+	}
+
+	@GetMapping("/physiciansearch/{name}")
+	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByPhysician(@PathVariable String name,
+			@RequestHeader(value = "Authorization") String authToken) {
+		return appointmentService.searchAppointmentsByPhysician(name, authToken.split(" ")[1]);
+
+	}
+
+	@GetMapping("/decline/{id}")
+	public String declineAppointment(@PathVariable String id,
+			@RequestHeader(value = "Authorization") String authToken) {
+		return appointmentService.declineAppointment(Long.parseLong(id),authToken.split(" ")[1]);
 	}
 
 }
