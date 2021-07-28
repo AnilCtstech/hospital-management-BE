@@ -43,4 +43,8 @@ public class MedicationDatabaseService {
 		return DrugDetails;
 	}
 
+	public List<String> getAllDrugNameByKey(String key) {
+		return medicationDatabaseRepository.findAllDrugNameContaining(key);
+	}
+
 }

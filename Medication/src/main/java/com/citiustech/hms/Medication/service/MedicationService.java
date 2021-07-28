@@ -29,6 +29,7 @@ public class MedicationService {
 		temp.setUpdatedBy(medicationDto.getUpdatedBy());
 		temp.setCreatedBy(medicationDto.getCreatedBy());
 		temp.setPatientId(medicationDto.getPatientId());
+		temp.setEmployeeId(medicationDto.getEmployeeId());
 		medicationRepository.save(temp);
 		return ResponseEntity.ok("Medication details saved");
 	}

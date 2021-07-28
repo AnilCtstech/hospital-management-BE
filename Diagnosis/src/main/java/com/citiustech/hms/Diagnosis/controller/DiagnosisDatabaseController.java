@@ -28,5 +28,10 @@ public class DiagnosisDatabaseController {
 		return diagnosisService.getDiagnosisDescription(diagnosisCode);
 	}
 	
+	@GetMapping("/getAllDiagnosisDescription/{key}")
+	public List<String> getAllDiagnosisDescriptionByKey(@PathVariable String key) {
+		return diagnosisService.getDiagnosisDescriptionByKey(key);
+	}
+	
 
 }

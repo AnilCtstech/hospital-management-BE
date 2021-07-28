@@ -11,16 +11,21 @@ import com.citiustech.hms.Diagnosis.repository.DiagnosisDatabaseRepository;
 @Service
 public class DiagnosisDatabaseService {
 	@Autowired
-	private DiagnosisDatabaseRepository diagnosisRepository;
+	private DiagnosisDatabaseRepository diagnosisDatabaseRepository;
 
 	public List<String> getAllDiagnosisCode() {
-		return diagnosisRepository.findAllByDiagnosisCode();
+		return diagnosisDatabaseRepository.findAllByDiagnosisCode();
 	}
 
 	public String getDiagnosisDescription(String diagnosisCode) {
 	
-	DiagnosisDatabase diagnosisDatabase= diagnosisRepository.findByDiagnosisCode(diagnosisCode) ;
+	DiagnosisDatabase diagnosisDatabase= diagnosisDatabaseRepository.findByDiagnosisCode(diagnosisCode) ;
 		return diagnosisDatabase.getDiagnosisDescription();
+	}
+
+	public List<String> getDiagnosisDescriptionByKey(String key) {
+		
+		return diagnosisDatabaseRepository.findAllByDiagnosisDescriptionContaining(key);
 	}
 
 }

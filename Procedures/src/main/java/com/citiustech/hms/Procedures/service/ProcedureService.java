@@ -27,6 +27,7 @@ public class ProcedureService {
 		temp.setUpdatedBy(procedureDto.getUpdatedBy());
 		temp.setCreatedBy(procedureDto.getCreatedBy());
 		temp.setPatientId(procedureDto.getPatientId());
+		temp.setEmployeeId(procedureDto.getEmployeeId());
 		procedureRepository.save(temp);
 		return ResponseEntity.ok("Procedure saved successfully");
 	}
