@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.citiustech.hms.UserRegisterManagement.dto.Profile;
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
+import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 import com.citiustech.hms.UserRegisterManagement.mapper.MapStructMapper;
 import com.citiustech.hms.UserRegisterManagement.repository.EmployeeRepository;
 
@@ -95,18 +96,15 @@ public class EmployeeService {
 		return profiles;
 	}
 
-
 	public String getNameById(long id) {
-		Optional<Employee> optional=employeeRepository.findById(id);
-		String name="";
-		if(optional.isPresent()) {
-			Employee employee=optional.get();
-			name=employee.getFirstName()+" "+employee.getLastName();
+		Optional<Employee> optional = employeeRepository.findById(id);
+		String name = "";
+		if (optional.isPresent()) {
+			Employee employee = optional.get();
+			name = employee.getFirstName() + " " + employee.getLastName();
 		}
 		return name;
 	}
-	
-
 
 	public ResponseEntity<String> getEmployeeById(String id) {
 		Optional<Employee> result = employeeRepository.findById(Long.parseLong(id));
@@ -116,23 +114,36 @@ public class EmployeeService {
 		}
 		return null;
 	}
-	
+
 	public List<Profile> findEmployeeByName(String employeeName) {
-		String[] names=employeeName.trim().split("\\s+");
-		String firstName = null,lastName;
-		if(names.length>1) {
-			firstName=names[0];
-			lastName=names[1];
-		}else {
-			firstName=names[0];
-			lastName="";}
-		
+		String[] names = employeeName.trim().split("\\s+");
+		String firstName = null, lastName;
+		if (names.length > 1) {
+			firstName = names[0];
+			lastName = names[1];
+		} else {
+			firstName = names[0];
+			lastName = "";
+		}
+
 		List<Employee> employees = employeeRepository.findByFirstName(firstName);
 		List<Profile> profiles = new ArrayList<>();
-		employees.stream().forEach(e->{
+		employees.stream().forEach(e -> {
 			profiles.add(mapStructMapper.employeeToProfile(e));
-			});
+		});
 		return profiles;
+	}
+
+	public List<Long> getEmployeeIdByName(String name) {
+		//List<Employee> employeeList = employeeRepository.findByFirstNameContains(name);
+		List<Employee> employeeList = employeeRepository.findByFirstNameIgnoreCaseContaining(name);
+//		List<Employee> employeeList = employeeRepository
+//				.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingIn(name);
+		List<Long> employeeIdList = new ArrayList<>();
+		for (Employee patient : employeeList) {
+			employeeIdList.add(patient.getEmployeeId());
+		}
+		return employeeIdList;
 	}
 
 }

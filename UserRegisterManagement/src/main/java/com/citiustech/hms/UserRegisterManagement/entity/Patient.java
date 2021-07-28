@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 
 public class Patient implements Serializable {
@@ -63,6 +65,30 @@ public class Patient implements Serializable {
 	private String homeAddress;
 	private String emergTitle;
 	private String emergFirstName;
+	
+	
+	@Column(name="is_active")
+	private Boolean isActive;
+	
+	@Column(name="is_blocked" )
+	private Boolean isBlocked;
+	
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public Boolean getIsBlocked() {
+		return isBlocked;
+	}
+
+	public void setIsBlocked(Boolean isBlocked) {
+		this.isBlocked = isBlocked;
+	}
+
 	public String getEmergTitle() {
 		return emergTitle;
 	}
@@ -85,13 +111,15 @@ public class Patient implements Serializable {
 
 	private String emergAddress;
 	private String isAccess;
-	private boolean hasAllergy;
+	
+	@Type(type = "numeric_boolean")
+    private Boolean hasAllergy;
 
-	public boolean isHasAllergy() {
+	public Boolean isHasAllergy() {
 		return hasAllergy;
 	}
 
-	public void setHasAllergy(boolean hasAllergy) {
+	public void setHasAllergy(Boolean hasAllergy) {
 		this.hasAllergy = hasAllergy;
 	}
 
@@ -272,5 +300,9 @@ public class Patient implements Serializable {
 		this.isAccess = isAccess;
 	}
 
+	
 
+	
+
+	
 }

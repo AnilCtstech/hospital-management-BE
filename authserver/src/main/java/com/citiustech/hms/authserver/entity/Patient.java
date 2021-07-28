@@ -61,6 +61,11 @@ public class Patient {
 	private String emergContact;
 	private String emergAddress;
 	private String isAccess;
+	@Column(name="is_active")
+	private Boolean isActive;
+	
+	@Column(name="is_blocked" )
+	private Boolean isBlocked;
 
 	public Patient() {
 		super();
@@ -88,7 +93,7 @@ public class Patient {
 			 * }
 			 */
 
-			String emergRelationship, String emergContact, String emergAddress, String isAccess) {
+			String emergRelationship, String emergContact, String emergAddress, String isAccess, Boolean isActive,Boolean isBlocked) {
 		super();
 		this.patientId = patientId;
 		this.title = title;
@@ -110,6 +115,8 @@ public class Patient {
 		this.emergContact = emergContact;
 		this.emergAddress = emergAddress;
 		this.isAccess = isAccess;
+		this.isActive = isActive;
+		this.isBlocked = isBlocked;
 	}
 
 	public Long getPatientId() {
@@ -271,5 +278,23 @@ public class Patient {
 	public void setIsAccess(String isAccess) {
 		this.isAccess = isAccess;
 	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public Boolean getIsBlocked() {
+		return isBlocked;
+	}
+
+	public void setIsBlocked(Boolean isBlocked) {
+		this.isBlocked = isBlocked;
+	}
+	
+	
 
 }

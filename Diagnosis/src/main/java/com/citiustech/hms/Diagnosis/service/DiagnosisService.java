@@ -12,18 +12,17 @@ import com.citiustech.hms.Diagnosis.entity.Diagnosis;
 import com.citiustech.hms.Diagnosis.repository.DiagnosisRepository;
 
 @Service
-
 public class DiagnosisService {
 	@Autowired
 	private DiagnosisRepository diagnosisRepository;
 
 	public ResponseEntity<String> saveDiagnosis(DiagnosisDto diagnosisDto) {
-		Diagnosis temp=new Diagnosis();
+		Diagnosis temp = new Diagnosis();
 		temp.setDiagnosisCode(diagnosisDto.getDiagnosisCode());
 		temp.setDiagnosisDescription(diagnosisDto.getDiagnosisDescription());
 		temp.setDiagnosisIsDeprecated(diagnosisDto.isDiagnosisIsDeprecated());
 		temp.setCreatedAt(new Timestamp(new Date().getTime()));
-		//temp.setCreatedAt(new Timestamp(new Date().getTime()));
+		// temp.setCreatedAt(new Timestamp(new Date().getTime()));
 		System.out.println("--------------------------");
 		System.out.println(new Timestamp(new Date().getTime()));
 		temp.setUpdatedAt(new Timestamp(new Date().getTime()));
