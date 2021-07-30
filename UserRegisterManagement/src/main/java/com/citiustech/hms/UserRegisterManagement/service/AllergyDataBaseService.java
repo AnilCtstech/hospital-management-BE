@@ -19,14 +19,14 @@ public class AllergyDataBaseService {
 
 	public List<AllergyDatabaseDetails> getAllergyDetailsById(String allergyId) {
 		List<AllergyDatabaseDetails> allergyDetails = new ArrayList<>();
-		// System.out.println("In service");
+		
 		List<AllergyDatabase> allergies = allergyDatabaseRepository.findByAllergyId(allergyId);
-		// System.out.println("allergies are"+allergies);
+	
 		for (AllergyDatabase allergy : allergies) {
 			allergyDetails.add(new AllergyDatabaseDetails(allergy.getAllergyType(), allergy.getAllergyName(),
 					allergy.getAllergenSource(), allergy.getIsoFormsOrPartialSequencesOfAllergen(),
 					allergy.getAllerginCity()));
-			// System.out.println(allergy);
+		
 		}
 
 		return allergyDetails;

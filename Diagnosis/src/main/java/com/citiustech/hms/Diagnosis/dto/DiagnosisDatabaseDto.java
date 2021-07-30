@@ -3,8 +3,10 @@ package com.citiustech.hms.Diagnosis.dto;
 public class DiagnosisDatabaseDto {
 	private String diagnosisCode;
 	private String diagnosisDescription;
-	public DiagnosisDatabaseDto(String diagnosisDescription) {
+	
+	public DiagnosisDatabaseDto(String diagnosisCode, String diagnosisDescription) {
 		super();
+		this.diagnosisCode = diagnosisCode;
 		this.diagnosisDescription = diagnosisDescription;
 	}
 	public DiagnosisDatabaseDto() {

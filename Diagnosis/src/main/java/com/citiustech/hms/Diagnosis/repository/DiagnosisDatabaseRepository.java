@@ -17,6 +17,10 @@ public interface DiagnosisDatabaseRepository extends JpaRepository<DiagnosisData
 	DiagnosisDatabase findByDiagnosisCode(String diagnosisCode);
 	
 	
-	@Query("select s.diagnosisDescription from DiagnosisDatabase s where s.diagnosisDescription like %:keyword% ")
-	List<String> findAllByDiagnosisDescriptionContaining(@Param ("keyword") String key);
+	@Query("select s from DiagnosisDatabase s where s.diagnosisDescription like %:keyword% ")
+	List<DiagnosisDatabase> findAllByDiagnosisDescriptionContaining(@Param ("keyword") String key);
+	
+	
+	@Query("select s from DiagnosisDatabase s where s.diagnosisCode like %:keyword% ")
+	List<DiagnosisDatabase> findAllByDiagnosisCodeContaining(@Param ("keyword") String key);
 }

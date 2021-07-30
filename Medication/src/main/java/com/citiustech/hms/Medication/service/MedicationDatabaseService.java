@@ -23,7 +23,7 @@ public class MedicationDatabaseService {
 		List<MedicationDatabase> drugs = medicationDatabaseRepository.findByDrugId(drugId);
 
 		for (MedicationDatabase drug : drugs) {
-			DrugDetails.add(new MedicationDatabaseDto(drug.getDrugName(), drug.getDrugGenericName(),
+			DrugDetails.add(new MedicationDatabaseDto(drug.getDrugId(),drug.getDrugName(), drug.getDrugGenericName(),
 					drug.getDrugBrandName(), drug.getDrugStrength(), drug.getDrugForm()));
 		}
 
@@ -45,6 +45,35 @@ public class MedicationDatabaseService {
 
 	public List<String> getAllDrugNameByKey(String key) {
 		return medicationDatabaseRepository.findAllDrugNameContaining(key);
+	}
+
+	
+	
+	public List<MedicationDatabaseDto> getAllMedicationsByKey(String key) {
+		List<MedicationDatabaseDto> DrugDetails = new ArrayList<>();
+
+		List<MedicationDatabase> drugs = medicationDatabaseRepository.findAllMedicationsContainingDrugName(key);
+
+		for (MedicationDatabase drug : drugs) {
+			DrugDetails.add(new MedicationDatabaseDto(drug.getDrugId(),drug.getDrugName(), drug.getDrugGenericName(),
+					drug.getDrugBrandName(), drug.getDrugStrength(), drug.getDrugForm()));
+		}
+
+		return DrugDetails;
+	
+	}
+
+	public List<MedicationDatabaseDto> getAllMedicationsByDrugIdKey(String key) {
+		List<MedicationDatabaseDto> DrugDetails = new ArrayList<>();
+
+		List<MedicationDatabase> drugs = medicationDatabaseRepository.findAllMedicationsContainingDrugId(key);
+
+		for (MedicationDatabase drug : drugs) {
+			DrugDetails.add(new MedicationDatabaseDto(drug.getDrugId(),drug.getDrugName(), drug.getDrugGenericName(),
+					drug.getDrugBrandName(), drug.getDrugStrength(), drug.getDrugForm()));
+		}
+
+		return DrugDetails;
 	}
 
 }

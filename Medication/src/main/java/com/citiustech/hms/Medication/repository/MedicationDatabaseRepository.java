@@ -17,4 +17,13 @@ public interface MedicationDatabaseRepository extends JpaRepository<MedicationDa
 	@Query("select Distinct s.drugName from MedicationDatabase s where s.drugName like %:keyword% ")
 	List<String> findAllDrugNameContaining(@Param ("keyword")  String key);
 	
+	
+	@Query("select s from MedicationDatabase s where s.drugName like %:keyword% ")
+	List<MedicationDatabase> findAllMedicationsContainingDrugName(@Param ("keyword") String key);
+	
+
+	@Query("select s from MedicationDatabase s where s.drugId like %:keyword% ")
+	List<MedicationDatabase> findAllMedicationsContainingDrugId(@Param ("keyword") String key);
+	
+	
 	}

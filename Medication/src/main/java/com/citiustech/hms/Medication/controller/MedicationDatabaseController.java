@@ -18,28 +18,31 @@ public class MedicationDatabaseController {
 	@Autowired
 	private MedicationDatabaseService medicationDatabaseService;
 	
-	
-	
-
 	@GetMapping("/{drugId}")
 	public List<MedicationDatabaseDto> getDrugDetailsById(@PathVariable String drugId) {
-		
 		return medicationDatabaseService.getDrugDetailsById(drugId);
 	}
 	
 	@GetMapping("findby/{drugName}")
 	public List<MedicationDto> getDrugDetailsByName(@PathVariable String drugName) {
-		
 		return medicationDatabaseService.getDrugDetailsByName(drugName);
 	}
 	
+//	@GetMapping("/drugName/{key}")
+//	public List<String> getAllDrugNameByKey(@PathVariable String key) {
+//		
+//		return medicationDatabaseService.getAllDrugNameByKey(key);
+//	}
+	
 	@GetMapping("/drugName/{key}")
-	public List<String> getAllDrugNameByKey(@PathVariable String key) {
-		
-		return medicationDatabaseService.getAllDrugNameByKey(key);
+	public List<MedicationDatabaseDto> getAllMedicationsByKey(@PathVariable String key) {
+		return medicationDatabaseService.getAllMedicationsByKey(key);
 	}
 	
+	@GetMapping("/drugId/{key}")
+	public List<MedicationDatabaseDto> getAllMedicationsByDrugIdKey(@PathVariable String key) {
+		return medicationDatabaseService.getAllMedicationsByDrugIdKey(key);
+	}
 	
-
 
 }

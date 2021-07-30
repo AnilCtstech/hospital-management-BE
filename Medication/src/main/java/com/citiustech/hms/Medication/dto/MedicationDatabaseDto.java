@@ -2,6 +2,7 @@ package com.citiustech.hms.Medication.dto;
 
 public class MedicationDatabaseDto {
 	
+	private String drugId;
 
 	private String drugName;
 
@@ -51,18 +52,29 @@ public class MedicationDatabaseDto {
 		return drugForm;
 	}
 
+	public String getDrugId() {
+		return drugId;
+	}
+
+	public void setDrugId(String drugId) {
+		this.drugId = drugId;
+	}
+
 	public void setDrugForm(String drugForm) {
 		this.drugForm = drugForm;
 	}
 
-	public MedicationDatabaseDto(String drugName, String drugGenericName, String drugBrandName, String drugStrength,
-			String drugForm) {
+	public MedicationDatabaseDto(String drugId, String drugName, String drugGenericName, String drugBrandName,
+			String drugStrength, String drugForm) {
 		super();
+		this.drugId = drugId;
 		this.drugName = drugName;
 		this.drugGenericName = drugGenericName;
 		this.drugBrandName = drugBrandName;
 		this.drugStrength = drugStrength;
 		this.drugForm = drugForm;
 	}
+
+	
 
 }
