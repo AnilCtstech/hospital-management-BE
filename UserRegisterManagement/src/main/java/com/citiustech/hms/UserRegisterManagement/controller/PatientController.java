@@ -116,5 +116,10 @@ public class PatientController {
 		return new ResponseEntity<String>(msg, HttpStatus.OK);
 
 	}
+	
+	@GetMapping("/patient/get-demographics/{id}")
+	public PatientDemographics getPatientDemographics(@PathVariable long id) {
+		return patientService.getpatientDemographics(id);
+	}
 
 }

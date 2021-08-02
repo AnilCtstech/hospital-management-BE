@@ -1,5 +1,7 @@
 package com.citiustech.hms.Diagnosis.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +20,7 @@ public class DiagnosisController {
 	private DiagnosisService diagnosisService;
 
 	@PostMapping("/create")
-	public ResponseEntity<String> saveDiagnosis(@RequestBody DiagnosisDto diagnosisDto) {
+	public ResponseEntity<String> saveDiagnosis(@RequestBody  List<DiagnosisDto> diagnosisDto) {
 		return diagnosisService.saveDiagnosis(diagnosisDto);
 
 	}

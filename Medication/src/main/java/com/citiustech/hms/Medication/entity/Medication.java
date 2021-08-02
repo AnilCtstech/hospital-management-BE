@@ -123,5 +123,23 @@ public class Medication {
 	public void setPatientId(long patientId) {
 		this.patientId = patientId;
 	}
+	public Medication(String drugId, String drugName, String drugGenericName, String drugBrandName, String drugStrength,
+			String drugForm, long patientId, long employeeId, Timestamp createdAt, Timestamp updatedAt,
+			String createdBy, String updatedBy) {
+		super();
+		this.drugId = drugId;
+		this.drugName = drugName;
+		this.drugGenericName = drugGenericName;
+		this.drugBrandName = drugBrandName;
+		this.drugStrength = drugStrength;
+		this.drugForm = drugForm;
+		this.patientId = patientId;
+		this.employeeId = employeeId;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.createdBy = createdBy;
+		this.updatedBy = updatedBy;
+	}
+	
 	
 }

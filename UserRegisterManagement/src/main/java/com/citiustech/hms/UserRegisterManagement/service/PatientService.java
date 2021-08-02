@@ -207,4 +207,28 @@ public class PatientService {
 		return patientIdList;
 	}
 
+	public PatientDemographics getpatientDemographics(Long id) {
+		Patient result=patientRepository.findById(id).get();
+		PatientDemographics demographics= new PatientDemographics();
+		demographics.setTitle(result.getTitle());
+		demographics.setFirstName(result.getFirstName());
+		demographics.setLastName(result.getLastName());
+		demographics.setEmail(result.getEmail());
+		demographics.setDateOfBirth(result.getDateOfBirth());
+		demographics.setGender(result.getGender());
+		demographics.setContactNo(result.getContactNo());
+		demographics.setAge(result.getAge());
+		demographics.setRace(result.getRace());
+		demographics.setEthnicity(result.getEthnicity());
+		demographics.setLanguagesKnown(result.getLanguagesKnown());
+		demographics.setHomeAddress(result.getHomeAddress());
+		demographics.setEmergFirstName(result.getEmergFirstName());
+		demographics.setEmergLastName(result.getLastName());
+		demographics.setEmergRelationship(result.getEmergRelationship());
+		demographics.setAllergy(result.getAllergy());
+		demographics.setEmergContact(result.getEmergContact());
+		demographics.setEmergEmail(result.getEmergEmail());
+		return demographics;
+	}
+
 }

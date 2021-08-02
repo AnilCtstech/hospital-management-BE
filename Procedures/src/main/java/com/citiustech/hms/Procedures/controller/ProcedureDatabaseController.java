@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.citiustech.hms.Procedures.dto.ProcedureDatabaseDto;
 import com.citiustech.hms.Procedures.entity.ProcedureDatabase;
 import com.citiustech.hms.Procedures.service.ProcedureDatabaseService;
 
@@ -32,13 +33,13 @@ public class ProcedureDatabaseController {
 //	
 	
 	@GetMapping("/getAllProcedureCode/{key}")
-	public List<ProcedureDatabase> getAllProcedureCodeByKey(@PathVariable String key) {
+	public List<ProcedureDatabaseDto> getAllProcedureCodeByKey(@PathVariable String key) {
 		return procedureDatabaseService.getAllProcedureCodeKey(key);
 	}
 	
 
 	@GetMapping("/getAllProcedureDescription/{key}")
-	public List<ProcedureDatabase> getAllProcedureDescriptionByKey(@PathVariable String key) {
+	public List<ProcedureDatabaseDto> getAllProcedureDescriptionByKey(@PathVariable String key) {
 		return procedureDatabaseService.getAllProcedureDescriptionByKey(key);
 	}
 	

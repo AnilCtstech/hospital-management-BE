@@ -1,5 +1,7 @@
 package com.citiustech.hms.Procedures.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +20,7 @@ public class ProcedureController {
 	private ProcedureService procedureService;
 	
 	@PostMapping("/create")
-	public ResponseEntity<String> saveProcedure(@RequestBody ProcedureDto procedureDto){
+	public ResponseEntity<String> saveProcedure(@RequestBody List<ProcedureDto> procedureDto){
 		return procedureService.saveProcedure(procedureDto);
 	}
 }

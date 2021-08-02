@@ -66,5 +66,19 @@ public class ProcedureDto {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+	public ProcedureDto(String procedureCode, String procedureDescription, boolean procedureIsdeprecated,
+			long patientId, long employeeId, Timestamp createdAt, Timestamp updatedAt, String createdBy,
+			String updatedBy) {
+		super();
+		this.procedureCode = procedureCode;
+		this.procedureDescription = procedureDescription;
+		this.procedureIsdeprecated = procedureIsdeprecated;
+		this.patientId = patientId;
+		this.employeeId = employeeId;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.createdBy = createdBy;
+		this.updatedBy = updatedBy;
+	}
 	
 }

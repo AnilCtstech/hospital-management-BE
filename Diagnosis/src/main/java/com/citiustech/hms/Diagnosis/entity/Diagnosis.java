@@ -85,4 +85,19 @@ public class Diagnosis {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+
+	public Diagnosis(String diagnosisCode, String diagnosisDescription, boolean diagnosisIsDeprecated, long patientId,
+			Timestamp createdAt, Timestamp updatedAt, String createdBy, String updatedBy) {
+		super();
+		this.diagnosisCode = diagnosisCode;
+		this.diagnosisDescription = diagnosisDescription;
+		this.diagnosisIsDeprecated = diagnosisIsDeprecated;
+		this.patientId = patientId;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.createdBy = createdBy;
+		this.updatedBy = updatedBy;
+	}
+	
+	
 }
