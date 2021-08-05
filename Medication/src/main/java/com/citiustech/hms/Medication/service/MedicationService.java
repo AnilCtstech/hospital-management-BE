@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +13,14 @@ import org.springframework.stereotype.Service;
 import com.citiustech.hms.Medication.dto.MedicationDto;
 import com.citiustech.hms.Medication.entity.Medication;
 import com.citiustech.hms.Medication.repository.MedicationRepository;
+import com.citiustech.hms.Medication.util.JwtUtil;
 
 @Service
 public class MedicationService {
 	@Autowired
 	private MedicationRepository medicationRepository;
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	public ResponseEntity<String> saveMedication(List<MedicationDto> medicationDto) {
 
@@ -46,4 +50,40 @@ public class MedicationService {
 		return ResponseEntity.ok("Medication details saved");
 
 	}
+	
+	
+	public List<MedicationDto> getAllMedicationByPhysian(String authorization) {
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
+
+		Optional<List<Medication>> optional = medicationRepository.findAllByCreatedBy(user);
+		List<MedicationDto> medicationDto = new ArrayList<>();
+		
+			
+		
+		if (optional.isPresent()) {
+			optional.get().forEach(medication -> {
+				medicationDto.add(new MedicationDto(medication.getDrugId(),  medication.getDrugGenericName(), medication.getDrugBrandName(), medication.getDrugStrength(), medication.getDrugName(), medication.getPatientId(), medication.getDrugForm(), medication.getCreatedAt()));
+			});
+			return medicationDto;
+		}
+		return medicationDto;
+	}
+
+	public List<Long> getAllPatientByEmployee(String authorization) {
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
+
+		List<Long> patientIds = medicationRepository.findPatientIdByCreatedBy(user);
+		return patientIds;
+	}
+	
+	
+	
+	
+	
+	
+	
 }

@@ -140,6 +140,9 @@ public class Medication {
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
 	}
+	public Medication() {
+		super();
+	}
 	
 	
 }

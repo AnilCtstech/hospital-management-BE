@@ -117,5 +117,9 @@ public class Procedures {
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
 	}
+
+	public Procedures() {
+		super();
+	}
 	
 }
