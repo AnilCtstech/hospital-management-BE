@@ -31,6 +31,10 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	List<Patient> findByFirstNameContains(String name);
 
 	List<Patient> findByFirstNameIgnoreCaseContaining(String firstName);
+	
+	List<Patient> findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(String firstName, String lastName);
+	
+	
 
 	// List<Patient>
 	// findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingIn(String

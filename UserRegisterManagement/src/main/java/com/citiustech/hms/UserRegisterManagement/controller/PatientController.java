@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientDemographics;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientDetails;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientProfile;
+import com.citiustech.hms.UserRegisterManagement.dto.Profile;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
 import com.citiustech.hms.UserRegisterManagement.service.PatientService;
@@ -122,4 +123,16 @@ public class PatientController {
 		return patientService.getpatientDemographics(id);
 	}
 
+	@GetMapping("/patient/profile/{name}")
+	public ResponseEntity<List<Profile>> getPatientProfileByName(@PathVariable String name) {
+	List<Profile> profile = patientService.findPatientProfileByName(name);
+	return ResponseEntity.ok(profile);
+	}
+	
+	@GetMapping("/patient/visit/profile")
+	public ResponseEntity<List<PatientProfile>> findPatientProfileByVisit(@RequestHeader("authorization") String authorization) {
+	List<PatientProfile> profile = patientService.findPatientProfileByVisit(authorization);
+	return ResponseEntity.ok(profile);
+	}
+	
 }

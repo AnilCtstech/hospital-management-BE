@@ -98,6 +98,12 @@ public class Diagnosis {
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
 	}
+
+	public Diagnosis() {
+		super();
+	}
+	
+	
 	
 	
 }

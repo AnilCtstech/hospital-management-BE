@@ -3,9 +3,12 @@ package com.citiustech.hms.Diagnosis.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +27,25 @@ public class DiagnosisController {
 		return diagnosisService.saveDiagnosis(diagnosisDto);
 
 	}
+	
+	
+	@GetMapping("/getall")
+	public ResponseEntity<List<DiagnosisDto>> getAllDiagnosis(@RequestHeader("authorization") String authorization){
+	List<DiagnosisDto> diagnosis=diagnosisService.getAllDiagnosisByPhysian(authorization);
+	return ResponseEntity.ok(diagnosis);
+	}
+	
+	
+	
+	@GetMapping("/patients")
+	public ResponseEntity<List<Long>> getAssociatedPatientId(@RequestHeader("authorization") String authorization){
+	List<Long> patientIdList=diagnosisService.getAllPatientByEmployee(authorization);
+	if(patientIdList!=null) {
+	return new ResponseEntity<List<Long>>(patientIdList, HttpStatus.OK);
+
+	 }
+	return new ResponseEntity<List<Long>>(patientIdList, HttpStatus.NO_CONTENT);
+	}
+	
 
 }

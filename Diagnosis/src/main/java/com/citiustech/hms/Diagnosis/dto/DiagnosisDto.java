@@ -60,6 +60,15 @@ public class DiagnosisDto {
 	public void setPatientId(long patientId) {
 		this.patientId = patientId;
 	}
+	public DiagnosisDto(String diagnosisCode, String diagnosisDescription, boolean diagnosisIsDeprecated,
+			long patientId, Timestamp createdAt) {
+		super();
+		this.diagnosisCode = diagnosisCode;
+		this.diagnosisDescription = diagnosisDescription;
+		this.diagnosisIsDeprecated = diagnosisIsDeprecated;
+		this.patientId = patientId;
+		this.createdAt = createdAt;
+	}
 	
 	
 }
