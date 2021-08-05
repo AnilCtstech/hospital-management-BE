@@ -23,13 +23,17 @@ public class DiagnosisService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	public ResponseEntity<String> saveDiagnosis(List<DiagnosisDto> diagnosisDto) {
+	public ResponseEntity<String> saveDiagnosis(List<DiagnosisDto> diagnosisDto, String authorization) {
 
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
+			
 		List<Diagnosis> diagnosisList = new ArrayList<>();
 		for (DiagnosisDto diag : diagnosisDto) {
 			diagnosisList.add(new Diagnosis(diag.getDiagnosisCode(), diag.getDiagnosisDescription(),
 					diag.isDiagnosisIsDeprecated(), diag.getPatientId(), new Timestamp(new Date().getTime()),
-					new Timestamp(new Date().getTime()), diag.getCreatedBy(), diag.getUpdatedBy()));
+					new Timestamp(new Date().getTime()), user, diag.getUpdatedBy()));
 		}
 
 		diagnosisRepository.saveAll(diagnosisList);
