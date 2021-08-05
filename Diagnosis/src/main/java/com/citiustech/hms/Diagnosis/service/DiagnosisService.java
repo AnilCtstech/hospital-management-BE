@@ -41,8 +41,9 @@ public class DiagnosisService {
 		String token = authorization.substring(7);
 
 		String user = jwtUtil.extractUsername(token);
-
+		
 		Optional<List<Diagnosis>> optional = diagnosisRepository.findAllByCreatedBy(user);
+	
 		List<DiagnosisDto> diagnosisDto = new ArrayList<>();
 		if (optional.isPresent()) {
 			optional.get().forEach(diagnosis -> {
@@ -61,6 +62,24 @@ public class DiagnosisService {
 
 		List<Long> patientIds = diagnosisRepository.findPatientIdByCreatedBy(user);
 		return patientIds;
+	}
+
+	public List<DiagnosisDto> getDiagnosisByPatient(String authorization, String patientId) {
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
+		
+		Optional<List<Diagnosis>> optional = diagnosisRepository.findAllByCreatedByAndPatient(user,Long.parseLong(patientId));
+	System.out.println(optional.isEmpty());
+		List<DiagnosisDto> diagnosisDto = new ArrayList<>();
+		if (optional.isPresent()) {
+			optional.get().forEach(diagnosis -> {
+				diagnosisDto.add(new DiagnosisDto(diagnosis.getDiagnosisCode(), diagnosis.getDiagnosisDescription(),
+						diagnosis.isDiagnosisIsDeprecated(), diagnosis.getPatientId(), diagnosis.getCreatedAt()));
+			});
+			return diagnosisDto;
+		}
+		return diagnosisDto;
 	}
 
 }
