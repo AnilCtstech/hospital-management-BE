@@ -78,6 +78,22 @@ public class ProcedureService {
 	}
 	
 	
+	public List<ProcedureDto> getProcedureByPatient(String authorization, String patientId) {
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
+		
+		Optional<List<Procedures>> optional = procedureRepository.findAllByCreatedByAndPatient(user,Long.parseLong(patientId));
+	System.out.println(optional.isEmpty());
+		List<ProcedureDto> procedureDto = new ArrayList<>();
+		if (optional.isPresent()) {
+			optional.get().forEach(procedure -> {
+				procedureDto.add(new ProcedureDto(procedure.getProcedureCode(), procedure.getProcedureDescription(), procedure.isProcedureIsdeprecated(), procedure.getPatientId(), procedure.getCreatedAt()));
+			});
+			return procedureDto;
+		}
+		return procedureDto;
+	}
 	
 	
 	

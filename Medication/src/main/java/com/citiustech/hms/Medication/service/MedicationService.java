@@ -64,7 +64,9 @@ public class MedicationService {
 		
 		if (optional.isPresent()) {
 			optional.get().forEach(medication -> {
-				medicationDto.add(new MedicationDto(medication.getDrugId(),  medication.getDrugGenericName(), medication.getDrugBrandName(), medication.getDrugStrength(), medication.getDrugName(), medication.getPatientId(), medication.getDrugForm(), medication.getCreatedAt()));
+				medicationDto.add(
+						new MedicationDto(medication.getDrugId(),  medication.getDrugGenericName(), medication.getDrugBrandName(), medication.getDrugStrength(), medication.getDrugName(), medication.getPatientId(), medication.getDrugForm(), medication.getCreatedAt())
+						);
 			});
 			return medicationDto;
 		}
@@ -80,7 +82,25 @@ public class MedicationService {
 		return patientIds;
 	}
 	
-	
+	public List<MedicationDto> getMedicationByPatient(String authorization, String patientId) {
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
+		
+		Optional<List<Medication>> optional = medicationRepository.findAllByCreatedByAndPatient(user,Long.parseLong(patientId));
+		System.out.println(optional.isEmpty());
+		List<MedicationDto> medicationDto = new ArrayList<>();
+		if (optional.isPresent()) {
+			optional.get().forEach(medication -> {
+				medicationDto.add(
+						new MedicationDto(medication.getDrugId(),  medication.getDrugGenericName(), medication.getDrugBrandName(), medication.getDrugStrength(), medication.getDrugName(), medication.getPatientId(), medication.getDrugForm(), medication.getCreatedAt())
+
+						);
+			});
+			return medicationDto;
+		}
+		return medicationDto;
+	}
 	
 	
 	

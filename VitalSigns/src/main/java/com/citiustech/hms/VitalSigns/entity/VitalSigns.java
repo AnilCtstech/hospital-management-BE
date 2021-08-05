@@ -85,7 +85,10 @@ public class VitalSigns {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	
+	public VitalSigns() {
+		super();
+	}
+
 	
 	
 }

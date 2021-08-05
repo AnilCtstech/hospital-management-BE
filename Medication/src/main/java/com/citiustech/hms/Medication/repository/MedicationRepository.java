@@ -15,4 +15,8 @@ public interface MedicationRepository extends JpaRepository<Medication, Long> {
 
 	@Query("select DISTINCT d.patientId from Medication d where d.createdBy=?1")
 	List<Long> findPatientIdByCreatedBy(String user);
+	
+	 @Query("select  d from Medication d where d.createdBy=?1 and d.patientId=?2")
+	 Optional<List<Medication>> findAllByCreatedByAndPatient(String user, long parseLong);
+	
 }

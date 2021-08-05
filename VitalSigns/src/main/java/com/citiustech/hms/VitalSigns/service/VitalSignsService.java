@@ -1,7 +1,10 @@
 package com.citiustech.hms.VitalSigns.service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +13,15 @@ import org.springframework.stereotype.Service;
 import com.citiustech.hms.VitalSigns.dto.VitalSignsDto;
 import com.citiustech.hms.VitalSigns.entity.VitalSigns;
 import com.citiustech.hms.VitalSigns.repository.VitalSignsRepository;
+import com.citiustech.hms.VitalSigns.util.JwtUtil;
 
 @Service
 public class VitalSignsService {
 	@Autowired
 	private VitalSignsRepository vitalSignsRepository;
+	
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	public ResponseEntity<String> saveVitalSigns(VitalSignsDto vitalSignsDto) {
 		VitalSigns temp= new VitalSigns();
@@ -31,4 +38,27 @@ public class VitalSignsService {
 		vitalSignsRepository.save(temp);
 		return ResponseEntity.ok("Vital signs saved");
 	}
+	
+	
+	public List<VitalSignsDto> getVitalSignsByPatient(String authorization, String patientId) {
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
+		
+		Optional<List<VitalSigns>> optional = vitalSignsRepository.findAllByCreatedByAndPatient(user,Long.parseLong(patientId));
+	System.out.println(optional.isEmpty());
+		List<VitalSignsDto> vitalSignsDto = new ArrayList<>();
+		if (optional.isPresent()) {
+			optional.get().forEach(vitalSigns -> {
+				vitalSignsDto.add(
+						new VitalSignsDto(vitalSigns.getHeight(), vitalSigns.getWeight(), vitalSigns.getRespirationRate(), vitalSigns.getBodyTemperature(), vitalSigns.getRespirationRate(), vitalSigns.getPatientId(),vitalSigns.getCreatedAt() )
+						);
+			});
+			return vitalSignsDto;
+		}
+		return vitalSignsDto;
+	}
+	
+	
+	
 }

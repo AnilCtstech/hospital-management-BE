@@ -16,5 +16,8 @@ public interface ProcedureRepository extends JpaRepository<Procedures, Long> {
 	@Query("select DISTINCT d.patientId from Procedures d where d.createdBy=?1")
 	List<Long> findPatientIdByCreatedBy(String user);
 	
+	 @Query("select  d from Procedures d where d.createdBy=?1 and d.patientId=?2")
+	 Optional<List<Procedures>> findAllByCreatedByAndPatient(String user, long parseLong);
+	
 	
 }
