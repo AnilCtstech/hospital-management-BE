@@ -24,20 +24,17 @@ public class DiagnosisController {
 	private DiagnosisService diagnosisService;
 
 	@PostMapping("/create")
-	public ResponseEntity<String> saveDiagnosis(@RequestBody  List<DiagnosisDto> diagnosisDto) {
-		return diagnosisService.saveDiagnosis(diagnosisDto);
+	public ResponseEntity<String> saveDiagnosis(@RequestBody  List<DiagnosisDto> diagnosisDto,@RequestHeader("authorization") String authorization) {
+		return diagnosisService.saveDiagnosis(diagnosisDto,authorization);
 
 	}
-	
-	
+
 	@GetMapping("/getall")
 	public ResponseEntity<List<DiagnosisDto>> getAllDiagnosis(@RequestHeader("authorization") String authorization){
 	List<DiagnosisDto> diagnosis=diagnosisService.getAllDiagnosisByPhysian(authorization);
 	return ResponseEntity.ok(diagnosis);
 	}
-	
-	
-	
+
 	@GetMapping("/patients")
 	public ResponseEntity<List<Long>> getAssociatedPatientId(@RequestHeader("authorization") String authorization){
 	List<Long> patientIdList=diagnosisService.getAllPatientByEmployee(authorization);
