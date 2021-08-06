@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
+import com.citiustech.hms.UserRegisterManagement.entity.Role;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
@@ -35,8 +36,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 	List<Employee> findByFirstNameContains(String name);
 
 	List<Employee> findByFirstNameIgnoreCaseContaining(String firstName);
+	
+	List<Employee> findAllByRole(Role role);
 
-	// List<Employee>
-	// findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingIn(String
-	// firstName);
+	@Modifying
+	@Query("update Employee e set e.isActive =:is_active , e.isBlocked =:is_blocked where e.email =:email")
+	void updateEmployeeStatus(@Param(value = "email") String email, @Param(value = "is_active") boolean isActive,
+			@Param(value = "is_blocked") boolean isBlocked);
 }

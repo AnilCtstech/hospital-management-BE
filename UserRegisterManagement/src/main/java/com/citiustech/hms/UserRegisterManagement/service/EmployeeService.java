@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.citiustech.hms.UserRegisterManagement.dto.Profile;
 import com.citiustech.hms.UserRegisterManagement.entity.Employee;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
+import com.citiustech.hms.UserRegisterManagement.entity.Role;
 import com.citiustech.hms.UserRegisterManagement.mapper.MapStructMapper;
 import com.citiustech.hms.UserRegisterManagement.repository.EmployeeRepository;
 
@@ -43,7 +45,9 @@ public class EmployeeService {
 			employee.setDateOfBirth(employeeRequest.getDateOfBirth());
 			employee.setRole(employeeRequest.getRole());
 			employee.setPassword(employeeRequest.getFirstName() + "@123");
-
+			employee.setIsActive(true);
+			employee.setIsBlocked(false);
+			employee.setIsAccess("Active");
 			employee.setPassCount(0);
 			Employee savedEmployee = null;
 
@@ -135,15 +139,79 @@ public class EmployeeService {
 	}
 
 	public List<Long> getEmployeeIdByName(String name) {
-		//List<Employee> employeeList = employeeRepository.findByFirstNameContains(name);
 		List<Employee> employeeList = employeeRepository.findByFirstNameIgnoreCaseContaining(name);
-//		List<Employee> employeeList = employeeRepository
-//				.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContainingIn(name);
 		List<Long> employeeIdList = new ArrayList<>();
 		for (Employee patient : employeeList) {
 			employeeIdList.add(patient.getEmployeeId());
 		}
 		return employeeIdList;
 	}
+	
+	public List<Profile> findEmployeeByRole(Role role){
+		List<Employee> employees = employeeRepository.findAllByRole(role);
+		List<Profile> profiles = new ArrayList<>();
+		for (Employee employee : employees) {
+			Profile profile = new Profile();
+			profile.setId(employee.getEmployeeId());
+			profile.setFirstName(employee.getFirstName());
+			profile.setLastName(employee.getLastName());
+			profile.setEmail(employee.getEmail());
+			profile.setDateOfBirth(employee.getDateOfBirth().toString());
+			profile.setRole(employee.getRole());
+
+			if (employee.getIsActive() == true) {
+				profile.setStatus("Active");
+			} else if (employee.getIsBlocked() == true) {
+				profile.setStatus("Blocked");
+			} else {
+				profile.setStatus("Unknown");
+			}
+
+			profiles.add(profile);
+		}
+		return profiles;
+	}
+	
+	public List<Profile> findAllEmployee(){
+		List<Employee> employees = employeeRepository.findAll();
+		List<Profile> profiles = new ArrayList<>();
+		for (Employee employee : employees) {
+			Profile profile = new Profile();
+			profile.setId(employee.getEmployeeId());
+			profile.setFirstName(employee.getFirstName());
+			profile.setLastName(employee.getLastName());
+			profile.setEmail(employee.getEmail());
+			profile.setDateOfBirth(employee.getDateOfBirth().toString());
+			profile.setRole(employee.getRole());
+
+			if (employee.getIsActive() == true) {
+				profile.setStatus("Active");
+			} else if (employee.getIsBlocked() == true) {
+				profile.setStatus("Blocked");
+			} else {
+				profile.setStatus("Unknown");
+			}
+
+			profiles.add(profile);
+		}
+		return profiles;
+	}
+	
+	@Transactional
+	public String updateEmployeeStatus(String email, Profile profile) {
+		boolean isActive;
+		boolean isBlocked;
+		System.out.println("status : "+profile.getStatus());
+		if (profile.getStatus().equalsIgnoreCase("Active")) {
+			isActive = true;
+			isBlocked = false;
+		} else {
+			isActive = false;
+			isBlocked = true;
+		}
+		employeeRepository.updateEmployeeStatus(email, isActive, isBlocked);
+		return "Status Updated";
+	}
+
 
 }

@@ -279,7 +279,17 @@ public class PatientService {
 		return profile;
 		}
 	
-	
+	public List<PatientProfile> getPatientByPatientId(long id) {
+		Optional<Patient> optional = patientRepository.findByPatientId(id);
+		List<PatientProfile> profile = new ArrayList<>();
+
+		if(optional.isPresent()) {
+		Patient patient = optional.get();
+			profile.add(mapStructMapper.patientToProfile(patient));
+		}
+
+		return profile;
+	}
 	
 	
 }

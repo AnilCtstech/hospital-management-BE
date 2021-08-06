@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import com.citiustech.hms.inboxmanagement.entity.EditHistory;
 
 public class EditAppointment {
@@ -20,18 +22,18 @@ public class EditAppointment {
 	private String updatedBy;
 
 	// fields for edit history
-	private Time timeOfEdit;
+	private LocalTime timeOfEdit;
 	private String employeeDetail;
 	private String reason;
 
 	private long slotId;
 	private String meetingTitle;
 
-	public Time getTimeOfEdit() {
+	public LocalTime getTimeOfEdit() {
 		return timeOfEdit;
 	}
 
-	public void setTimeOfEdit(Time timeOfEdit) {
+	public void setTimeOfEdit(LocalTime timeOfEdit) {
 		this.timeOfEdit = timeOfEdit;
 	}
 

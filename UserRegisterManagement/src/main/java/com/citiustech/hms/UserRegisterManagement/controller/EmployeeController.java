@@ -3,10 +3,12 @@ package com.citiustech.hms.UserRegisterManagement.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,9 +64,40 @@ public class EmployeeController {
 		return ResponseEntity.ok(profile);
 	}
 
-	// here working
 	@GetMapping("/physiciansearch/{name}")
 	public List<Long> getPatientIdByName(@PathVariable("name") String name) {
 		return employeeService.getEmployeeIdByName(name);
+	}
+	
+	@PostMapping("/employee/role")
+	public ResponseEntity<List<Profile>> getAllEmployeeByRole(@RequestBody String role){
+		List<Profile> profile = null;
+		if(role.equals("DOCTOR"))
+			profile = employeeService.findEmployeeByRole(Role.DOCTOR);
+		else if(role.equals("NURSE"))
+			profile = employeeService.findEmployeeByRole(Role.NURSE);
+		else if(role.equals("ADMIN"))
+			profile = employeeService.findEmployeeByRole(Role.ADMIN);
+		else if(role.equals("PATIENT"))
+			profile = employeeService.findEmployeeByRole(Role.PATIENT);
+		
+		return ResponseEntity.ok(profile);
+	}
+	
+	@GetMapping("/employee/all")
+	public ResponseEntity<List<Profile>> getAllEmployee(){		
+		List<Profile> profile = employeeService.findEmployeeByRole(Role.DOCTOR);
+		List<Profile> profile1 = employeeService.findEmployeeByRole(Role.NURSE);
+		profile.addAll(profile1);		
+		
+		return ResponseEntity.ok(profile);
+	}
+	
+	@PutMapping("/employee/update")
+	public ResponseEntity<String> updateStatus(@RequestBody Profile profile) {
+		String email = profile.getEmail();
+		String msg = employeeService.updateEmployeeStatus(email, profile);
+		return new ResponseEntity<String>(msg, HttpStatus.OK);
+
 	}
 }
