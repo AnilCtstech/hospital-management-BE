@@ -1,4 +1,4 @@
-package com.citiustech.hms.Procedures.entity;
+package com.citiustech.hms.UserRegisterManagement.dto;
 
 import java.sql.Timestamp;
 
@@ -7,11 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
-public class Procedures {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+public class ProceduresDTO {
+
 	private long id;
 
 	private String procedureCode;
@@ -105,18 +102,12 @@ public class Procedures {
 		this.updatedBy = updatedBy;
 	}
 
-	public Procedures(String procedureCode, String procedureDescription, boolean procedureIsdeprecated, long patientId,
-			long employeeId, Timestamp createdAt, Timestamp updatedAt, String createdBy, String updatedBy) {
-		super();
-		this.procedureCode = procedureCode;
-		this.procedureDescription = procedureDescription;
-		this.procedureIsdeprecated = procedureIsdeprecated;
-		this.patientId = patientId;
-		this.employeeId = employeeId;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.createdBy = createdBy;
-		this.updatedBy = updatedBy;
+	@Override
+	public String toString() {
+		return "ProceduresDTO [id=" + id + ", procedureCode=" + procedureCode + ", procedureDescription="
+				+ procedureDescription + ", procedureIsdeprecated=" + procedureIsdeprecated + ", patientId=" + patientId
+				+ ", employeeId=" + employeeId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", createdBy=" + createdBy + ", updatedBy=" + updatedBy + "]";
 	}
 
 }
