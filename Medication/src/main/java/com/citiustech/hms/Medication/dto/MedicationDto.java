@@ -150,5 +150,9 @@ public class MedicationDto {
 		this.createdAt = createdAt;
 	}
 
+	public MedicationDto() {
+		super();
+	}
+
 	
 }

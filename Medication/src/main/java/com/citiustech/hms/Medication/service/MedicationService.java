@@ -22,7 +22,7 @@ public class MedicationService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	public ResponseEntity<String> saveMedication(List<MedicationDto> medicationDto) {
+	public ResponseEntity<String> saveMedication(List<MedicationDto> medicationDto,String authorization) {
 
 		/*
 		 * Medication temp= new Medication(); temp.setDrugId(medicationDto.getDrugId());
@@ -40,11 +40,15 @@ public class MedicationService {
 		 * medicationRepository.save(temp);
 		 */
 
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
+		
 		List<Medication> medicationList = new ArrayList<>();
 		for (MedicationDto med : medicationDto) {
-			medicationList.add(new Medication(med.getDrugId(), med.getDrugName(), med.getDrugGenericName(),
-					med.getDrugBrandName(), med.getDrugStrength(), med.getDrugForm(), med.getPatientId(),
-					med.getEmployeeId(), new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime()), med.getCreatedBy(), med.getUpdatedBy()));
+			medicationList.add(
+					new Medication(med.getDrugId(), med.getDrugName(), med.getDrugGenericName(), med.getDrugStrength(), med.getDrugForm(), med.getPatientId(), user)
+					);
 		}
 		medicationRepository.saveAll(medicationList);
 		return ResponseEntity.ok("Medication details saved");

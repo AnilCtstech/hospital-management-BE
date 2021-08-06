@@ -23,8 +23,8 @@ public class MedicationController {
 	private MedicationService medicationService;
 	
 	@PostMapping("/create")
-	public ResponseEntity<String> saveMedication(@RequestBody List<MedicationDto> medicationDto){
-		return medicationService.saveMedication(medicationDto);
+	public ResponseEntity<String> saveMedication(@RequestBody List<MedicationDto> medicationDto,@RequestHeader("authorization") String authorization){
+		return medicationService.saveMedication(medicationDto,authorization);
 	}
 	
 	@GetMapping("/getall")

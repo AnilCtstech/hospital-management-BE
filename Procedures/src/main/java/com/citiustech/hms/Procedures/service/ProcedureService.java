@@ -24,7 +24,7 @@ public class ProcedureService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	public ResponseEntity<String> saveProcedure(List<ProcedureDto> procedureDto) {
+	public ResponseEntity<String> saveProcedure(List<ProcedureDto> procedureDto, String authorization) {
 		/*
 		 * Procedures temp= new Procedures(); 
 		 * temp.setProcedureCode(procedureDto.getProcedureCode());
@@ -40,11 +40,15 @@ public class ProcedureService {
 		 */
 		
 		
+
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
 		
 		
 		List<Procedures> procedureList= new ArrayList<>();
 		for (ProcedureDto proc:procedureDto) {
-			procedureList.add(new Procedures(proc.getProcedureCode(), proc.getProcedureDescription(), proc.isProcedureIsdeprecated(), proc.getPatientId(), proc.getEmployeeId(), new Timestamp(new Date().getTime()) , new Timestamp(new Date().getTime()), proc.getCreatedBy(), proc.getUpdatedBy()));
+			procedureList.add(new Procedures(proc.getProcedureCode(), proc.getProcedureDescription(), proc.isProcedureIsdeprecated(), proc.getPatientId(), proc.getEmployeeId(), new Timestamp(new Date().getTime()) , new Timestamp(new Date().getTime()), user, proc.getUpdatedBy()));
 			procedureRepository.saveAll(procedureList);
 		}		
 		return ResponseEntity.ok("Procedure saved successfully");

@@ -89,6 +89,9 @@ public class ProcedureDto {
 		this.patientId = patientId;
 		this.createdAt = createdAt;
 	}
+	public ProcedureDto() {
+		super();
+	}
 	
 	
 }

@@ -24,8 +24,8 @@ public class ProcedureController {
 	private ProcedureService procedureService;
 	
 	@PostMapping("/create")
-	public ResponseEntity<String> saveProcedure(@RequestBody List<ProcedureDto> procedureDto){
-		return procedureService.saveProcedure(procedureDto);
+	public ResponseEntity<String> saveProcedure(@RequestBody List<ProcedureDto> procedureDto,@RequestHeader("authorization") String authorization){
+		return procedureService.saveProcedure(procedureDto,authorization);
 	}
 	@GetMapping("/getall")
 	public ResponseEntity<List<ProcedureDto>> getAllProcedure(@RequestHeader("authorization") String authorization){

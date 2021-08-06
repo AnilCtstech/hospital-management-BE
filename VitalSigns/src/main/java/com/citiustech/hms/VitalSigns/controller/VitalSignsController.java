@@ -24,9 +24,9 @@ public class VitalSignsController {
 	private VitalSignsService vitalSignsService;
 	
 	@PostMapping("/save")
-	public ResponseEntity<String> saveVitalSigns(@RequestBody VitalSignsDto vitalSignsDto) {
+	public ResponseEntity<String> saveVitalSigns(@RequestBody VitalSignsDto vitalSignsDto,@RequestHeader("authorization") String authorization) {
 		
-		return vitalSignsService.saveVitalSigns(vitalSignsDto);
+		return vitalSignsService.saveVitalSigns(vitalSignsDto,authorization);
 	}
 	
 	@GetMapping("/patients/{patientId}")

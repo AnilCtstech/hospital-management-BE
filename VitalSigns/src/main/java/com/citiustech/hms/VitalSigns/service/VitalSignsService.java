@@ -23,7 +23,12 @@ public class VitalSignsService {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	public ResponseEntity<String> saveVitalSigns(VitalSignsDto vitalSignsDto) {
+	public ResponseEntity<String> saveVitalSigns(VitalSignsDto vitalSignsDto,String authorization) {
+		
+		String token = authorization.substring(7);
+
+		String user = jwtUtil.extractUsername(token);
+		
 		VitalSigns temp= new VitalSigns();
 		temp.setHeight(vitalSignsDto.getHeight());
 		temp.setBodyTemperature(vitalSignsDto.getBodyTemperature());
@@ -32,7 +37,7 @@ public class VitalSignsService {
 		temp.setCreatedAt(new Timestamp(new Date().getTime()));
 		temp.setUpdatedAt(new Timestamp(new Date().getTime()));
 		temp.setUpdatedBy(vitalSignsDto.getUpdatedBy());
-		temp.setCreatedBy(vitalSignsDto.getCreatedBy());
+		temp.setCreatedBy(user);
 		temp.setPatientId(vitalSignsDto.getPatientId());
 		temp.setWeight(vitalSignsDto.getWeight());
 		vitalSignsRepository.save(temp);
