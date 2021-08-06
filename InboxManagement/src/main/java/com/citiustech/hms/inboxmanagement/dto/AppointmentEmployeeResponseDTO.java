@@ -17,6 +17,8 @@ public class AppointmentEmployeeResponseDTO {
 	private String meetingTitle;
 	private Set<EditHistory> editHistory;
 	private boolean isAccepted;
+	private long employeeId;
+	private long patientId;
 
 	public Set<EditHistory> getEditHistory() {
 		return editHistory;
@@ -98,4 +100,19 @@ public class AppointmentEmployeeResponseDTO {
 		this.isAccepted = isAccepted;
 	}
 
+	public long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(long employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(long patientId) {
+		this.patientId = patientId;
+	}
 }

@@ -83,5 +83,22 @@ public class AppointmentController {
 			@RequestHeader(value = "Authorization") String authToken) {
 		return appointmentService.declineAppointment(Long.parseLong(id),authToken.split(" ")[1]);
 	}
+	
+	@PostMapping("/date")
+	public List<Long> getSlotIdByEmployeeIdAndAppointmentDate(@RequestBody String idAndDate){
+		return appointmentService.getSlotIdByEmployeeIdAndAppointmentDate(idAndDate);
+	}
+	
+	@PostMapping("/physiciansearch/id")
+	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByEmployeeId(@RequestBody long id) {
+		return appointmentService.searchAppointmentsByEmployeeId(id);
+
+	}
+	
+	@PostMapping("/id")
+	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByAppointmentId(@RequestBody long id) {
+		return appointmentService.searchAppointmentsByAppointmentId(id);
+
+	}
 
 }

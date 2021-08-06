@@ -135,4 +135,10 @@ public class PatientController {
 	return ResponseEntity.ok(profile);
 	}
 	
+	@PostMapping("/patient/id")
+	public ResponseEntity<List<PatientProfile>> getPatientByPatientId(@RequestBody long id){
+		List<PatientProfile> profile = patientService.getPatientByPatientId(id);
+		return ResponseEntity.ok(profile);
+	}
+	
 }

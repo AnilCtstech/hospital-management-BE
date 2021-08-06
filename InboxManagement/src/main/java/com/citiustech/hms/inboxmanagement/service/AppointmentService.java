@@ -3,6 +3,7 @@ package com.citiustech.hms.inboxmanagement.service;
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,9 +57,9 @@ public class AppointmentService {
 		appointment.setEmployeeId(bookAppointment.getEmployeeId());
 		appointment.setPatientId(bookAppointment.getPatientId());
 		appointment.setCreatedAt(new Timestamp(new Date().getTime()));
-		appointment.setCreatedBy("Physician");
+		appointment.setCreatedBy("Nurse");
 		appointment.setUpdatedAt(new Timestamp(new Date().getTime()));
-		appointment.setUpdatedBy("Physician");
+		appointment.setUpdatedBy("Nurse");
 		appointment.setSlotId(bookAppointment.getSlotId());
 		appointment.setMeetingTitle(bookAppointment.getMeetingTitle());
 		appointmentRepository.save(appointment);
@@ -79,16 +80,17 @@ public class AppointmentService {
 			appointment.setEmployeeId(editAppointment.getEmployeeId());
 			appointment.setPatientId(editAppointment.getPatientId());
 			appointment.setCreatedAt(new Timestamp(new Date().getTime()));
-			appointment.setCreatedBy("Physician");
+			appointment.setCreatedBy("Nurse");
 			appointment.setUpdatedAt(new Timestamp(new Date().getTime()));
-			appointment.setUpdatedBy("Physician");
+			appointment.setUpdatedBy("Nurse");
 			appointment.setSlotId(editAppointment.getSlotId());
 			appointment.setMeetingTitle(editAppointment.getMeetingTitle());
 			Set<EditHistory> editHistorySet = appointment.getEditHistory();
 			for (EditHistory tempEditHistory : editHistorySet) {
 				System.out.println(tempEditHistory);
 			}
-			EditHistory editHistory = new EditHistory(editAppointment.getTimeOfEdit(),
+			LocalTime myObj = LocalTime.now();
+			EditHistory editHistory = new EditHistory(myObj,
 					editAppointment.getEmployeeDetail(), editAppointment.getReason(), appointment);
 			editHistory.setPreviousAppintmentDetails(appointment.toString());
 			editHistorySet.add(editHistory);
@@ -97,18 +99,6 @@ public class AppointmentService {
 			}
 			appointment.setEditHistory(editHistorySet);
 			appointmentRepository.save(appointment);
-
-//			if (editHistorySet != null) {
-//				EditHistory editHistory = new EditHistory(editAppointment.getTimeOfEdit(),
-//						editAppointment.getEmployeeDetail(), editAppointment.getReason(), appointment);
-//				editHistorySet.add(editHistory);
-//				appointmentRepository.save(appointment);
-//			} else {
-//				EditHistory editHistory = new EditHistory(editAppointment.getTimeOfEdit(),
-//						editAppointment.getEmployeeDetail(), editAppointment.getReason(), appointment);
-//				editHistorySet.set(editHistory);
-//				appointmentRepository.save(appointment);
-//			}
 
 			return AppointmentStatus.success;
 		}
@@ -126,8 +116,6 @@ public class AppointmentService {
 		System.out.println("currentLocalDateTime " + currentLocalDateTime);
 		System.out.println("maxLocalDateTime " + maxLocalDateTime);
 
-//		List<Appointment> tempList2 = appointmentRepository
-//				.findAllByAppointmentDateBetweenOrderByAppointmentDate(currentLocalDateTime, maxLocalDateTime);
 
 		// start
 		List<Appointment> tempList = null;
@@ -142,10 +130,6 @@ public class AppointmentService {
 					currentLocalDateTime, maxLocalDateTime);
 		}
 
-//		for (Appointment appointment : tempList2) {
-//			System.out.println(appointment);
-//		}
-		// end
 
 		List<AppointmentEmployeeResponseDTO> responseList = new LinkedList<>();
 
@@ -270,8 +254,6 @@ public class AppointmentService {
 		List<Appointment> tempList = null;
 		List<AppointmentEmployeeResponseDTO> responseList = new LinkedList<>();
 		for (long id : idList) {
-//			tempList = appointmentRepository.findAllByPatientIdAndAppointmentDateBetweenOrderByAppointmentDate(id,
-//					currentLocalDateTime, maxLocalDateTime);
 			tempList = appointmentRepository.findAllByEmployeeId(id);
 			for (Appointment appointment : tempList) {
 				AppointmentEmployeeResponseDTO tempObj = new AppointmentEmployeeResponseDTO();
@@ -289,6 +271,7 @@ public class AppointmentService {
 						authToken);
 				tempObj.setTitle("Appointment with " + patientName);
 				tempObj.setAccepted(appointment.isAccepted());
+				tempObj.setPatientId(appointment.getPatientId());
 				tempObj.setTitle(appointment.getMeetingTitle());
 				responseList.add(tempObj);
 
@@ -340,5 +323,77 @@ public class AppointmentService {
 			System.out.println(response.getBody());
 		}
 	}
+	
+	public  List<Long> getSlotIdByEmployeeIdAndAppointmentDate(String employeeIdAndDate){
+		String[] names = employeeIdAndDate.trim().split("\\s+");
+		long employeeId = 0;
+		LocalDateTime startDate = null;
+		LocalDateTime endDate = null;
+		if (names.length > 1) {
+			employeeId = Long.parseLong(names[0]);
+			startDate = LocalDateTime.parse(names[1].concat("T00:01:00"));
+			endDate = LocalDateTime.parse(names[1].concat("T23:59:00"));
+		} 
+
+		List<Long> tempList = new ArrayList<>();
+		List<Appointment> responseList = appointmentRepository.findAllByAppointmentDateBetweenAndEmployeeIdOrderByAppointmentDate(startDate, endDate, employeeId);
+		
+		for (Appointment appointment : responseList) {
+			tempList.add(appointment.getSlotId());
+		}
+		
+		return tempList;
+	}
+	
+	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByEmployeeId(long employeeId){
+		List<AppointmentEmployeeResponseDTO> tempList = new ArrayList<>();
+		List<Appointment> responseList = appointmentRepository.findAppointmentByEmployeeId(employeeId);
+		
+		for (Appointment appointment : responseList) {
+			AppointmentEmployeeResponseDTO tempObj = new AppointmentEmployeeResponseDTO();
+			tempObj.setAppointmentId(appointment.getAppointmentId());
+			tempObj.setMeetingTitle(appointment.getMeetingTitle());
+			tempObj.setEmployeeId(appointment.getEmployeeId());
+			tempObj.setSlot(appointment.getSlotId()+"");
+			tempObj.setDate(appointment.getAppointmentDate());
+			tempObj.setDescription(appointment.getDescription());
+			tempObj.setTime(appointment.getAppointmentTime());
+			tempObj.setTime(slotRepository.findById(appointment.getSlotId()).get().getSlots());
+			tempObj.setAppointmentId(appointment.getAppointmentId());
+			tempObj.setAccepted(appointment.isAccepted());
+			tempObj.setTitle(appointment.getMeetingTitle());
+			tempList.add(tempObj);
+
+		}
+		
+		return tempList;
+	}
+	
+	public List<AppointmentEmployeeResponseDTO> searchAppointmentsByAppointmentId(long id){
+		List<AppointmentEmployeeResponseDTO> tempList = new ArrayList<>();
+		Optional<Appointment> responseList = appointmentRepository.findById(id);
+		
+		if(responseList.isPresent()) {
+			Appointment appointment = responseList.get();
+			AppointmentEmployeeResponseDTO tempObj = new AppointmentEmployeeResponseDTO();
+			tempObj.setAppointmentId(appointment.getAppointmentId());
+			tempObj.setMeetingTitle(appointment.getMeetingTitle());
+			tempObj.setEmployeeId(appointment.getEmployeeId());
+			tempObj.setSlot(appointment.getSlotId()+"");
+			tempObj.setDate(appointment.getAppointmentDate());
+			tempObj.setDescription(appointment.getDescription());
+			tempObj.setTime(appointment.getAppointmentTime());
+			//tempObj.setTime(slotRepository.findById(appointment.getSlotId()).get().getSlots());
+			tempObj.setAppointmentId(appointment.getAppointmentId());
+			tempObj.setAccepted(appointment.isAccepted());
+			tempObj.setTitle(appointment.getMeetingTitle());
+			tempObj.setPatientId(appointment.getPatientId());
+			tempList.add(tempObj);
+
+		}
+		
+		return tempList;
+	}
+
 
 }

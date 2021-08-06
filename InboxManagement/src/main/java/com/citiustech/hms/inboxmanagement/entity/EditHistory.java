@@ -1,6 +1,6 @@
 package com.citiustech.hms.inboxmanagement.entity;
 
-import java.sql.Time;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +17,7 @@ public class EditHistory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	private Time timeOfEdit;
+	private LocalTime timeOfEdit;
 	private String employeeDetail;
 	private String reason;
 	@Column(length = 3048)
@@ -30,7 +30,7 @@ public class EditHistory {
 	public EditHistory() {
 	}
 
-	public EditHistory(Time timeOfEdit, String employeeDetail, String reason, Appointment appointment) {
+	public EditHistory(LocalTime timeOfEdit, String employeeDetail, String reason, Appointment appointment) {
 		super();
 		this.timeOfEdit = timeOfEdit;
 		this.employeeDetail = employeeDetail;
@@ -46,11 +46,11 @@ public class EditHistory {
 		this.id = id;
 	}
 
-	public Time getTimeOfEdit() {
+	public LocalTime getTimeOfEdit() {
 		return timeOfEdit;
 	}
 
-	public void setTimeOfEdit(Time timeOfEdit) {
+	public void setTimeOfEdit(LocalTime timeOfEdit) {
 		this.timeOfEdit = timeOfEdit;
 	}
 

@@ -3,6 +3,7 @@ package com.citiustech.hms.UserRegisterManagement.entity;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 
@@ -38,6 +39,14 @@ public class Employee {
 	private Date dateOfBirth;
 	private int passCount;
 
+	@Column(name="is_active")
+	private Boolean isActive;
+	
+	@Column(name="is_blocked" )
+	private Boolean isBlocked;
+	
+	private String isAccess;
+	
 	// private String role;
 
 	@Convert(converter = RoleConverter.class)
@@ -49,7 +58,7 @@ public class Employee {
 
 	public Employee(@NotNull Long employeeId, @NotNull String title, @NotNull String firstName,
 			@NotNull String lastName, @NotNull String password,
-			@NotNull @Email(message = "Email should be valid") String email, @NotNull Date dateOfBirth, Role role,int passCount) {
+			@NotNull @Email(message = "Email should be valid") String email, @NotNull Date dateOfBirth, Role role,int passCount, Boolean isActive, Boolean isBlocked) {
 		super();
 		this.employeeId = employeeId;
 		this.title = title;
@@ -60,6 +69,8 @@ public class Employee {
 		this.dateOfBirth = dateOfBirth;
 		this.role = role;
 		this.passCount = passCount;
+		this.isActive = isActive;
+		this.isBlocked = isBlocked;
 	}
 	public int getPassCount() {
 		return passCount;
@@ -132,6 +143,28 @@ public class Employee {
 		this.role = role;
 	}
 
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public Boolean getIsBlocked() {
+		return isBlocked;
+	}
+
+	public void setIsBlocked(Boolean isBlocked) {
+		this.isBlocked = isBlocked;
+	}
 	
+	public String getIsAccess() {
+		return isAccess;
+	}
+
+	public void setIsAccess(String isAccess) {
+		this.isAccess = isAccess;
+	}
 
 }
