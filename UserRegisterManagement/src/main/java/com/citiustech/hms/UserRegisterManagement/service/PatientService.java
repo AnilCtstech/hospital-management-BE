@@ -4,18 +4,24 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.citiustech.hms.UserRegisterManagement.dto.PatientDemographics;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientDetails;
 import com.citiustech.hms.UserRegisterManagement.dto.PatientProfile;
+import com.citiustech.hms.UserRegisterManagement.dto.Profile;
 import com.citiustech.hms.UserRegisterManagement.entity.Patient;
 import com.citiustech.hms.UserRegisterManagement.mapper.MapStructMapper;
 import com.citiustech.hms.UserRegisterManagement.repository.PatientRepository;
@@ -26,6 +32,8 @@ public class PatientService {
 	@Autowired
 	private PatientRepository patientRepository;
 
+	@Autowired
+	private RestTemplate restTemplate;
 	@Autowired
 	private MapStructMapper mapStructMapper;
 
@@ -208,8 +216,8 @@ public class PatientService {
 	}
 
 	public PatientDemographics getpatientDemographics(Long id) {
-		Patient result=patientRepository.findById(id).get();
-		PatientDemographics demographics= new PatientDemographics();
+		Patient result = patientRepository.findById(id).get();
+		PatientDemographics demographics = new PatientDemographics();
 		demographics.setTitle(result.getTitle());
 		demographics.setFirstName(result.getFirstName());
 		demographics.setLastName(result.getLastName());
@@ -231,4 +239,47 @@ public class PatientService {
 		return demographics;
 	}
 
+	public List<Profile> findPatientProfileByName(String fullName) {
+		String[] names = fullName.trim().split("\\s+");
+		String firstName = null, lastName;
+		if (names.length > 1) {
+			firstName = names[0];
+			lastName = names[1];
+		} else {
+			firstName = names[0];
+			lastName = "";
+		}
+		List<Patient> patient = patientRepository
+				.findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(firstName, lastName);
+		List<Profile> profile = new ArrayList<>();
+
+		patient.stream().forEach(e -> {
+			profile.add(mapStructMapper.patientToPatientProfile(e));
+		});
+
+		return profile;
+	}
+	
+	public List<PatientProfile> findPatientProfileByVisit(String authorization) {
+		String url="http://localhost:8090/savediagnosis/patients";
+		HttpHeaders headers=new HttpHeaders();
+		headers.add("Authorization",authorization);
+		HttpEntity<String> entity=new HttpEntity<String>(headers);
+		ResponseEntity<Long[]> res = restTemplate.exchange(url, HttpMethod.GET, entity, Long[].class);
+		System.out.println(res);
+		List<Long> ids=Arrays.asList(res.getBody());
+		List<PatientProfile> profile = new ArrayList<>();
+
+		 ids.forEach(id->{
+		Optional<Patient> optional=patientRepository.findByPatientId(id);
+		if(optional.isPresent()) {
+		profile.add(mapStructMapper.patientToPatientProfile1(optional.get()));
+		}
+		});
+		return profile;
+		}
+	
+	
+	
+	
 }

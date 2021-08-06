@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Procedures {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -117,6 +117,10 @@ public class Procedures {
 		this.updatedAt = updatedAt;
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
+	}
+
+	public Procedures() {
+		super();
 	}
 
 }

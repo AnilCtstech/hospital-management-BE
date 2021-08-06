@@ -1,6 +1,6 @@
 package com.citiustech.hms.Medication.dto;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class MedicationDto {
 
@@ -17,6 +17,24 @@ public class MedicationDto {
 	private long patientId;
 	private String drugForm;
 	private long employeeId;
+	private Timestamp createdAt;
+	private Timestamp updatedAt;
+
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Timestamp getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Timestamp updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
 	public long getEmployeeId() {
 		return employeeId;
@@ -29,6 +47,7 @@ public class MedicationDto {
 	private String createdBy;
 	private String updatedBy;
 
+	
 	
 
 	public long getPatientId() {
@@ -118,4 +137,22 @@ public class MedicationDto {
 		this.drugForm = drugForm;
 	}
 
+	public MedicationDto(String drugId, String drugGenericName, String drugBrandName, String drugStrength,
+			String drugName, long patientId, String drugForm, Timestamp createdAt) {
+		super();
+		this.drugId = drugId;
+		this.drugGenericName = drugGenericName;
+		this.drugBrandName = drugBrandName;
+		this.drugStrength = drugStrength;
+		this.drugName = drugName;
+		this.patientId = patientId;
+		this.drugForm = drugForm;
+		this.createdAt = createdAt;
+	}
+
+	public MedicationDto() {
+		super();
+	}
+
+	
 }

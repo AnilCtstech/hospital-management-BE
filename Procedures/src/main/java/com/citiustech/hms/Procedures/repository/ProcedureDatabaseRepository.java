@@ -25,6 +25,7 @@ public interface ProcedureDatabaseRepository extends JpaRepository<ProcedureData
 
 //	@Query("select s.procedureCode from ProcedureDatabase s where s.procedureCode like %:keyword% ")
 //	List<String> findAllByProcedureCodeContaining(@Param ("keyword") String key);
+	
 	@Query("select s from ProcedureDatabase s where s.procedureCode like %:keyword% ")
 	List<ProcedureDatabase> findAllByProcedureCodeContaining(@Param ("keyword") String key);
 	

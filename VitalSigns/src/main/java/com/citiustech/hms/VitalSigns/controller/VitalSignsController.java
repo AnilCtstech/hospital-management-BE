@@ -3,11 +3,13 @@ package com.citiustech.hms.VitalSigns.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,14 +28,27 @@ public class VitalSignsController {
 	@Autowired
 	private VitalSignsRepository vitalSignsRepository;
 
-	@PostMapping("/save")
-	public ResponseEntity<String> saveVitalSigns(@RequestBody VitalSignsDto vitalSignsDto) {
-
-		return vitalSignsService.saveVitalSigns(vitalSignsDto);
-	}
-
 	@GetMapping("/vitalsigns/{id}")
 	public List<VitalSigns> getVitalSignsById(@PathVariable long id) {
 		return vitalSignsRepository.findByPatientId(id);
 	}
+
+	@PostMapping("/save")
+	public ResponseEntity<String> saveVitalSigns(@RequestBody VitalSignsDto vitalSignsDto,
+			@RequestHeader("authorization") String authorization) {
+
+		return vitalSignsService.saveVitalSigns(vitalSignsDto, authorization);
+	}
+
+	@GetMapping("/patients/{patientId}")
+	public ResponseEntity<List<VitalSignsDto>> getDiagnosisByPatient(
+			@RequestHeader("authorization") String authorization, @PathVariable String patientId) {
+		List<VitalSignsDto> patientIdList = vitalSignsService.getVitalSignsByPatient(authorization, patientId);
+		if (patientIdList != null) {
+			return new ResponseEntity<List<VitalSignsDto>>(patientIdList, HttpStatus.OK);
+
+		}
+		return new ResponseEntity<List<VitalSignsDto>>(patientIdList, HttpStatus.NO_CONTENT);
+	}
+
 }

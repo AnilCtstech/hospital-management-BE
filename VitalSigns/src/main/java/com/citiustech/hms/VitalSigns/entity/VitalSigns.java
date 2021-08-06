@@ -104,4 +104,8 @@ public class VitalSigns {
 		this.updatedBy = updatedBy;
 	}
 
+	public VitalSigns() {
+		super();
+	}
+
 }

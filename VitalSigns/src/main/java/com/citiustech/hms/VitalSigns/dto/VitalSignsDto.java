@@ -1,7 +1,6 @@
 package com.citiustech.hms.VitalSigns.dto;
 
-import java.security.Timestamp;
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class VitalSignsDto {
 	
@@ -76,5 +75,18 @@ public class VitalSignsDto {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
+	public VitalSignsDto(int height, int weight, String bloodPressure, String bodyTemperature, String respirationRate,
+			long patientId, Timestamp createdAt) {
+		super();
+		this.height = height;
+		this.weight = weight;
+		this.bloodPressure = bloodPressure;
+		this.bodyTemperature = bodyTemperature;
+		this.respirationRate = respirationRate;
+		this.patientId = patientId;
+		this.createdAt = createdAt;
+	}
+	
+	
 
 }

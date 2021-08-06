@@ -17,5 +17,10 @@ public interface MapStructMapper {
 	public Profile employeeToProfile(Employee employee);
 
 	public PatientProfile patientToProfile(Patient patient);
+	
+	@Mappings({ @Mapping(target = "id", source = "patient.patientId") })
+	public Profile patientToPatientProfile(Patient patient);
+	
+	public PatientProfile patientToPatientProfile1(Patient patient);
 
 }

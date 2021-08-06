@@ -14,21 +14,21 @@ public class Medication {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	@Column(nullable = false, length = 100)
+
 	private String drugId;
-	@Column(nullable = false, length = 100)
+
 	private String drugName;
-	@Column(nullable = false, length = 100)
+
 	private String drugGenericName;
-	@Column(nullable = false, length = 100)
+
 	private String drugBrandName;
-	@Column(nullable = false, length = 150)
+
 	private String drugStrength;
-	@Column(nullable = false)
+
 	private String drugForm;
-	@Column(nullable = false)
+
 	private long patientId;
-	@Column(nullable = false)
+
 	private long employeeId;
 
 	public long getEmployeeId() {
@@ -39,13 +39,12 @@ public class Medication {
 		this.employeeId = employeeId;
 	}
 
-	@Column(nullable = false)
 	private Timestamp createdAt;
-	@Column(nullable = false)
+
 	private Timestamp updatedAt;
-	@Column(nullable = false)
+
 	private String createdBy;
-	@Column(nullable = false)
+
 	private String updatedBy;
 
 	public String getDrugForm() {
@@ -160,6 +159,22 @@ public class Medication {
 		this.updatedAt = updatedAt;
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
+	}
+
+	public Medication() {
+		super();
+	}
+
+	public Medication(String drugId, String drugName, String drugGenericName, String drugStrength, String drugForm,
+			long patientId, String createdBy) {
+		super();
+		this.drugId = drugId;
+		this.drugName = drugName;
+		this.drugGenericName = drugGenericName;
+		this.drugStrength = drugStrength;
+		this.drugForm = drugForm;
+		this.patientId = patientId;
+		this.createdBy = createdBy;
 	}
 
 }

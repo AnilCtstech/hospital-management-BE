@@ -80,5 +80,18 @@ public class ProcedureDto {
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
 	}
+	public ProcedureDto(String procedureCode, String procedureDescription, boolean procedureIsdeprecated,
+			long patientId, Timestamp createdAt) {
+		super();
+		this.procedureCode = procedureCode;
+		this.procedureDescription = procedureDescription;
+		this.procedureIsdeprecated = procedureIsdeprecated;
+		this.patientId = patientId;
+		this.createdAt = createdAt;
+	}
+	public ProcedureDto() {
+		super();
+	}
+	
 	
 }
